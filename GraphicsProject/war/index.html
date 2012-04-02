@@ -8,24 +8,27 @@
 
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link type="text/css" rel="stylesheet" href="/css/index.css" >
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/index.css" >
+    <link type="text/css" rel="stylesheet" href="css/dark-hive/jquery-ui-1.8.18.custom.css" >
+    <script src="js/jquery-1.7.1.min.js"></script>
+    <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+    <script src="js/LoadSaveController.js"></script>
+    <script src="js/WindowController.js"></script>
+    <script src="js/AppController.js"></script>
     <title>Hello App Engine</title>
   </head>
-
   <body>
-    <h1>Hello App Engine!</h1>
-	
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href="graphicsproject">GraphicsProject</a></td>
-      </tr>
-    </table>
+    <div class="top_bar">
+      <button class="load">Load</button>
+      <button class="save">Save</button>
+	  </div>
+    <div class="side_bar">
+      <p>This is the sidebar </p>
+    </div>
+    <div class="main_view">
+      <p>This is the main view</p>
+    </div>
   </body>
 </html>
