@@ -5,7 +5,6 @@ function LoadSaveController ()
   {
     var dialog = $('.selectImageDialog').dialog({
       autoOpen: true,
-      height: 450,
       width: 750,
       modal: true,
       title: "Load Image"

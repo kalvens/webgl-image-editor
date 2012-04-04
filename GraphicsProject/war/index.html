@@ -42,9 +42,14 @@
     <noscript>
       <p>Please enable JavaScript to use this program.</p>
     </noscript>
+    <div class="top_bar">
+      <h1>CSCI 7000 - WebGl Based Image Editor</h1>
+	  </div>
     <div class="side_bar">
-      <button class="load">Load</button>
-      <button class="save">Save</button>
+      <div class="control_buttons">
+        <button class="load">Load</button>
+        <button class="save">Save</button>
+      </div>
     </div>
     <div class="main_view">
       <div id="container"></div>
@@ -54,12 +59,25 @@
     <div class="selectImageDialog">
       <p>Select an image from below or upload your own.</p>
       
-      <img src="images/sample_pic_01.jpg" alt="Sample Pic 01"/>
-      <img src="images/sample_pic_02.jpg" alt="Sample Pic 02"/>
-      <img src="images/sample_pic_03.jpg" alt="Sample Pic 03"/>
-      <img src="images/sample_pic_04.jpg" alt="Sample Pic 04"/>
+      <div class="dialog_images">
+        <img src="images/sample_pic_01.jpg" alt="Sample Pic 01"/>
+        <img src="images/sample_pic_02.jpg" alt="Sample Pic 02"/>
+        <img src="images/sample_pic_03.jpg" alt="Sample Pic 03"/>
+        <img src="images/sample_pic_04.jpg" alt="Sample Pic 04"/>
+        <img src="images/sample_pic_01.jpg" alt="Sample Pic 01"/>
+        <img src="images/sample_pic_02.jpg" alt="Sample Pic 02"/>
+        <img src="images/sample_pic_03.jpg" alt="Sample Pic 03"/>
+        <img src="images/sample_pic_04.jpg" alt="Sample Pic 04"/>
+      </div>
       
-      <input type="file">
+      <center>
+        <div class="upload">
+          <input type="file" class="upload_file" name="upload_file" onchange="document.getElementById('upload_text').innerHTML = this.value" />
+          <span id="upload_text">Upload Image</span>
+        </div>
+        </center>
+      
+      <p class="or_text">Or</p>
       
       <div class="dndZone">
         <div class="cell">
