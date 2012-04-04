@@ -8,18 +8,40 @@
 
 <html>
   <head>
+    <!-- CSS Reset -->
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!-- My CSS -->
     <link type="text/css" rel="stylesheet" href="css/index.css" >
-    <link type="text/css" rel="stylesheet" href="css/dark-hive/jquery-ui-1.8.18.custom.css" >
-    <script src="js/jquery-1.7.1.min.js"></script>
-    <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/selectImageDialog.css" >
+    
+    <!-- Setup Jquery -->
+    <link type="text/css" rel="stylesheet" href="vendor/jquery/css/dark-hive/jquery-ui-1.8.18.custom.css" >
+    <script src="vendor/jquery/jquery-1.7.1.min.js"></script>
+    <script src="vendor/jquery/jquery-ui-1.8.18.custom.min.js"></script>
+    
+    <!-- Setup WebGL Libraries -->
+    <script src="vendor/three.js/Three.js"></script>
+    <script src="vendor/three.js/Detector.js"></script>
+    <script src="vendor/three.js/Stats.js"></script>
+    <script src="vendor/threex/THREEx.screenshot.js"></script>
+    <script src="vendor/threex/THREEx.FullScreen.js"></script>
+    <script src="vendor/threex/THREEx.WindowResize.js"></script>
+    <script src="vendor/threex/threex.dragpancontrols.js"></script>
+    
+    <!-- My Javascript Files -->
     <script src="js/LoadSaveController.js"></script>
     <script src="js/WindowController.js"></script>
+    <script src="js/WebGLView.js"></script>
     <script src="js/AppController.js"></script>
+    
     <title>Hello App Engine</title>
   </head>
   <body>
+    <noscript>
+      <p>Please enable JavaScript to use this program.</p>
+    </noscript>
     <div class="top_bar">
       <button class="load">Load</button>
       <button class="save">Save</button>
@@ -28,7 +50,26 @@
       <p>This is the sidebar </p>
     </div>
     <div class="main_view">
-      <p>This is the main view</p>
+      <div id="container"></div>
     </div>
   </body>
+  <div id="dialogs">
+    <div class="selectImageDialog">
+      <p>Select an image from below or upload your own.</p>
+      
+      <img src="images/sample_pic_01.jpg" alt="Sample Pic 01"/>
+      <img src="images/sample_pic_02.jpg" alt="Sample Pic 02"/>
+      <img src="images/sample_pic_03.jpg" alt="Sample Pic 03"/>
+      <img src="images/sample_pic_04.jpg" alt="Sample Pic 04"/>
+      
+      <input type="file">
+      
+      <div class="dndZone">
+        <div class="cell">
+        <p>Drag and Drop Image Here</p>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </html>

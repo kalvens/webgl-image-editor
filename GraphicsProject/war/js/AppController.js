@@ -1,10 +1,21 @@
-function init()
+function AppController()
 {
-  var lsc = new LoadSaveController();
-  var wc = new WindowController();
+  this.lsc;
+  this.wc;
+  this.webGLView;
+  this.init = function(){
+    lsc = new LoadSaveController();
+    webGLView = new WebGLView();
+    webGLView.init();
+    wc = new WindowController(function(){
+      webGLView.render();
+    });
+    webGLView.render();
+  }
 }
 
 
 $(document).ready(function(){
-  init();
+  var app = new AppController();
+  app.init();
 });
