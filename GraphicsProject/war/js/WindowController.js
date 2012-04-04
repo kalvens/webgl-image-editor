@@ -12,6 +12,7 @@ function WindowController(callback)
     $('.side_bar').width('300px');
     $('.main_view').width(window_w-300);
     callback();
+    webGLResize();
   }
   
   $(window).resize(function(){

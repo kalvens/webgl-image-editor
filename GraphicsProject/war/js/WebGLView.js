@@ -6,63 +6,77 @@ var width, height;
 function webGLInit() {
   width = $('.main_view').width();
   height = $('.main_view').height();
-  
+
   container = $('.main_view')[0];
 
-//  var info = document.createElement( 'div' );
-//  info.style.position = 'absolute';
-//  info.style.top = '10px';
-//  info.style.width = '100%';
-//  info.style.textAlign = 'center';
-//  info.innerHTML = '<a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a> - orthographic view';
-//  container.appendChild( info );
+//var info = document.createElement( 'div' );
+//info.style.position = 'absolute';
+//info.style.top = '10px';
+//info.style.width = '100%';
+//info.style.textAlign = 'center';
+//info.innerHTML = '<a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a> - orthographic view';
+//container.appendChild( info );
 
-  camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, - 2000, 1000 );
-  camera.position.x = 200;
-  camera.position.y = 100;
+  camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, -1, 1000 );
+  camera.position.x = 0;
+  camera.position.y = 0;
   camera.position.z = 200;
 
   scene = new THREE.Scene();
 
   scene.add( camera );
 
-  // Grid
+////Grid
 
-  var geometry = new THREE.Geometry();
-  geometry.vertices.push( new THREE.Vertex( new THREE.Vector3( - 500, 0, 0 ) ) );
-  geometry.vertices.push( new THREE.Vertex( new THREE.Vector3( 500, 0, 0 ) ) );
+//var geometry = new THREE.Geometry();
+//geometry.vertices.push( new THREE.Vertex( new THREE.Vector3( - 500, 0, 0 ) ) );
+//geometry.vertices.push( new THREE.Vertex( new THREE.Vector3( 500, 0, 0 ) ) );
 
-  for ( var i = 0; i <= 20; i ++ ) {
+//for ( var i = 0; i <= 20; i ++ ) {
 
-    var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } ) );
-    line.position.z = ( i * 50 ) - 500;
-    scene.add( line );
+//var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } ) );
+//line.position.z = ( i * 50 ) - 500;
+//scene.add( line );
 
-    var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } ) );
-    line.position.x = ( i * 50 ) - 500;
-    line.rotation.y = 90 * Math.PI / 180;
-    scene.add( line );
+//var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } ) );
+//line.position.x = ( i * 50 ) - 500;
+//line.rotation.y = 90 * Math.PI / 180;
+//scene.add( line );
 
-  }
+//}
 
-  // Cubes
+////Cubes
 
-  var geometry = new THREE.CubeGeometry( 50, 50, 50 );
-  var material = new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading, overdraw: true } );
+//var geometry = new THREE.CubeGeometry( 50, 50, 50 );
+//var material = new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading, overdraw: true } );
 
-  for ( var i = 0; i < 100; i ++ ) {
+//for ( var i = 0; i < 100; i ++ ) {
 
-    var cube = new THREE.Mesh( geometry, material );
+//var cube = new THREE.Mesh( geometry, material );
 
-    cube.scale.y = Math.floor( Math.random() * 2 + 1 );
+//cube.scale.y = Math.floor( Math.random() * 2 + 1 );
 
-    cube.position.x = Math.floor( ( Math.random() * 1000 - 500 ) / 50 ) * 50 + 25;
-    cube.position.y = ( cube.scale.y * 50 ) / 2;
-    cube.position.z = Math.floor( ( Math.random() * 1000 - 500 ) / 50 ) * 50 + 25;
+//cube.position.x = Math.floor( ( Math.random() * 1000 - 500 ) / 50 ) * 50 + 25;
+//cube.position.y = ( cube.scale.y * 50 ) / 2;
+//cube.position.z = Math.floor( ( Math.random() * 1000 - 500 ) / 50 ) * 50 + 25;
 
-    scene.add(cube);
+//scene.add(cube);
 
-  }
+//}
+
+  //Photo
+  var texture = new THREE.ImageUtils.loadTexture('images/sample_pic_01.jpg');
+  var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
+  texture.needsUpdate = true;
+  var geometry = new THREE.PlaneGeometry(1280,800);
+  var meshCanvas = new THREE.Mesh(geometry, materialCanvas);
+  meshCanvas.scale.set(1,1,1);
+  meshCanvas.doubleSided = true;
+  meshCanvas.position.x = 0;
+  meshCanvas.position.y = 0;
+  meshCanvas.position.z = 0;
+  scene.add(meshCanvas);
+
 
   // Lights
 
@@ -83,41 +97,63 @@ function webGLInit() {
   directionalLight.position.normalize();
   scene.add( directionalLight );
 
-  renderer = new THREE.CanvasRenderer();
+  if(Detector.webgl)
+  {
+    this.renderer = new THREE.WebGLRenderer({
+      antialias : true,
+      preserveDrawingBuffer : true
+    });
+    this.renderer.setClearColorHex(0xBBBBBB ,1);
+  }
+  else{
+    Detector.addGetWebGLMessage();
+    return true;
+  }
   renderer.setSize( width, height );
 
   container.appendChild( renderer.domElement );
 
-//  stats = new Stats();
-//  stats.domElement.style.position = 'absolute';
-//  stats.domElement.style.top = '0px';
-//  container.appendChild( stats.domElement );
-
+  //transparently support window resize
+  THREEx.WindowResize.bind(this.renderer, this.camera);
+  //allow 'p' to make screenshot
+  THREEx.Screenshot.bindKey(this.renderer);
+  //allow 'f' to go fullscreen where this feature is supported
+  if( THREEx.FullScreen.available() ){
+    THREEx.FullScreen.bindKey();
+  }
 }
 
-//
+
 
 function animate() {
 
   requestAnimationFrame( animate );
 
   render();
-//  stats.update();
-
 }
 
 function render() {
 
   var timer = new Date().getTime() * 0.0001;
 
-  camera.position.x = Math.cos( timer ) * 200;
-  camera.position.z = Math.sin( timer ) * 200;
-  camera.lookAt( scene.position );
+//camera.position.x = Math.cos( timer ) * 200;
+//camera.position.z = Math.sin( timer ) * 200;
+//camera.lookAt( scene.position );
 
   renderer.render( scene, camera );
 
 }
 
+function webGLResize()
+{
+  if(typeof renderer != "undefined"){
+//  width = $('main_view').width();
+//  height = $('main_view').height();
+//  renderer.setSize( width, height );
+    //camera.aspect = width / height;
+    //camera.updateProjectionMatrix();
+  }
+}
 
 
 
@@ -144,18 +180,18 @@ function render() {
 //renderer.setSize(width, height);
 //$('.main_view')[0].appendChild(renderer.domElement);
 
-//// create a scene
+////create a scene
 //scene = new THREE.Scene();
 
-//// put a camera in the scene
+////put a camera in the scene
 //camera = new THREE.PerspectiveCamera(35, width / height, 1, 10000 );
 ////camera = new THREE.OrthographicCamera(  width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
 //camera.position.set(0, 0, 1000);
 //scene.add(camera);
 
-//// allow 'p' to make screenshot
+////allow 'p' to make screenshot
 //THREEx.Screenshot.bindKey(renderer);
-//// allow 'f' to go fullscreen where this feature is supported
+////allow 'f' to go fullscreen where this feature is supported
 //if( THREEx.FullScreen.available() ){
 //THREEx.FullScreen.bindKey();
 //}
@@ -227,23 +263,23 @@ function render() {
 //this.renderer.setSize(this.width, this.height);
 //document.getElementById('container').appendChild(this.renderer.domElement);
 
-//// create a scene
+////create a scene
 //this.scene = new THREE.Scene();
 
-//// put a camera in the scene
+////put a camera in the scene
 //this.camera = new THREE.PerspectiveCamera(35, this.width / this.height, 1, 10000 );
 ////this.camera = new THREE.OrthographicCamera(  this.width / - 2, this.width / 2, this.height / 2, this.height / - 2, 1, 1000 );
 //this.camera.position.set(0, 0, 1000);
 //this.scene.add(this.camera);
 
-//// create a camera contol
+////create a camera contol
 //this.cameraControls  = new THREEx.DragPanControls(this.camera)
 
-//// transparently support window resize
+////transparently support window resize
 //THREEx.WindowResize.bind(this.renderer, this.camera);
-//// allow 'p' to make screenshot
+////allow 'p' to make screenshot
 //THREEx.Screenshot.bindKey(this.renderer);
-//// allow 'f' to go fullscreen where this feature is supported
+////allow 'f' to go fullscreen where this feature is supported
 //if( THREEx.FullScreen.available() ){
 //THREEx.FullScreen.bindKey();
 //}
@@ -264,17 +300,17 @@ function render() {
 //animate();
 //}
 
-//// render the scene
+////render the scene
 //this.render = function(){
 
-//// update camera controls
-//// this.cameraControls.update();
+////update camera controls
+////this.cameraControls.update();
 
 //this.renderer.clear();
 ////this.cameraControls.update();
 //this.renderer.render(this.scene, this.camera);
 
-//// actually render the scene
+////actually render the scene
 ////this.renderer.render( this.scene, this.camera );
 //}
 
