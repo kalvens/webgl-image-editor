@@ -4,14 +4,18 @@ function LoadSaveController ()
 
   function dragEnter(evt)
   {
-    //alert("drag enter");
+    $(".dndZone").addClass("dragEvent");
+    console.debug("drag enter");  
   }
   function dragDrop(evt)
   {
-    //alert("drag drop");
+    
+    appController.newImg(evt.srcElement);
   }
   function dragExit(evt)
   {
+    $(".dndZone").removeClass("dragEvent");
+    console.debug("drag exit");
     //alert("drag exit");
   }
   function dragOver(evt)
@@ -21,12 +25,12 @@ function LoadSaveController ()
 
   this.dragAndDrop = function()
   {
-    var container = $('.dndZone')[0];
-    var body = $('body')[0];
-    body.addEventListener("dragenter",dragEnter, false);
-    container.addEventListener("dragexit",dragExit, false);
-    container.addEventListener("dragover",dragOver, false);
-    container.addEventListener("drop",dragDrop, false);
+    var cell = $('.cell')[0];
+    var html = $('html')[0];
+    cell.addEventListener("dragenter",dragEnter, false);
+    cell.addEventListener("dragleave",dragExit, false);
+    cell.addEventListener("dragover",dragOver, false);
+    cell.addEventListener("ondrop",dragDrop, false);
   }
 
   this.loadImageDialog = function()
@@ -52,6 +56,7 @@ function LoadSaveController ()
       console.debug(img);
       $('.selectImageDialog').dialog("close")
     });
+    this.dragAndDrop();
   }
   this.init();
 }

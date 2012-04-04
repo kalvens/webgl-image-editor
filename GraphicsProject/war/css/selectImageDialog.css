@@ -58,6 +58,10 @@
   display: table;
 }
 
+.dragEvent {
+  background-color: red;
+}
+
 .cell {
   display: table-cell;
   vertical-align: middle;
