@@ -1,38 +1,12 @@
-function dragEnter(evt)
-{
-  alert("drag enter");
-}
-function dragDrop(evt)
-{
-  alert("drag drop");
-}
-function dragExit()
-{
-  alert("drag exit");
-}
-function dragOver()
-{
-  alert("drag over");
-}
-
-
 function WebGLView()
 {
+  var webGLView = this;
   this.state;
   this.scene;
   this.renderer;
   this.camera;
   this.cameraControl;
-
-  this.dragAndDrop = function()
-  {
-    var container = $('#container')[0];
-    var body = $('body')[0];
-    body.addEventListener("dragenter",dragEnter, false);
-    container.addEventListener("dragexit",dragExit, false);
-    container.addEventListener("dragover",dragOver, false);
-    container.addEventListener("drop",dragDrop, false);
-  }
+  this.imgPlane;
   
   this.init = function()
   {
@@ -56,7 +30,7 @@ function WebGLView()
 
     // put a camera in the scene
     this.camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000 );
-    this.camera.position.set(0, 0, 5);
+    this.camera.position.set(0, 0, 1000);
     this.scene.add(this.camera);
 
     // create a camera contol
@@ -70,23 +44,45 @@ function WebGLView()
     if( THREEx.FullScreen.available() ){
       THREEx.FullScreen.bindKey();
     }
-
-    // here you add your objects
-    // - you will most likely replace this part by your own
-    var geometry  = new THREE.TorusGeometry( 1, 0.42 );
-    var material  = new THREE.MeshNormalMaterial();
-    var mesh  = new THREE.Mesh( geometry, material );
-    this.scene.add( mesh );
-    this.dragAndDrop();
+    
+    var texture = new THREE.ImageUtils.loadTexture('images/sample_pic_01.jpg');
+    var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
+    texture.needsUpdate = true;
+    var geometry = new THREE.PlaneGeometry(1280,800);
+    var meshCanvas = new THREE.Mesh(geometry, materialCanvas);
+    meshCanvas.scale.set(1,1,1);
+    meshCanvas.doubleSided = true;
+    
+    this.imgPlane = new THREE.Mesh(new THREE.PlaneGeometry(100,100), new THREE.MeshBasicMaterial({
+      color: 0x000000
+    }))
+    this.imgPlane.overdraw = true;
+    this.scene.add(meshCanvas);
+    animate();
   }
-
+  
   // render the scene
   this.render = function(){
 
     // update camera controls
-    this.cameraControls.update();
+    // this.cameraControls.update();
 
+    this.renderer.clear();
+    //this.cameraControls.update();
+    this.renderer.render(this.scene, this.camera);
+    
     // actually render the scene
-    this.renderer.render( this.scene, this.camera );
+    //this.renderer.render( this.scene, this.camera );
+  }
+  
+  this.setNewImage =function(src)
+  {
+    texture = THREE.ImageUtils.loadTexture(src, {}, function(){
+      webGLView.render();
+    });
+    this.scene.remove(this.imgPlane);
+    this.imgPlane = new THREE.Mesh(new THREE.PlaneGeometry(300,300), new THREE.MeshBasicMaterial({
+      map: texture
+    }))
   }
 }

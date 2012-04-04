@@ -1,3 +1,11 @@
+var appController;
+
+function animate()
+{
+  requestAnimationFrame(this.animate);
+  appController.render();
+}
+
 function AppController()
 {
   this.lsc;
@@ -12,10 +20,18 @@ function AppController()
     });
     webGLView.render();
   }
+  
+  this.newImg = function(src){
+    webGLView.setNewImage(src);
+  }
+  
+  this.render = function(){
+    webGLView.render();
+  }
 }
 
 
 $(document).ready(function(){
-  var app = new AppController();
-  app.init();
+  appController = new AppController();
+  appController.init();
 });
