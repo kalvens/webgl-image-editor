@@ -1,21 +1,13 @@
 var container, stats;
 var camera, scene, renderer;
 var width, height;
-
+var picture;
 
 function webGLInit() {
   width = $('.main_view').width();
   height = $('.main_view').height();
 
   container = $('.main_view')[0];
-
-//var info = document.createElement( 'div' );
-//info.style.position = 'absolute';
-//info.style.top = '10px';
-//info.style.width = '100%';
-//info.style.textAlign = 'center';
-//info.innerHTML = '<a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a> - orthographic view';
-//container.appendChild( info );
 
   camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, -1, 1000 );
   camera.position.x = 0;
@@ -26,56 +18,18 @@ function webGLInit() {
 
   scene.add( camera );
 
-////Grid
-
-//var geometry = new THREE.Geometry();
-//geometry.vertices.push( new THREE.Vertex( new THREE.Vector3( - 500, 0, 0 ) ) );
-//geometry.vertices.push( new THREE.Vertex( new THREE.Vector3( 500, 0, 0 ) ) );
-
-//for ( var i = 0; i <= 20; i ++ ) {
-
-//var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } ) );
-//line.position.z = ( i * 50 ) - 500;
-//scene.add( line );
-
-//var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2 } ) );
-//line.position.x = ( i * 50 ) - 500;
-//line.rotation.y = 90 * Math.PI / 180;
-//scene.add( line );
-
-//}
-
-////Cubes
-
-//var geometry = new THREE.CubeGeometry( 50, 50, 50 );
-//var material = new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading, overdraw: true } );
-
-//for ( var i = 0; i < 100; i ++ ) {
-
-//var cube = new THREE.Mesh( geometry, material );
-
-//cube.scale.y = Math.floor( Math.random() * 2 + 1 );
-
-//cube.position.x = Math.floor( ( Math.random() * 1000 - 500 ) / 50 ) * 50 + 25;
-//cube.position.y = ( cube.scale.y * 50 ) / 2;
-//cube.position.z = Math.floor( ( Math.random() * 1000 - 500 ) / 50 ) * 50 + 25;
-
-//scene.add(cube);
-
-//}
-
   //Photo
   var texture = new THREE.ImageUtils.loadTexture('images/sample_pic_01.jpg');
   var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
   texture.needsUpdate = true;
   var geometry = new THREE.PlaneGeometry(1280,800);
-  var meshCanvas = new THREE.Mesh(geometry, materialCanvas);
-  meshCanvas.scale.set(1,1,1);
-  meshCanvas.doubleSided = true;
-  meshCanvas.position.x = 0;
-  meshCanvas.position.y = 0;
-  meshCanvas.position.z = 0;
-  scene.add(meshCanvas);
+  picture = new THREE.Mesh(geometry, materialCanvas);
+  picture.scale.set(1,1,1);
+  picture.doubleSided = true;
+  picture.position.x = 0;
+  picture.position.y = 0;
+  picture.position.z = 0;
+  scene.add(picture);
 
 
   // Lights
@@ -144,15 +98,19 @@ function render() {
 
 }
 
-function webGLResize()
-{
-  if(typeof renderer != "undefined"){
-//  width = $('main_view').width();
-//  height = $('main_view').height();
-//  renderer.setSize( width, height );
-    //camera.aspect = width / height;
-    //camera.updateProjectionMatrix();
-  }
+function changePhoto(src) {
+  scene.remove(picture);
+  var texture = new THREE.ImageUtils.loadTexture(src);
+  var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
+  texture.needsUpdate = true;
+  var geometry = new THREE.PlaneGeometry(1280,800);
+  picture = new THREE.Mesh(geometry, materialCanvas);
+  picture.scale.set(1,1,1);
+  picture.doubleSided = true;
+  picture.position.x = 0;
+  picture.position.y = 0;
+  picture.position.z = 0;
+  scene.add(picture);
 }
 
 
