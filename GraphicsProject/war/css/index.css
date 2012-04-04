@@ -1,34 +1,35 @@
-body{
-  background: #606060;
+body {
+  background: #202020;
   font-family: 'Droid Sans', sans-serif;
 }
 
-div.top_bar{
+div.top_bar {
   color: #FFFFFF;
   font-size: 2em;
   font-weight: bold;
-  
   /*   Old browsers */
-  background: #45484d; 
+  background: #45484d;
   /*     FF3.6+ */
-  background: -moz-linear-gradient(top,  #45484d 0%, #000000 100%); 
+  background: -moz-linear-gradient(top, #45484d 0%, #000000 100%);
   /* Chrome,Safari4+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); 
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #45484d),
+    color-stop(100%, #000000) );
   /*   Chrome10+,Safari5.1+ */
-  background: -webkit-linear-gradient(top,  #45484d 0%,#000000 100%);
+  background: -webkit-linear-gradient(top, #45484d 0%, #000000 100%);
   /*   Opera 11.10+ */
-  background: -o-linear-gradient(top,  #45484d 0%,#000000 100%); 
+  background: -o-linear-gradient(top, #45484d 0%, #000000 100%);
   /*   IE10+ */
-  background: -ms-linear-gradient(top,  #45484d 0%,#000000 100%); 
+  background: -ms-linear-gradient(top, #45484d 0%, #000000 100%);
   /*   W3C */
-  background: linear-gradient(top,  #45484d 0%,#000000 100%); 
+  background: linear-gradient(top, #45484d 0%, #000000 100%);
   /*   IE6-9  */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=0 ); 
-  width:100%;
+  filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#45484d',
+    endColorstr='#000000', GradientType=0 );
+  width: 100%;
   height: 1.5em;
 }
 
-div.top_bar *{
+div.top_bar * {
   display: inline-block;
   padding: .25em;
 }
@@ -37,30 +38,66 @@ button {
   margin: .5em;
 }
 
-button .ui-button-text{
+button .ui-button-text {
   font-size: .75em;
 }
 
-div.side_bar{
-  float:left;
+.accordian_wrapper {
+  font-size: .75em;
 }
 
-div.side_bar .control_buttons{
+#effects .ui-corner-all,#effects .ui-corner-top,#effects .ui-corner-left,#effects .ui-corner-tl {
+  -moz-border-radius-topleft: 0px;
+  -webkit-border-top-left-radius: 0px;
+  -khtml-border-top-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+#effects .ui-corner-all,#effects .ui-corner-top,#effects .ui-corner-right,#effects .ui-corner-tr {
+  -moz-border-radius-topright: 0px;
+  -webkit-border-top-right-radius: 0px;
+  -khtml-border-top-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+#effects .ui-corner-all,#effects .ui-corner-bottom,#effects .ui-corner-left,#effects .ui-corner-bl
+  {
+  -moz-border-radius-bottomleft: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -khtml-border-bottom-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+#effects .ui-corner-all,#effects .ui-corner-bottom,#effects .ui-corner-right,#effects .ui-corner-br
+  {
+  -moz-border-radius-bottomright: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -khtml-border-bottom-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+div.side_bar {
+  float: left;
+}
+
+div.side_bar .control_buttons {
   text-align: center;
 }
 
-div.main_view{
-  background-image:url('../images/background.png');
-  background-repeat:repeat;
-  float:right;
-/*   overflow:scroll; */
+div.main_view {
+  background-image: url('../images/background.png');
+  background-repeat: repeat;
+  float: right;
+  /*   overflow:scroll; */
 }
-div.main_view canvas{
-  width:100%;
-  height:100%;
+
+div.main_view canvas {
+  width: 100%;
+  height: 100%;
 }
-#dialogs{
+
+#dialogs {
   overflow: hidden;
   height: 0px;
-  visibility:hidden;
+  visibility: hidden;
 }

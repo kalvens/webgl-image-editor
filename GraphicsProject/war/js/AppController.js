@@ -4,9 +4,11 @@ function AppController()
 {
   this.lsc;
   this.wc;
+  this.ec;
   this.init = function(){
     lsc = new LoadSaveController();
     wc = new WindowController();
+    ec = new EffectsController();
     webGLInit();
     animate();
   }

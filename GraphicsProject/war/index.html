@@ -32,6 +32,7 @@
     
     <!-- My Javascript Files -->
     <script src="js/LoadSaveController.js"></script>
+    <script src="js/EffectsController.js"></script>
     <script src="js/WindowController.js"></script>
     <script src="js/WebGLView.js"></script>
     <script src="js/AppController.js"></script>
@@ -49,6 +50,22 @@
       <div class="control_buttons">
         <button class="load">Load</button>
         <button class="save">Save</button>
+      </div>
+      <div class="accordian_wrapper">
+        <div id="effects">
+          <h3><a href="#">Brightness / Contrast</a></h3>
+          <div>
+            <p> This is where we do brightness </p>
+          </div>
+          <h3><a href="#">Hue / Saturation</a></h3>
+          <div>
+            <p> This is where we do brightness </p>
+          </div>
+          <h3><a href="#">Denoise</a></h3>
+          <div>
+            <p> This is where we do brightness </p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="main_view">
@@ -86,4 +103,41 @@
       
     </div>
   </div>
+  
+  <!-- Shaders -->
+  <script type="x-shader/x-vertex" id="vertexshader">
+    
+    // switch on high precision floats
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+
+    varying vec2 vUv;
+    
+    void main()
+    {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }
+    
+  </script>
+  
+  <script type="x-shader/x-fragment" id="fragmentshader">
+  
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+    
+    uniform sampler2D uSampler;
+
+    varying vec2 vUv;
+  
+    void main()
+    {
+      //vec2 test = vec2(vTextureCoord.u, vTextureCoord.v);
+      gl_FragColor = texture2D( uSampler, vUv );
+      //gl_FragColor  =  textureColor;
+    }
+  
+  </script>
 </html>

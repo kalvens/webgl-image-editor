@@ -104,13 +104,38 @@ function changePhoto(src) {
   var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
   texture.needsUpdate = true;
   var geometry = new THREE.PlaneGeometry(1280,800);
-  picture = new THREE.Mesh(geometry, materialCanvas);
+  
+  //create the sphere's material
+  var shaderMaterial = simpleShader(src);
+
+  picture = new THREE.Mesh(geometry, shaderMaterial);
   picture.scale.set(1,1,1);
   picture.doubleSided = true;
   picture.position.x = 0;
   picture.position.y = 0;
   picture.position.z = 0;
   scene.add(picture);
+
+}
+
+function simpleShader(src)
+{
+  var texture = new THREE.ImageUtils.loadTexture(src);
+  var uniforms = {
+      uSampler : {type:"t", value:1, texture: texture}
+  }
+  
+  var attributes = {
+      vTextureCoord : {type:""}
+  }
+  
+  var shaderMaterial = new THREE.ShaderMaterial({
+    uniforms : uniforms,
+    vertexShader : $('#vertexshader').text(),
+    fragmentShader: $('#fragmentshader').text()
+  })
+  
+  return shaderMaterial;
 }
 
 
