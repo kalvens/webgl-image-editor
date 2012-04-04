@@ -1,32 +1,27 @@
 var appController;
-
-function animate()
-{
-  requestAnimationFrame(this.animate);
-  appController.render();
-}
-
+//var webGlStarted = false;
 function AppController()
 {
   this.lsc;
   this.wc;
-  this.webGLView;
+//this.webGLView;
   this.init = function(){
     lsc = new LoadSaveController();
-    webGLView = new WebGLView();
-    webGLView.init();
+//  webGLView = new WebGLView();
+//  webGLView.init();
     wc = new WindowController(function(){
-      webGLView.render();
+//      if(webGlStarted){
+//        console.log("resize event");
+//        render();
+//    }
     });
-    webGLView.render();
+    webGLInit();
+    animate();
+//    webGlStarted = true;
   }
-  
+
   this.newImg = function(src){
     webGLView.setNewImage(src);
-  }
-  
-  this.render = function(){
-    webGLView.render();
   }
 }
 

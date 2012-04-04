@@ -53,17 +53,14 @@ div.main_view{
   background-image:url('../images/background.png');
   background-repeat:repeat;
   float:right;
+/*   overflow:scroll; */
 }
-#container{
-  width:100%;
-  height:100%;
-}
-#container canvas
-{
+div.main_view canvas{
   width:100%;
   height:100%;
 }
 #dialogs{
-  width:0px;
-  height:0px;
+  overflow: hidden;
+  height: 0px;
+  visibility:hidden;
 }
