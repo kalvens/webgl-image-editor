@@ -84,6 +84,10 @@ div.side_bar .control_buttons {
   text-align: center;
 }
 
+#effects div{
+  overflow: hidden;
+}
+
 div.main_view {
   background-image: url('../images/background.png');
   background-repeat: repeat;

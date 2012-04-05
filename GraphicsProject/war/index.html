@@ -55,6 +55,18 @@
         <div id="effects">
           <h3><a href="#">Brightness / Contrast</a></h3>
           <div>
+            <div class="slideControlGroup">
+              <p>Brightness</p>
+              <div class="brigthnessSlider"></div>
+            </div>
+            <div class="slideControlGroup">
+              <p>Contrast</p>
+              <div class="contrastSlider"></div>
+            </div>
+            <div class="applyCancelButtons">
+              <Button class="applyBrightnessContrast">Apply</Button>
+              <Button class="cancelBrightnessContrast">Cancel</Button>
+            </div>
             <p> This is where we do brightness </p>
           </div>
           <h3><a href="#">Hue / Saturation</a></h3>
@@ -129,13 +141,15 @@
     #endif
     
     uniform sampler2D uSampler;
+    uniform float brightness;
+    uniform float contrast;
 
     varying vec2 vUv;
   
     void main()
     {
       //vec2 test = vec2(vTextureCoord.u, vTextureCoord.v);
-      gl_FragColor = texture2D( uSampler, vUv );
+      gl_FragColor = vec4(texture2D( uSampler, vUv ).rgb+brightness,1.0);
       //gl_FragColor  =  textureColor;
     }
   

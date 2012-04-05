@@ -2,6 +2,12 @@ var container, stats;
 var camera, scene, renderer;
 var width, height;
 var picture;
+var uniforms = {
+    uSampler : {type:"t", value:1, texture: null},
+    brightness : {type:"f", value: 0.0},
+    contrast : {type:"f", value: 1.0},
+};
+
 
 function webGLInit() {
   width = $('.main_view').width();
@@ -75,6 +81,8 @@ function webGLInit() {
   if( THREEx.FullScreen.available() ){
     THREEx.FullScreen.bindKey();
   }
+  
+  changePhoto('images/sample_pic_01.jpg');
 }
 
 
@@ -121,9 +129,8 @@ function changePhoto(src) {
 function simpleShader(src)
 {
   var texture = new THREE.ImageUtils.loadTexture(src);
-  var uniforms = {
-      uSampler : {type:"t", value:1, texture: texture}
-  }
+  
+  uniforms.uSampler.texture = texture;
   
   var attributes = {
       vTextureCoord : {type:""}
