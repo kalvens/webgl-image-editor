@@ -27,7 +27,7 @@ function EffectsController()
       min:-100,
       max:100,
       slide: function( event, ui ) {
-        uniforms.contrast.value = ui.value/100.0;
+        uniforms.contrast.value = ui.value/100.0; 
       }
     });
     $('.applyBrightnessContrast').button();
