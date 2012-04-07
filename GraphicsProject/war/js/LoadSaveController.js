@@ -49,6 +49,7 @@ function LoadSaveController ()
     });
     $('button.save').click(function(){
       alert('you clicked the save button');
+      caputureCurrentPic();
     });
     $('.selectImageDialog img').click(function(){
       var img = $(this).attr('src');

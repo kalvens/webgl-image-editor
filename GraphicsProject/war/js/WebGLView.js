@@ -106,15 +106,21 @@ function render() {
 
 }
 
-function changePhoto(src) {
+function changePhoto(src, isPath) {
+  if(typeof isPath == 'undefined')
+     isPath = true;
   scene.remove(picture);
-  var texture = new THREE.ImageUtils.loadTexture(src);
+  if(isPath)
+    var texture = new THREE.ImageUtils.loadTexture(src);
+  else{
+    var texture = new THREE.Texture();
+  }
   var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
   texture.needsUpdate = true;
   var geometry = new THREE.PlaneGeometry(1280,800);
   
   //create the sphere's material
-  var shaderMaterial = simpleShader(src);
+  var shaderMaterial = simpleShader(texture);
 
   picture = new THREE.Mesh(geometry, shaderMaterial);
   picture.scale.set(1,1,1);
@@ -126,10 +132,8 @@ function changePhoto(src) {
 
 }
 
-function simpleShader(src)
-{
-  var texture = new THREE.ImageUtils.loadTexture(src);
-  
+function simpleShader(texture)
+{ 
   uniforms.uSampler.texture = texture;
   
   var attributes = {
@@ -145,6 +149,29 @@ function simpleShader(src)
   return shaderMaterial;
 }
 
+function caputureCurrentPic(){
+  scene.remove(picture);
+  var v = renderer.domElement.toDataURL('image/jpeg');
+
+  var texture = new THREE.ImageUtils.loadTexture(v);
+  texture.needsUpdate = true;
+  
+  var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
+  var geometry = new THREE.PlaneGeometry(1280,800);
+  
+  //create the sphere's material
+  var shaderMaterial = simpleShader(texture);
+
+  picture = new THREE.Mesh(geometry, shaderMaterial);
+  picture.scale.set(1,1,1);
+  picture.doubleSided = true;
+  picture.position.x = 0;
+  picture.position.y = 0;
+  picture.position.z = 0;
+  
+  scene.add(picture);
+ 
+}
 
 
 
