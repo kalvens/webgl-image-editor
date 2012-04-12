@@ -10,8 +10,8 @@ var uniforms = {
 
 
 function webGLInit() {
-  width = $('.main_view').width();
-  height = $('.main_view').height();
+  width = 1280;//$('.main_view').width();
+  height = 800;//$('.main_view').height();
 
   container = $('.main_view')[0];
 
