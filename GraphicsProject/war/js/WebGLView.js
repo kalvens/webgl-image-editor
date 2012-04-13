@@ -11,10 +11,10 @@ function webGLInit(um) {
 
   container = $('.main_view')[0];
 
-  camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, -1, 1000 );
+  camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0, 1000 );
   camera.position.x = 0;
   camera.position.y = 0;
-  camera.position.z = 200;
+  camera.position.z = 1000;
 
   scene = new THREE.Scene();
 
@@ -35,7 +35,6 @@ function webGLInit(um) {
 
 
   // Lights
-
   var ambientLight = new THREE.AmbientLight( Math.random() * 0x10 );
   scene.add( ambientLight );
 
@@ -70,7 +69,7 @@ function webGLInit(um) {
   container.appendChild( renderer.domElement );
 
   //transparently support window resize
-  THREEx.WindowResize.bind(this.renderer, this.camera);
+  //THREEx.WindowResize.bind(this.renderer, this.camera);
   //allow 'p' to make screenshot
   THREEx.Screenshot.bindKey(this.renderer);
   //allow 'f' to go fullscreen where this feature is supported
@@ -111,8 +110,6 @@ function changePhoto(src) {
     var texture = new THREE.ImageUtils.loadTexture(src);
     texture.needsUpdate = true;
     
-    var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
-    
     var geometry = new THREE.PlaneGeometry(width,height);
     
     var shaderMaterial = simpleShader(texture);
@@ -146,7 +143,8 @@ function simpleShader(texture)
 
 function caputureCurrentPic(){
   
-  var dataurl = renderer.domElement.toDataURL('image/jpeg');
+  var dataurl = renderer.domElement.toDataURL('image/png');
+  console.debug(dataurl);
   var image = document.createElement('img');
   
   $(image).attr('src', dataurl).load(function(){
@@ -191,8 +189,13 @@ function resizeView(newWidth, newHeight, callback)
   camera.right = width / 2;
   camera.top = height / 2;
   camera.bottom = height / - 2;
-  camera.near = -1;
+  camera.near = 0;
   camera.far = 1000;
+  camera.position.x = 0;
+  camera.position.y = 0;
+  camera.position.z = 1000;
+  
+  camera.updateProjectionMatrix();
   
   if(typeof callback != 'undefined')
     callback();
