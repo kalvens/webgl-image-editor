@@ -2,12 +2,25 @@ var container, stats;
 var camera, scene, renderer;
 var width, height;
 var picture;
+
 var uniforms = {
     uSampler : {type:"t", value:1, texture: null},
     brightness : {type:"f", value: 0.0},
     contrast : {type:"f", value: 1.0},
 };
 
+function returnUniformsToDefault(){
+  uniforms.brightness.value = 1.0;
+  uniforms.contrast.value = 1.0;
+}
+
+function changeImageBrightness(val){
+  uniforms.brightness.value = val;
+}
+
+function changeImageContrast(val){
+  uniforms.contrast.value = val;
+}
 
 function webGLInit() {
   width = 1280;//$('.main_view').width();
@@ -107,6 +120,7 @@ function render() {
 }
 
 function changePhoto(src, isPath) {
+
   if(typeof isPath == 'undefined')
      isPath = true;
   scene.remove(picture);
@@ -129,7 +143,6 @@ function changePhoto(src, isPath) {
   picture.position.y = 0;
   picture.position.z = 0;
   scene.add(picture);
-
 }
 
 function simpleShader(texture)
@@ -150,27 +163,33 @@ function simpleShader(texture)
 }
 
 function caputureCurrentPic(){
-  scene.remove(picture);
-  var v = renderer.domElement.toDataURL('image/jpeg');
+  
+  var dataurl = renderer.domElement.toDataURL('image/jpeg');
+  var image = document.createElement('img');
+  
+  $(image).attr('src', dataurl).load(function(){
+    scene.remove(picture);
+    
+    var texture = new THREE.Texture( image );
+    texture.needsUpdate = true;
+    
 
-  var texture = new THREE.ImageUtils.loadTexture(v);
-  texture.needsUpdate = true;
-  
-  var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
-  var geometry = new THREE.PlaneGeometry(1280,800);
-  
-  //create the sphere's material
-  var shaderMaterial = simpleShader(texture);
+    var geometry = new THREE.PlaneGeometry(1280,800);
+    
+    //create the sphere's material
+    var shaderMaterial = simpleShader(texture);
 
-  picture = new THREE.Mesh(geometry, shaderMaterial);
-  picture.scale.set(1,1,1);
-  picture.doubleSided = true;
-  picture.position.x = 0;
-  picture.position.y = 0;
-  picture.position.z = 0;
-  
-  scene.add(picture);
- 
+    picture = new THREE.Mesh(geometry, shaderMaterial);
+    picture.scale.set(1,1,1);
+    picture.doubleSided = true;
+    picture.position.x = 0;
+    picture.position.y = 0;
+    picture.position.z = 0;
+    
+    scene.add(picture);
+  });
+
+  image.src = dataurl;
 }
 
 
