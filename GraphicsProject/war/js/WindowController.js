@@ -11,7 +11,7 @@ function WindowController(callback)
     var main_view_h = window_h - top_h;
     var main_view_w = window_w - 300;
     
-    if(main_view_h < 800 || main_view_w < 1280)
+    if(main_view_h < $('canvas').height() || main_view_w < $('canvas').width())
     {
     	$('.main_view').addClass("overflowScroll");
     }

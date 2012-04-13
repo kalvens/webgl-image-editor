@@ -53,6 +53,7 @@
 <script src="js/EffectsController.js"></script>
 <script src="js/WindowController.js"></script>
 <script src="js/WebGLView.js"></script>
+<script src="js/UniformManager.js"></script>
 <script src="js/AppController.js"></script>
 
 <title>WebGL Img Editor</title>
@@ -109,7 +110,14 @@
           <a href="#">Denoise</a>
         </h3>
         <div>
-          <p>This is where we do brightness</p>
+          <div class="slideControlGroup">
+            <p>Denoise</p>
+            <div class="denoiseSlider slider"></div>
+          </div>
+          <div class="applyCancelButtons">
+            <Button class="effectsApplyButton">Apply</Button>
+            <Button class="effectsCancelButton">Cancel</Button>
+          </div>
         </div>
       </div>
     </div>
@@ -136,7 +144,7 @@
         alt="Sample Pic 02" /> <img
         src="images/sample_pic_03.jpg"
         alt="Sample Pic 03" /> <img
-        src="images/sample_pic_04.jpg"
+        src="images/sample_pic_05.jpg"
         alt="Sample Pic 04" />
     </div>
 
@@ -197,6 +205,8 @@
 	uniform float saturation;
 	uniform float width;
 	uniform float height;
+	uniform float denoiseExp;
+	uniform int mode;
 
     varying vec2 vUv;
   
@@ -239,15 +249,39 @@
 		return pixelColor;
 	}
 
+	//Denoise filter
+	vec3 denoiseCalc(vec3 pixelColor)
+	{
+		float total = 0.0;
+		vec4 color = vec4(0.0);
+		for(float i = -4.0; i <= 4.0 ; i += 1.0)
+		{
+			for(float j=-4.0; j <= 4.0 ; j+= 1.0)
+			{
+				vec4 pixel = texture2D( uSampler, vUv + vec2(i/width, j/height));
+				float temp = 1.0 - abs(dot(pixel.rgb - pixelColor, vec3(0.25)));
+				temp = pow(temp, denoiseExp);
+				color += pixel * temp;
+				total += temp;
+			}
+		}
+		return (color / total).rgb;
+	}
+
     void main()
     {
 		//vec2 test = vec2(vTextureCoord, vTextureCoord);
 		vec3 pixelColor = texture2D( uSampler, vUv ).rgb;
 		
-		pixelColor = contrastCalc(pixelColor);
-		pixelColor = brightnessCalc(pixelColor);
-		pixelColor = hueCalculation(pixelColor);
-		pixelColor = saturationCalculation(pixelColor);
+		if(mode == 0){
+			pixelColor = contrastCalc(pixelColor);
+			pixelColor = brightnessCalc(pixelColor);
+		} else if(mode == 1){
+			pixelColor = hueCalculation(pixelColor);
+			pixelColor = saturationCalculation(pixelColor);
+		} else if(mode == 2){
+			pixelColor = denoiseCalc(pixelColor);
+		}
 
 		//Set Color of pixel
 		gl_FragColor = vec4(pixelColor,1.0);
