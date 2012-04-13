@@ -19,6 +19,7 @@ function EffectsController(um)
     this.brightnessContrastInit();
     this.hueSaturationInit();
     this.denoiseInit();
+    this.abstractInit();
   }
 
   this.closeAllAccordions = function(){
@@ -98,6 +99,17 @@ function EffectsController(um)
       max:500,
       slide: function( event, ui ) {
         um.changeDenoiseExp((500-ui.value)/10.0);
+      }
+    });
+  }
+  
+  this.abstractInit = function(){
+    $('.abstractPixilateSlider').slider({
+      value:0,
+      min:0,
+      max:500,
+      slide: function( event, ui ) {
+        um.changeAbstractSize((500-ui.value)/10.0);
       }
     });
   }
