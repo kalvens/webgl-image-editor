@@ -3,25 +3,6 @@ var camera, scene, renderer;
 var width, height;
 var picture;
 
-var uniforms = {
-    uSampler : {type:"t", value:1, texture: null},
-    brightness : {type:"f", value: 0.0},
-    contrast : {type:"f", value: 1.0},
-};
-
-function returnUniformsToDefault(){
-  uniforms.brightness.value = 1.0;
-  uniforms.contrast.value = 1.0;
-}
-
-function changeImageBrightness(val){
-  uniforms.brightness.value = val;
-}
-
-function changeImageContrast(val){
-  uniforms.contrast.value = val;
-}
-
 function webGLInit() {
   width = 1280;//$('.main_view').width();
   height = 800;//$('.main_view').height();
