@@ -203,5 +203,4 @@ function resizeView(newWidth, newHeight, callback)
 	appController.wc.resizeSections();
 
 	appController.um.changeSize(width, height);
-	>>>>>>> branch 'master' of https://swiese391@code.google.com/p/webgl-image-editor/
 }
