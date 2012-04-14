@@ -99,11 +99,6 @@ div.main_view {
 	overflow: scroll;
 }
 
-div.main_view canvas {
-  width: 1280px;
-  height: 800px;
-}
-
 #dialogs {
   overflow: hidden;
   height: 0px;

@@ -7,119 +7,186 @@
 <!-- but may lead to some differences in layout.   -->
 
 <html>
-  <head>
-    <!-- CSS Reset -->
-    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="images/favicon.ico" />
-    
-    <!-- My CSS -->
-    <link type="text/css" rel="stylesheet" href="css/index.css" >
-    <link type="text/css" rel="stylesheet" href="css/selectImageDialog.css" >
-    
-    <!-- Setup Jquery -->
-    <link type="text/css" rel="stylesheet" href="vendor/jquery/css/dark-hive/jquery-ui-1.8.18.custom.css" >
-    <script src="vendor/jquery/jquery-1.7.1.min.js"></script>
-    <script src="vendor/jquery/jquery-ui-1.8.18.custom.min.js"></script>
-    
-    <!-- Setup WebGL Libraries -->
-    <script src="vendor/three.js/Three.js"></script>
-    <script src="vendor/three.js/Detector.js"></script>
-    <script src="vendor/threex/THREEx.screenshot.js"></script>
-    <script src="vendor/threex/THREEx.FullScreen.js"></script>
-    <script src="vendor/threex/THREEx.WindowResize.js"></script>
-    <script src="vendor/threex/threex.dragpancontrols.js"></script>
-    
-    <!-- My Javascript Files -->
-    <script src="js/LoadSaveController.js"></script>
-    <script src="js/EffectsController.js"></script>
-    <script src="js/WindowController.js"></script>
-    <script src="js/WebGLView.js"></script>
-    <script src="js/AppController.js"></script>
-    
-    <title>WebGL Img Editor</title>
-  </head>
-  <body>
-    <noscript>
-      <p>Please enable JavaScript to use this program.</p>
-    </noscript>
-    <div class="top_bar">
-      <h1>CSCI 7000 - WebGl Based Image Editor</h1>
-	  </div>
-    <div class="side_bar">
-      <div class="control_buttons">
-        <button class="load">Load</button>
-        <button class="save">Save</button>
-      </div>
-      <div class="accordian_wrapper">
-        <div id="effects">
-          <h3><a href="#">Brightness / Contrast</a></h3>
-          <div>
-            <div class="slideControlGroup">
-              <p>Brightness</p>
-              <div class="brigthnessSlider"></div>
-            </div>
-            <div class="slideControlGroup">
-              <p>Contrast</p>
-              <div class="contrastSlider"></div>
-            </div>
-            <div class="applyCancelButtons">
-              <Button class="applyBrightnessContrast">Apply</Button>
-              <Button class="cancelBrightnessContrast">Cancel</Button>
-            </div>
-            <p> This is where we do brightness </p>
-          </div>
-          <h3><a href="#">Hue / Saturation</a></h3>
-          <div>
-            <p> This is where we do brightness </p>
-          </div>
-          <h3><a href="#">Denoise</a></h3>
-          <div>
-            <p> This is where we do brightness </p>
-          </div>
-        </div>
-      </div>
+<head>
+<!-- CSS Reset -->
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
+<meta
+  http-equiv="content-type"
+  content="text/html; charset=UTF-8">
+
+<!-- Favicon -->
+<link
+  rel="shortcut icon"
+  href="images/favicon.ico" />
+
+<!-- My CSS -->
+<link
+  type="text/css"
+  rel="stylesheet"
+  href="css/index.css">
+<link
+  type="text/css"
+  rel="stylesheet"
+  href="css/selectImageDialog.css">
+
+<!-- Setup Jquery -->
+<link
+  type="text/css"
+  rel="stylesheet"
+  href="vendor/jquery/css/dark-hive/jquery-ui-1.8.18.custom.css">
+<script src="vendor/jquery/jquery-1.7.1.min.js"></script>
+<script src="vendor/jquery/jquery-ui-1.8.18.custom.min.js"></script>
+
+<!-- Setup WebGL Libraries -->
+<script src="vendor/three.js/Three.js"></script>
+<script src="vendor/three.js/Detector.js"></script>
+<script src="vendor/threex/THREEx.screenshot.js"></script>
+<script src="vendor/threex/THREEx.FullScreen.js"></script>
+<script src="vendor/threex/THREEx.WindowResize.js"></script>
+<script src="vendor/threex/threex.dragpancontrols.js"></script>
+
+<!-- My Javascript Files -->
+<script src="js/LoadSaveController.js"></script>
+<script src="js/EffectsController.js"></script>
+<script src="js/WindowController.js"></script>
+<script src="js/WebGLView.js"></script>
+<script src="js/UniformManager.js"></script>
+<script src="js/AppController.js"></script>
+
+<title>WebGL Img Editor</title>
+</head>
+<body>
+  <noscript>
+    <p>Please enable JavaScript to use this program.</p>
+  </noscript>
+  <div class="top_bar">
+    <h1>CSCI 7000 - WebGl Based Image Editor</h1>
+  </div>
+  <div class="side_bar">
+    <div class="control_buttons">
+      <button class="load">Load</button>
+      <button class="save">Save</button>
     </div>
-    <div class="main_view">
-    </div>
-  </body>
-  <div id="dialogs">
-    <div class="selectImageDialog">
-      <p>Select an image from below or upload your own.</p>
-      
-      <div class="dialog_images">
-        <img src="images/sample_pic_01.jpg" alt="Sample Pic 01"/>
-        <img src="images/sample_pic_02.jpg" alt="Sample Pic 02"/>
-        <img src="images/sample_pic_03.jpg" alt="Sample Pic 03"/>
-        <img src="images/sample_pic_04.jpg" alt="Sample Pic 04"/>
-        <img src="images/sample_pic_01.jpg" alt="Sample Pic 01"/>
-        <img src="images/sample_pic_02.jpg" alt="Sample Pic 02"/>
-        <img src="images/sample_pic_03.jpg" alt="Sample Pic 03"/>
-        <img src="images/sample_pic_04.jpg" alt="Sample Pic 04"/>
-      </div>
-      
-      <center>
-        <div class="upload">
-          <input type="file" class="upload_file" name="upload_file" onchange="document.getElementById('upload_text').innerHTML = this.value" />
-          <span id="upload_text">Upload Image</span>
+    <div class="accordian_wrapper">
+      <div id="effects">
+        <h3>
+          <a href="#">Brightness / Contrast</a>
+        </h3>
+        <div>
+          <div class="slideControlGroup">
+            <p>Brightness</p>
+            <div class="brigthnessSlider slider"></div>
+          </div>
+          <div class="slideControlGroup">
+            <p>Contrast</p>
+            <div class="contrastSlider slider"></div>
+          </div>
+          <div class="applyCancelButtons">
+            <Button class="effectsApplyButton">Apply</Button>
+            <Button class="effectsCancelButton">Cancel</Button>
+          </div>
         </div>
-        </center>
-      
-      <p class="or_text">Or</p>
-      
-      <div class="dndZone">
-        <div class="cell">
-          <p>Drag and Drop Image Here</p>
+        <h3>
+          <a href="#">Hue / Saturation</a>
+        </h3>
+        <div>
+          <div class="slideControlGroup">
+            <p>Hue</p>
+            <div class="hueSlider slider"></div>
+          </div>
+          <div class="slideControlGroup">
+            <p>Saturation</p>
+            <div class="saturationSlider slider"></div>
+          </div>
+          <div class="applyCancelButtons">
+            <Button class="effectsApplyButton">Apply</Button>
+            <Button class="effectsCancelButton">Cancel</Button>
+          </div>
+        </div>
+        <h3>
+          <a href="#">Denoise</a>
+        </h3>
+        <div>
+          <div class="slideControlGroup">
+            <p>Denoise</p>
+            <div class="denoiseSlider slider"></div>
+          </div>
+          <div class="applyCancelButtons">
+            <Button class="effectsApplyButton">Apply</Button>
+            <Button class="effectsCancelButton">Cancel</Button>
+          </div>
+        </div>
+        <h3>
+          <a href="#">Abstract Pixilate</a>
+        </h3>
+        <div>
+          <div class="slideControlGroup">
+            <p>Size</p>
+            <div class="abstractPixilateSlider slider"></div>
+          </div>
+          <div class="applyCancelButtons">
+            <Button class="effectsApplyButton">Apply</Button>
+            <Button class="effectsCancelButton">Cancel</Button>
+          </div>
         </div>
       </div>
-      
     </div>
   </div>
-  
-  <!-- Shaders -->
-  <script type="x-shader/x-vertex" id="vertexshader">
+  <div class="main_view"></div>
+</body>
+<div id="dialogs">
+  <div class="selectImageDialog">
+    <p>Select an image from below or upload your own.</p>
+
+    <div class="dialog_images">
+      <img
+        src="images/sample_pic_01.jpg"
+        alt="Sample Pic 01" /> <img
+        src="images/sample_pic_02.jpg"
+        alt="Sample Pic 02" /> <img
+        src="images/sample_pic_03.jpg"
+        alt="Sample Pic 03" /> <img
+        src="images/sample_pic_04.jpg"
+        alt="Sample Pic 04" /> <img
+        src="images/sample_pic_01.jpg"
+        alt="Sample Pic 01" /> <img
+        src="images/sample_pic_02.jpg"
+        alt="Sample Pic 02" /> <img
+        src="images/sample_pic_03.jpg"
+        alt="Sample Pic 03" /> <img
+        src="images/sample_pic_05.jpg"
+        alt="Sample Pic 04" />
+    </div>
+
+    <center>
+      <div class="upload">
+        <input
+          type="file"
+          class="upload_file"
+          name="upload_file"
+          onchange="document.getElementById('upload_text').innerHTML = this.value" />
+        <span id="upload_text">Upload Image</span>
+      </div>
+    </center>
+
+    <p class="or_text">Or</p>
+
+    <div class="dndZone">
+      <div class="cell">
+        <p>Drag and Drop Image Here</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Shaders -->
+<script
+  type="x-shader/x-vertex"
+  id="vertexshader">
     
     // switch on high precision floats
     #ifdef GL_ES
@@ -135,8 +202,10 @@
     }
     
   </script>
-  
-  <script type="x-shader/x-fragment" id="fragmentshader">
+
+<script
+  type="x-shader/x-fragment"
+  id="fragmentshader">
   
     #ifdef GL_ES
     precision highp float;
@@ -145,14 +214,90 @@
     uniform sampler2D uSampler;
     uniform float brightness;
     uniform float contrast;
+	uniform float hue;
+	uniform float saturation;
+	uniform float width;
+	uniform float height;
+	uniform float denoiseExp;
+	uniform int mode;
 
     varying vec2 vUv;
   
+	//Contrast Calculation
+	vec3 contrastCalc(vec3 pixelColor)
+	{
+		pixelColor -= 0.5;
+		pixelColor *= contrast;
+		pixelColor += 0.5;
+		return pixelColor;
+	}
+
+
+	//Brightness Calculation
+	vec3 brightnessCalc(vec3 pixelColor)
+	{
+		pixelColor += brightness;
+		return pixelColor;
+	}
+
+	//Hue Calculation
+	vec3 hueCalculation(vec3 pixelColor)
+	{
+		float pi = hue * 3.1415926535897932384626;
+		vec3 adjustment = (vec3(2.0 * cos(pi), -sqrt(3.0) * sin(pi) - cos(pi), sqrt(3.0) * sin(pi) - cos(pi)) + 1.0);		
+		adjustment /= 3.0;
+		pixelColor.rgb = vec3(
+			dot(pixelColor, adjustment.xyz),
+			dot(pixelColor, adjustment.zxy),
+			dot(pixelColor, adjustment.yzx)
+        );
+		return pixelColor;
+	}
+
+	//Saturation calculation
+	vec3 saturationCalculation(vec3 pixelColor)
+	{
+		float avg = (pixelColor.r + pixelColor.g + pixelColor.b)/3.0;
+		pixelColor += (avg - pixelColor) * saturation;
+		return pixelColor;
+	}
+
+	//Denoise filter
+	vec3 denoiseCalc(vec3 pixelColor)
+	{
+		float total = 0.0;
+		vec4 color = vec4(0.0);
+		for(float i = -4.0; i <= 4.0 ; i += 1.0)
+		{
+			for(float j=-4.0; j <= 4.0 ; j+= 1.0)
+			{
+				vec4 pixel = texture2D( uSampler, vUv + vec2(i/width, j/height));
+				float temp = 1.0 - abs(dot(pixel.rgb - pixelColor, vec3(0.25)));
+				temp = pow(temp, denoiseExp);
+				color += pixel * temp;
+				total += temp;
+			}
+		}
+		return (color / total).rgb;
+	}
+
     void main()
     {
-      //vec2 test = vec2(vTextureCoord.u, vTextureCoord.v);
-      gl_FragColor = vec4(texture2D( uSampler, vUv ).rgb+brightness,1.0);
-      //gl_FragColor  =  textureColor;
+		//vec2 test = vec2(vTextureCoord, vTextureCoord);
+		vec3 pixelColor = texture2D( uSampler, vUv ).rgb;
+		
+		if(mode == 0){
+			pixelColor = contrastCalc(pixelColor);
+			pixelColor = brightnessCalc(pixelColor);
+		} else if(mode == 1){
+			pixelColor = hueCalculation(pixelColor);
+			pixelColor = saturationCalculation(pixelColor);
+		} else if(mode == 2){
+			pixelColor = denoiseCalc(pixelColor);
+		}
+
+		//Set Color of pixel
+		gl_FragColor = vec4(pixelColor,1.0);
     }
   
   </script>
