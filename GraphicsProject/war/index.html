@@ -211,17 +211,28 @@
     precision highp float;
     #endif
     
-    uniform sampler2D uSampler;
-    uniform float brightness;
-    uniform float contrast;
-	uniform float hue;
-	uniform float saturation;
+	//Common
 	uniform float width;
 	uniform float height;
-	uniform float denoiseExp;
 	uniform int mode;
+    uniform sampler2D uSampler;
 
     varying vec2 vUv;
+
+	// Brightness and Contrast
+    uniform float brightness;
+    uniform float contrast;
+		
+	// Hue and saturation
+	uniform float hue;
+	uniform float saturation;
+
+	//Denoise
+	uniform float denoiseExp;
+
+	//Swirl
+	uniform float radiusSwirl;
+	uniform float angleSwirl;
   
 	//Contrast Calculation
 	vec3 contrastCalc(vec3 pixelColor)
@@ -279,6 +290,11 @@
 			}
 		}
 		return (color / total).rgb;
+	}
+
+	vec3 swirlCalc(vec3 pixelColor)
+	{
+
 	}
 
     void main()
