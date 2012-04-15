@@ -204,3 +204,9 @@ function resizeView(newWidth, newHeight, callback)
 
 	appController.um.changeSize(width, height);
 }
+
+function getDownloadURL()
+{
+  var dataurl = renderer.domElement.toDataURL('image/png');
+  return dataurl;
+}

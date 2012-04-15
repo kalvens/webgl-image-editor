@@ -48,7 +48,8 @@ function LoadSaveController ()
       lsc.loadImageDialog();
     });
     $('button.save').click(function(){
-      alert('you clicked the save button');
+      var url = getDownloadURL();
+      window.location = url;
     });
     $('.selectImageDialog img').click(function(){
       var img = $(this).attr('src');
