@@ -1,7 +1,6 @@
-function EffectsController(um)
+function EffectsController()
 {
-  var ec = this;
-  this.um = um;
+  var instance = this;
   this.init = function(){
     $("#effects").accordion({
       autoHeight: false,
@@ -12,7 +11,7 @@ function EffectsController(um)
     $('#effects').click(function(){
       var mode = $("#effects").accordion( "option", "active" );
       console.debug(mode);
-      um.changeMode(mode);
+      appController.um.changeMode(mode);
     });
     this.closeAllAccordions();
     this.commonButtonInit();
@@ -36,15 +35,15 @@ function EffectsController(um)
     $('.effectsApplyButton').button();
     $('.effectsCancelButton').button();
     $('.effectsApplyButton').click(function(){
-      caputureCurrentPic();
-      um.resetUniforms();
-      ec.closeAllAccordions();
-      ec.restoreDefaultSlider();
+      appController.webGL2D.caputureCurrentPic();
+      appController.um.resetUniforms();
+      instance.closeAllAccordions();
+      instance.restoreDefaultSlider();
     });
     $('.effectsCancelButton').click(function(){
-      um. resetUniforms();
-      ec.closeAllAccordions();
-      ec.restoreDefaultSlider();
+      appController.um.resetUniforms();
+      instance.closeAllAccordions();
+      instance.restoreDefaultSlider();
     });
   }
 
@@ -54,7 +53,7 @@ function EffectsController(um)
       min:-100,
       max:100,
       slide: function( event, ui ) {
-        um.changeImageBrightness(ui.value/100.0);
+        appController.um.changeImageBrightness(ui.value/100.0);
       }
     });
     $('.contrastSlider').slider({
@@ -63,9 +62,9 @@ function EffectsController(um)
       max:100,
       slide: function( event, ui ) {
         if(ui.value < 0)
-          um.changeImageContrast((ui.value + 100)/100.0);
+          appController.um.changeImageContrast((ui.value + 100)/100.0);
         else
-          um.changeImageContrast(ui.value*0.1+1.0)
+          appController.um.changeImageContrast(ui.value*0.1+1.0)
       }
     });
   }
@@ -76,7 +75,7 @@ function EffectsController(um)
       min:-100,
       max:100,
       slide: function( event, ui ) {
-        um.changeImageHue(ui.value/100.0);
+        appController.um.changeImageHue(ui.value/100.0);
       }
     });
     $('.saturationSlider').slider({
@@ -85,9 +84,9 @@ function EffectsController(um)
       max:100,
       slide: function( event, ui ) {
         if(ui.value > 0)
-          um.changeImageSaturation(1.0-1.0/(1.01-ui.value/100.0))
+          appController.um.changeImageSaturation(1.0-1.0/(1.01-ui.value/100.0))
         else
-          um.changeImageSaturation(-1*ui.value/100.0);
+          appController.um.changeImageSaturation(-1*ui.value/100.0);
       }
     });
   }
@@ -98,7 +97,7 @@ function EffectsController(um)
       min:0,
       max:500,
       slide: function( event, ui ) {
-        um.changeDenoiseExp((500-ui.value)/10.0);
+        appController.um.changeDenoiseExp((500-ui.value)/10.0);
       }
     });
   }
@@ -109,7 +108,7 @@ function EffectsController(um)
       min:0,
       max:500,
       slide: function( event, ui ) {
-        um.changeAbstractSize((500-ui.value)/10.0);
+        appController.um.changeAbstractSize((500-ui.value)/10.0);
       }
     });
   }

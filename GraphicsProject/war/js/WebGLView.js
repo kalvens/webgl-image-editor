@@ -1,212 +1,217 @@
-var container, stats;
-var camera, scene, renderer;
-var width, height;
-var picture;
-var webGlum;
+function WebGL2D(){
+  var instance = this;
 
-function webGLInit(um) {
-	webGlum = um;
-	width = 1280;//$('.main_view').width();
-	height = 800;//$('.main_view').height();
+  this.renderer;
+  this.camera;
+  this.scene;
+  this.width;
+  this.height;
+  this.picture;
+  this.container;
 
-	container = $('.main_view')[0];
+  this.webGLInit = function() {
+    this.width = 1280;//$('.main_view').width();
+    this.height = 800;//$('.main_view').height();
 
-	camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 0, 1000 );
-	camera.position.x = 0;
-	camera.position.y = 0;
-	camera.position.z = 1000;
+    this.container = $('.main_view')[0];
 
-	scene = new THREE.Scene();
+    this.camera = new THREE.OrthographicCamera( this.width / - 2, this.width / 2, this.height / 2, this.height / - 2, 0, 1000 );
+    this.camera.position.x = 0;
+    this.camera.position.y = 0;
+    this.camera.position.z = 1000;
 
-	scene.add( camera );
+    this.scene = new THREE.Scene();
 
-	//Photo
-	var texture = new THREE.ImageUtils.loadTexture('images/sample_pic_01.jpg');
-	var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
-	texture.needsUpdate = true;
-	var geometry = new THREE.PlaneGeometry(width,height);
-	picture = new THREE.Mesh(geometry, materialCanvas);
-	picture.scale.set(1,1,1);
-	picture.doubleSided = true;
-	picture.position.x = 0;
-	picture.position.y = 0;
-	picture.position.z = 0;
-	scene.add(picture);
+    this.scene.add( this.camera );
 
-
-	// Lights
-	var ambientLight = new THREE.AmbientLight( Math.random() * 0x10 );
-	scene.add( ambientLight );
-
-	var directionalLight = new THREE.DirectionalLight( Math.random() * 0xffffff );
-	directionalLight.position.x = Math.random() - 0.5;
-	directionalLight.position.y = Math.random() - 0.5;
-	directionalLight.position.z = Math.random() - 0.5;
-	directionalLight.position.normalize();
-	scene.add( directionalLight );
-
-	var directionalLight = new THREE.DirectionalLight( Math.random() * 0xffffff );
-	directionalLight.position.x = Math.random() - 0.5;
-	directionalLight.position.y = Math.random() - 0.5;
-	directionalLight.position.z = Math.random() - 0.5;
-	directionalLight.position.normalize();
-	scene.add( directionalLight );
-
-	if(Detector.webgl)
-	{
-		this.renderer = new THREE.WebGLRenderer({
-			antialias : true,
-			preserveDrawingBuffer : true
-		});
-		this.renderer.setClearColorHex(0xBBBBBB ,1);
-	}
-	else{
-		Detector.addGetWebGLMessage();
-		return true;
-	}
-	renderer.setSize( width, height );
-
-	container.appendChild( renderer.domElement );
-
-	//transparently support window resize
-	//THREEx.WindowResize.bind(this.renderer, this.camera);
-	//allow 'p' to make screenshot
-	THREEx.Screenshot.bindKey(this.renderer);
-	//allow 'f' to go fullscreen where this feature is supported
-	if( THREEx.FullScreen.available() ){
-		THREEx.FullScreen.bindKey();
-	}
-
-	changePhoto('images/sample_pic_01.jpg');
-}
+    //Photo
+    var texture = new THREE.ImageUtils.loadTexture('images/sample_pic_01.jpg');
+    var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
+    texture.needsUpdate = true;
+    var geometry = new THREE.PlaneGeometry(this.width,this.height);
+    this.picture = new THREE.Mesh(geometry, materialCanvas);
+    this.picture.scale.set(1,1,1);
+    this.picture.doubleSided = true;
+    this.picture.position.x = 0;
+    this.picture.position.y = 0;
+    this.picture.position.z = 0;
+    this.scene.add(this.picture);
 
 
+    // Lights
+    var ambientLight = new THREE.AmbientLight( Math.random() * 0x10 );
+    this.scene.add( ambientLight );
 
-function animate() {
+    var directionalLight = new THREE.DirectionalLight( Math.random() * 0xffffff );
+    directionalLight.position.x = Math.random() - 0.5;
+    directionalLight.position.y = Math.random() - 0.5;
+    directionalLight.position.z = Math.random() - 0.5;
+    directionalLight.position.normalize();
+    this.scene.add( directionalLight );
 
-	requestAnimationFrame( animate );
+    var directionalLight = new THREE.DirectionalLight( Math.random() * 0xffffff );
+    directionalLight.position.x = Math.random() - 0.5;
+    directionalLight.position.y = Math.random() - 0.5;
+    directionalLight.position.z = Math.random() - 0.5;
+    directionalLight.position.normalize();
+    this.scene.add( directionalLight );
 
-	render();
-}
+    if(Detector.webgl)
+    {
+      this.renderer = new THREE.WebGLRenderer({
+        antialias : true,
+        preserveDrawingBuffer : true
+      });
+      this.renderer.setClearColorHex(0xBBBBBB ,1);
+    }
+    else{
+      Detector.addGetWebGLMessage();
+      return true;
+    }
+    this.renderer.setSize( this.width, this.height );
 
-function render() {
+    this.container.appendChild( this.renderer.domElement );
 
-	var timer = new Date().getTime() * 0.0001;
+    //transparently support window resize
+    //THREEx.WindowResize.bind(this.renderer, this.camera);
+    //allow 'p' to make screenshot
+    THREEx.Screenshot.bindKey(this.renderer);
+    //allow 'f' to go fullscreen where this feature is supported
+    if( THREEx.FullScreen.available() ){
+      THREEx.FullScreen.bindKey();
+    }
 
-//	camera.position.x = Math.cos( timer ) * 200;
-//	camera.position.z = Math.sin( timer ) * 200;
-//	camera.lookAt( scene.position );
+    this.changePhoto('images/sample_pic_01.jpg');
 
-	renderer.render( scene, camera );
+    this.animate();
+  }
 
-}
 
-function changePhoto(src) {
-	var image = document.createElement('img');
-	scene.remove(picture);
-	$(image).attr('src', src).load(function(){
-		resizeView(this.width, this.height)
 
-		var texture = new THREE.ImageUtils.loadTexture(src);
-		texture.needsUpdate = true;
+  this.animate = function() {
 
-		var geometry = new THREE.PlaneGeometry(width,height);
+    requestAnimationFrame( instance.animate );
 
-		var shaderMaterial = simpleShader(texture);
+    instance.render();
+  }
 
-		picture = new THREE.Mesh(geometry, shaderMaterial);
-		picture.scale.set(1,1,1);
-		picture.doubleSided = true;
-		picture.position.x = 0;
-		picture.position.y = 0;
-		picture.position.z = 0;
-		scene.add(picture);
-	});
-}
+  this.render = function  () {
 
-function simpleShader(texture)
-{ 
-	appController.um.setTexture(texture);
+    var timer = new Date().getTime() * 0.0001;
+    this.renderer.render( this.scene, this.camera );
 
-	var attributes = {
-			vTextureCoord : {type:""}
-	}
+  }
 
-	var shaderMaterial = new THREE.ShaderMaterial({
-		uniforms : appController.um.getUniforms(),
-		vertexShader : $('#vertexshader').text(),
-		fragmentShader: $('#fragmentshader').text()
-	})
+  this.changePhoto = function(src) {
+    var image = document.createElement('img');
+    this.scene.remove(this.picture);
+    $(image).attr('src', src).load(function(){
+      instance.resizeView(this.width, this.height)
 
-	return shaderMaterial;
-}
+      var texture = new THREE.ImageUtils.loadTexture(src);
+      texture.needsUpdate = true;
 
-function caputureCurrentPic(){
+      var geometry = new THREE.PlaneGeometry(instance.width,instance.height);
 
-	var dataurl = renderer.domElement.toDataURL('image/png');
-	console.debug(dataurl);
-	var image = document.createElement('img');
+      var shaderMaterial = instance.simpleShader(texture);
 
-	$(image).attr('src', dataurl).load(function(){
-		scene.remove(picture);
+      instance.picture = new THREE.Mesh(geometry, shaderMaterial);
+      instance.picture.scale.set(1,1,1);
+      instance.picture.doubleSided = true;
+      instance.picture.position.x = 0;
+      instance.picture.position.y = 0;
+      instance.picture.position.z = 0;
+      instance.scene.add(instance.picture);
+    });
+  }
 
-		var texture = new THREE.Texture( image );
-		texture.needsUpdate = true;
+  this.simpleShader = function(texture)
+  { 
+    appController.um.setTexture(texture);
 
-		var geometry = new THREE.PlaneGeometry(width,height);
+    var attributes = {
+        vTextureCoord : {type:""}
+    }
 
-		//create the sphere's material
-		var shaderMaterial = simpleShader(texture);
+    var shaderMaterial = new THREE.ShaderMaterial({
+      uniforms : appController.um.getUniforms(),
+      vertexShader : $('#vertexshader').text(),
+      fragmentShader: $('#fragmentshader').text()
+    })
 
-		picture = new THREE.Mesh(geometry, shaderMaterial);
-		picture.scale.set(1,1,1);
-		picture.doubleSided = true;
-		picture.position.x = 0;
-		picture.position.y = 0;
-		picture.position.z = 0;
+    return shaderMaterial;
+  }
 
-		scene.add(picture);
-	});
+  this.caputureCurrentPic = function(){
 
-	image.src = dataurl;
-}
+    var dataurl = this.renderer.domElement.toDataURL('image/png');
+    console.debug(dataurl);
+    var image = document.createElement('img');
 
-function resizeView(newWidth, newHeight, callback)
-{
-	//reset width and height varriables
-	width = newWidth;
-	height = newHeight;
+    $(image).attr('src', dataurl).load(function(){
+      instance.scene.remove(instance.picture);
 
-	//reset render size
-	renderer.setSize(width, height);
+      var texture = new THREE.Texture( image );
+      texture.needsUpdate = true;
 
-	//reset canvas size
-	$('canvas').width(width);
-	$('canvas').height(height);
+      var geometry = new THREE.PlaneGeometry(instance.width,instance.height);
 
-	//reset camera
-	camera.left =  width / - 2;
-	camera.right = width / 2;
-	camera.top = height / 2;
-	camera.bottom = height / - 2;
-	camera.near = 0;
-	camera.far = 1000;
-	camera.position.x = 0;
-	camera.position.y = 0;
-	camera.position.z = 1000;
+      //create the sphere's material
+      var shaderMaterial = instance.simpleShader(texture);
 
-	camera.updateProjectionMatrix();
+      instance.picture = new THREE.Mesh(geometry, shaderMaterial);
+      instance.picture.scale.set(1,1,1);
+      instance.picture.doubleSided = true;
+      instance.picture.position.x = 0;
+      instance.picture.position.y = 0;
+      instance.picture.position.z = 0;
 
-	if(typeof callback != 'undefined')
-		callback();
+      instance.scene.add(instance.picture);
+    });
 
-	appController.wc.resizeSections();
+    image.src = dataurl;
+  }
 
-	appController.um.changeSize(width, height);
-}
+  this.resizeView = function(newWidth, newHeight, callback)
+  {
+    //reset width and height varriables
+    this.width = newWidth;
+    this.height = newHeight;
 
-function getDownloadURL()
-{
-  var dataurl = renderer.domElement.toDataURL('image/png');
-  return dataurl;
+    //reset render size
+    this.renderer.setSize(this.width, this.height);
+
+    //reset canvas size
+    $('canvas').width(this.width);
+    $('canvas').height(this.height);
+
+    //reset camera
+    this.camera.left =  this.width / - 2;
+    this.camera.right = this.width / 2;
+    this.camera.top = this.height / 2;
+    this.camera.bottom = this.height / - 2;
+    this.camera.near = 0;
+    this.camera.far = 1000;
+    this.camera.position.x = 0;
+    this.camera.position.y = 0;
+    this.camera.position.z = 1000;
+
+    this.camera.updateProjectionMatrix();
+
+    if(typeof callback != 'undefined')
+      callback();
+
+    appController.wc.resizeSections();
+
+    appController.um.changeSize(this.width, this.height);
+  }
+
+  this.getDownloadURL = function()
+  {
+    var dataurl = this.renderer.domElement.toDataURL('image/png');
+    return dataurl;
+  } 
+
+  this.webGLInit()
+
 }

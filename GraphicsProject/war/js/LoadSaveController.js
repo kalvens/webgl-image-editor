@@ -53,8 +53,7 @@ function LoadSaveController ()
     });
     $('.selectImageDialog img').click(function(){
       var img = $(this).attr('src');
-      appController.newImg(img);
-      console.debug(img);
+      appController.webGL2D.changePhoto(img);
       $('.selectImageDialog').dialog("close")
     });
     this.dragAndDrop();
