@@ -48,13 +48,16 @@ function LoadSaveController ()
       lsc.loadImageDialog();
     });
     $('button.save').click(function(){
-      var url = getDownloadURL();
+      var url = appController.webGL2D.getDownloadURL();
       window.location = url;
     });
     $('.selectImageDialog img').click(function(){
       var img = $(this).attr('src');
       appController.webGL2D.changePhoto(img);
       $('.selectImageDialog').dialog("close")
+    });
+    $('button.3dview').click(function(){
+      window.location = "3dview.html";
     });
     this.dragAndDrop();
   }
