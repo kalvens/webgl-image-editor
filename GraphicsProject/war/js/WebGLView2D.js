@@ -22,10 +22,11 @@ function WebGLView2D(){
 
 		//Photo
 		var texture = new THREE.ImageUtils.loadTexture('images/sample_pic_01.jpg');
-		var materialCanvas = new THREE.MeshBasicMaterial({map: texture});
 		texture.needsUpdate = true;
 		var geometry = new THREE.PlaneGeometry(this.width,this.height);
-		this.picture = new THREE.Mesh(geometry, materialCanvas);
+		var shaderMaterial = instance.simpleShader(texture);
+
+		this.picture = new THREE.Mesh(geometry, shaderMaterial);
 		this.picture.scale.set(1,1,1);
 		this.picture.doubleSided = true;
 		this.picture.position.x = 0;
