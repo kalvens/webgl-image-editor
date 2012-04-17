@@ -1,162 +1,159 @@
 function WebGLView2D(){
-	var instance = this;
-	this.scene;
-	this.camera;
-	this.renderer;
-	this.width;
-	this.height;
+  var instance = this;
+  this.scene;
+  this.camera;
+  this.renderer;
+  this.width;
+  this.height;
 
 
-	this.init = function(){
-		this.width = 1280;//$('.main_view').width();
-		this.height = 800;//$('.main_view').height();
+  this.init = function(){
+    this.width = 1280;//$('.main_view').width();
+    this.height = 800;//$('.main_view').height();
 
-		this.camera = new THREE.OrthographicCamera( this.width / - 2, this.width / 2, this.height / 2, this.height / - 2, 0, 1000 );
-		this.camera.position.x = 0;
-		this.camera.position.y = 0;
-		this.camera.position.z = 1000;
+    this.camera = new THREE.OrthographicCamera( this.width / - 2, this.width / 2, this.height / 2, this.height / - 2, 0, 1000 );
+    this.camera.position.x = 0;
+    this.camera.position.y = 0;
+    this.camera.position.z = 1000;
 
-		this.scene = new THREE.Scene();
+    this.scene = new THREE.Scene();
 
-		this.scene.add( this.camera );
+    this.scene.add( this.camera );
 
-		//Photo
-		var texture = new THREE.ImageUtils.loadTexture('images/sample_pic_01.jpg');
-		texture.needsUpdate = true;
-		var geometry = new THREE.PlaneGeometry(this.width,this.height);
-		var shaderMaterial = instance.simpleShader(texture);
+    //Photo
+    var texture = new THREE.ImageUtils.loadTexture('images/sample_pic_01.jpg');
+    texture.needsUpdate = true;
+    var geometry = new THREE.PlaneGeometry(this.width,this.height);
+    var shaderMaterial = instance.simpleShader(texture);
 
-		this.picture = new THREE.Mesh(geometry, shaderMaterial);
-		this.picture.scale.set(1,1,1);
-		this.picture.doubleSided = true;
-		this.picture.position.x = 0;
-		this.picture.position.y = 0;
-		this.picture.position.z = 0;
-		this.scene.add(this.picture);
-		
-		
-		console.debug(this.scene)
-		
-		this.changePhoto('images/sample_pic_01.jpg');
-	}
+    this.picture = new THREE.Mesh(geometry, shaderMaterial);
+    this.picture.scale.set(1,1,1);
+    this.picture.doubleSided = true;
+    this.picture.position.x = 0;
+    this.picture.position.y = 0;
+    this.picture.position.z = 0;
+    this.scene.add(this.picture);
 
-	this.getCamera = function(){
-		return this.camera;
-	}
+    this.changePhoto('images/sample_pic_01.jpg');
+  }
 
-	this.getScene = function(){
-		return this.scene;
-	}
+  this.getCamera = function(){
+    return this.camera;
+  }
 
-	this.changePhoto = function(src) {
-		var image = document.createElement('img');
-		this.scene.remove(this.picture);
-		$(image).attr('src', src).load(function(){
-			instance.resizeView(this.width, this.height)
+  this.getScene = function(){
+    return this.scene;
+  }
 
-			var texture = new THREE.ImageUtils.loadTexture(src);
-			texture.needsUpdate = true;
+  this.changePhoto = function(src) {
+    var image = document.createElement('img');
+    this.scene.remove(this.picture);
+    $(image).attr('src', src).load(function(){
+      instance.resizeView(this.width, this.height)
 
-			var geometry = new THREE.PlaneGeometry(instance.width,instance.height);
+      var texture = new THREE.ImageUtils.loadTexture(src);
+      texture.needsUpdate = true;
 
-			var shaderMaterial = instance.simpleShader(texture);
+      var geometry = new THREE.PlaneGeometry(instance.width,instance.height);
 
-			instance.picture = new THREE.Mesh(geometry, shaderMaterial);
-			instance.picture.scale.set(1,1,1);
-			instance.picture.doubleSided = true;
-			instance.picture.position.x = 0;
-			instance.picture.position.y = 0;
-			instance.picture.position.z = 0;
-			instance.scene.add(instance.picture);
-		});
-	}
+      var shaderMaterial = instance.simpleShader(texture);
 
-	this.simpleShader = function(texture)
-	{ 
-		appController.um.setTexture(texture);
+      instance.picture = new THREE.Mesh(geometry, shaderMaterial);
+      instance.picture.scale.set(1,1,1);
+      instance.picture.doubleSided = true;
+      instance.picture.position.x = 0;
+      instance.picture.position.y = 0;
+      instance.picture.position.z = 0;
+      instance.scene.add(instance.picture);
+    });
+  }
 
-		var attributes = {
-				vTextureCoord : {type:""}
-		}
+  this.simpleShader = function(texture)
+  { 
+    appController.um.setTexture(texture);
 
-		var shaderMaterial = new THREE.ShaderMaterial({
-			uniforms : appController.um.getUniforms(),
-			vertexShader : $('#vertexshader').text(),
-			fragmentShader: $('#fragmentshader').text()
-		})
+    var attributes = {
+        vTextureCoord : {type:""}
+    }
 
-		return shaderMaterial;
-	}
+    var shaderMaterial = new THREE.ShaderMaterial({
+      uniforms : appController.um.getUniforms(),
+      vertexShader : $('#vertexshader').text(),
+      fragmentShader: $('#fragmentshader').text()
+    })
 
-	this.caputureCurrentPic = function(){
+    return shaderMaterial;
+  }
 
-		var dataurl = this.renderer.domElement.toDataURL('image/png');
-		console.debug(dataurl);
-		var image = document.createElement('img');
+  this.caputureCurrentPic = function(){
 
-		$(image).attr('src', dataurl).load(function(){
-			instance.scene.remove(instance.picture);
+    var dataurl = this.renderer.domElement.toDataURL('image/png');
+    console.debug(dataurl);
+    var image = document.createElement('img');
 
-			var texture = new THREE.Texture( image );
-			texture.needsUpdate = true;
+    $(image).attr('src', dataurl).load(function(){
+      instance.scene.remove(instance.picture);
 
-			var geometry = new THREE.PlaneGeometry(instance.width,instance.height);
+      var texture = new THREE.Texture( image );
+      texture.needsUpdate = true;
 
-			//create the sphere's material
-			var shaderMaterial = instance.simpleShader(texture);
+      var geometry = new THREE.PlaneGeometry(instance.width,instance.height);
 
-			instance.picture = new THREE.Mesh(geometry, shaderMaterial);
-			instance.picture.scale.set(1,1,1);
-			instance.picture.doubleSided = true;
-			instance.picture.position.x = 0;
-			instance.picture.position.y = 0;
-			instance.picture.position.z = 0;
+      //create the sphere's material
+      var shaderMaterial = instance.simpleShader(texture);
 
-			instance.scene.add(instance.picture);
-		});
+      instance.picture = new THREE.Mesh(geometry, shaderMaterial);
+      instance.picture.scale.set(1,1,1);
+      instance.picture.doubleSided = true;
+      instance.picture.position.x = 0;
+      instance.picture.position.y = 0;
+      instance.picture.position.z = 0;
 
-		image.src = dataurl;
-	}
+      instance.scene.add(instance.picture);
+    });
 
-	this.resizeView = function(newWidth, newHeight, callback)
-	{
-		//reset width and height varriables
-		this.width = newWidth;
-		this.height = newHeight;
+    image.src = dataurl;
+  }
 
-		//reset render size
-		this.renderer.setSize(this.width, this.height);
+  this.resizeView = function(newWidth, newHeight, callback)
+  {
+    //reset width and height varriables
+    this.width = newWidth;
+    this.height = newHeight;
 
-		//reset canvas size
-		$('canvas').width(this.width);
-		$('canvas').height(this.height);
+    //reset render size
+    this.renderer.setSize(this.width, this.height);
 
-		//reset camera
-		this.camera.left =  this.width / - 2;
-		this.camera.right = this.width / 2;
-		this.camera.top = this.height / 2;
-		this.camera.bottom = this.height / - 2;
-		this.camera.near = 0;
-		this.camera.far = 1000;
-		this.camera.position.x = 0;
-		this.camera.position.y = 0;
-		this.camera.position.z = 1000;
+    //reset canvas size
+    $('canvas').width(this.width);
+    $('canvas').height(this.height);
 
-		this.camera.updateProjectionMatrix();
+    //reset camera
+    this.camera.left =  this.width / - 2;
+    this.camera.right = this.width / 2;
+    this.camera.top = this.height / 2;
+    this.camera.bottom = this.height / - 2;
+    this.camera.near = 0;
+    this.camera.far = 1000;
+    this.camera.position.x = 0;
+    this.camera.position.y = 0;
+    this.camera.position.z = 1000;
 
-		if(typeof callback != 'undefined')
-			callback();
+    this.camera.updateProjectionMatrix();
 
-		appController.wc.resizeSections();
+    if(typeof callback != 'undefined')
+      callback();
 
-		appController.um.changeSize(this.width, this.height);
-	}
+    appController.wc.resizeSections();
 
-	this.getDownloadURL = function()
-	{
-		var dataurl = this.renderer.domElement.toDataURL('image/png');
-		return dataurl;
-	} 
-	
-	this.init();
+    appController.um.changeSize(this.width, this.height);
+  }
+
+  this.getDownloadURL = function()
+  {
+    var dataurl = this.renderer.domElement.toDataURL('image/png');
+    return dataurl;
+  } 
+
+  this.init();
 }

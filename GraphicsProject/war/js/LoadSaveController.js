@@ -57,7 +57,7 @@ function LoadSaveController ()
       $('.selectImageDialog').dialog("close")
     });
     $('button.3dview').click(function(){
-      window.location = "3dview.html";
+      appController.togleMode();
     });
     this.dragAndDrop();
   }
