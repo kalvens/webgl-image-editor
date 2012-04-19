@@ -9,7 +9,7 @@ function AppController()
   this.webGL2D;
   this.webGL3D;
   this.webGL;
-  this.mode = 1;
+  this.mode = 0;
   this.init = function(){
     this.lsc = new LoadSaveController();
     this.wc = new WindowController();

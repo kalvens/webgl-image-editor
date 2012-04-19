@@ -19,6 +19,7 @@ function EffectsController()
     this.hueSaturationInit();
     this.denoiseInit();
     this.abstractInit();
+    this.swirlInit();
   }
 
   this.closeAllAccordions = function(){
@@ -85,12 +86,12 @@ function EffectsController()
       slide: function( event, ui ) {
         if(ui.value > 0)
           appController.um.changeImageSaturation(1.0-1.0/(1.01-ui.value/100.0))
-        else
-          appController.um.changeImageSaturation(-1*ui.value/100.0);
+          else
+            appController.um.changeImageSaturation(-1*ui.value/100.0);
       }
     });
   }
-  
+
   this.denoiseInit = function(){
     $('.denoiseSlider').slider({
       value:0,
@@ -101,16 +102,36 @@ function EffectsController()
       }
     });
   }
-  
-  this.abstractInit = function(){
-    $('.abstractPixilateSlider').slider({
-      value:0,
-      min:0,
-      max:500,
+
+  this.swirlInit = function(){
+    $('.swirlAngleSlider').slider({
+      value:360,
+      min:-1080,
+      max:1080,
       slide: function( event, ui ) {
-        appController.um.changeAbstractSize((500-ui.value)/10.0);
+        appController.um.changeSwirlAngle(ui.value*Math.PI/180.0);
       }
     });
+    
+    $('.swirlRadiusSlider').slider({
+      value:250,
+      min:0,
+      max:1000,
+      slide: function( event, ui ) {
+        appController.um.changeSwirlRadius(ui.value);
+      }
+    });
+  }
+
+  this.abstractInit = function(){
+//  $('.abstractPixilateSlider').slider({
+//  value:0,
+//  min:0,
+//  max:500,
+//  slide: function( event, ui ) {
+//  appController.um.changeAbstractSize((500-ui.value)/10.0);
+//  }
+//  });
   }
 
   this.init();

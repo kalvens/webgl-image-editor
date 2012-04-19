@@ -56,12 +56,12 @@ function WebGLView3D(){
 
   this.drawFloor = function(){
     //  Plane
-    var marbleTexture = new THREE.ImageUtils.loadTexture("images/marble-texture.jpg");
+    var marbleTexture = new THREE.ImageUtils.loadTexture("images/Wooden-Floor.jpg");
     marbleTexture.needsUpdate = true;
     marbleTexture.wrapS = THREE.RepeatWrapping;
     marbleTexture.wrapT = THREE.RepeatWrapping;
-    marbleTexture.repeat.x = 15;
-    marbleTexture.repeat.y = 30;
+    marbleTexture.repeat.x = 3;
+    marbleTexture.repeat.y = 6;
 
 //  var wallTexture = new THREE.ImageUtils.loadTexture("images/wall-texture-high-resolution.jpg");
 //  wallTexture.needsUpdate = true;
@@ -197,13 +197,13 @@ function WebGLView3D(){
   }
 
   this.setupLights = function(){
-    this.sun = new THREE.SpotLight( 0xffffff , .5, 500, true);
-    this.sun.position.x = 0;
-    this.sun.position.y = 100;
-    this.sun.position.z = -200;
-    this.sun.shadowCameraVisible = true;
-    this.scene.add(this.sun);
-
+//    this.sun = new THREE.SpotLight( 0xffffff , .5, 500, true);
+//    this.sun.position.x = 0;
+//    this.sun.position.y = 100;
+//    this.sun.position.z = -200;
+//    this.sun.shadowCameraVisible = true;
+//    this.scene.add(this.sun);
+    
     var ambientLight = new THREE.AmbientLight(0x303030);
     this.scene.add(ambientLight);
   }

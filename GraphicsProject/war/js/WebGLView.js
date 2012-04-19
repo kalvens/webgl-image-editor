@@ -29,7 +29,7 @@ function WebGLView(webGL2D, webGL3D){
     }
     
     this.renderer.sortObjects = true;
-    this.renderer.shadowMapEnabled = true;
+//    this.renderer.shadowMapEnabled = true;
     
 
     webGL2D.renderer = this.renderer;
@@ -67,9 +67,9 @@ function WebGLView(webGL2D, webGL3D){
       this.renderer.render( webGL2D.getScene(), webGL2D.getCamera() );
     }else if(appController.mode == 1){
       webGL3D.getControls().update(webGL3D.getClock().getDelta());
-      webGL3D.sun.position.z += .25;
-      if(webGL3D.sun.position.z > 200)
-        webGL3D.sun.position.z = -200;
+//      webGL3D.sun.position.z += .25;
+//      if(webGL3D.sun.position.z > 200)
+//        webGL3D.sun.position.z = -200;
       this.renderer.render( webGL3D.getScene(), webGL3D.getCamera() );
     }else
       Window.alert("Uknown mode for displaying content");

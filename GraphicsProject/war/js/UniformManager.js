@@ -9,7 +9,9 @@ function UniformManager(){
       height : {type:"f", value: 800.0},
       denoiseExp : {type:"f", value: 50.0},
       mode : {type:"i", value: 0},
-      abstractSize : {type:"f", value: 10.0},
+      radiusSwirl : {type:"f", value: 250.0},
+      angleSwirl : {type:"f", value: Math.PI},
+      inkStrength : {type:"f", value: 0.5},
   };
   
   this.resetUniforms = function(){
@@ -19,6 +21,9 @@ function UniformManager(){
     uniforms.saturation.value = 0.0;
     uniforms.denoiseExp.value = Math.pow(10,20);
     uniforms.mode.value = 0;
+    uniforms.radiusSwirl.value = 250.0;
+    uniforms.angleSwirl.value = Math.PI;
+    uniforms.inkStrength.value = 0.5;
   }
 
   this.setTexture = function(texture){
@@ -54,8 +59,16 @@ function UniformManager(){
     uniforms.mode.value = val;
   }
   
-  this.changeAbstractSize = function(val){
-    uniforms.abstractSize.value = val;
+  this.changeSwirlRadius = function(val){
+    uniforms.radiusSwirl.value = val;
+  }
+  
+  this.changeSwirlAngle = function(val){
+    uniforms.angleSwirl.value = val;
+  }
+  
+  this.inkStrength = function(val){
+    uniforms.angleSwirl.value = val;
   }
   
   this.getUniforms = function(){

@@ -124,12 +124,16 @@
           </div>
         </div>
         <h3>
-          <a href="#">Abstract Pixilate</a>
+          <a href="#">Swirl</a>
         </h3>
         <div>
           <div class="slideControlGroup">
-            <p>Size</p>
-            <div class="abstractPixilateSlider slider"></div>
+            <p>Angle</p>
+            <div class="swirlAngleSlider slider"></div>
+          </div>
+          <div class="slideControlGroup">
+            <p>Radius</p>
+            <div class="swirlRadiusSlider slider"></div>
           </div>
           <div class="applyCancelButtons">
             <Button class="effectsApplyButton">Apply</Button>
@@ -237,6 +241,9 @@
 	//Swirl
 	uniform float radiusSwirl;
 	uniform float angleSwirl;
+
+	//Ink
+	uniform float inkStrength;
   
 	//Contrast Calculation
 	vec3 contrastCalc(vec3 pixelColor)
@@ -296,9 +303,38 @@
 		return (color / total).rgb;
 	}
 
-	vec3 swirlCalc(vec3 pixelColor)
+	//Based on http://www.geeks3d.com/20110428/shader-library-swirl-post-processing-filter-in-glsl/
+	vec4 swirlCalc()
 	{
+		vec4 pixelColor;
+
+		vec2 coord = vUv * vec2(width, height);
 		
+		vec2 center = vec2(0.5,0.5) * vec2(width, height);
+		
+		coord = coord - center;
+		float distance = length(coord);
+		if(distance < radiusSwirl){
+			float percent = (radiusSwirl - distance) / radiusSwirl;
+			float theta = percent * percent * angleSwirl;
+			float s = sin(theta);
+			float c = cos(theta);
+			coord = vec2(coord.x * c - coord.y * s, coord.x * s + coord.y * c);
+		}
+		coord += center;
+		
+		pixelColor =  texture2D(uSampler, coord / vec2(width, height));
+
+		//Deal with pixels outside of image
+		vec2 clampedCoord = clamp(coord, vec2(0.0), vec2(width, height));
+		if(coord != clampedCoord){
+			pixelColor.a = max(0.0, 1.0 - length(coord - clampedCoord));
+		}
+		return pixelColor;
+	}
+
+	vec3 inkCalc(vec3 pixelColor)
+	{
 		return pixelColor;
 	}
 
@@ -315,6 +351,9 @@
 			pixelColor = saturationCalculation(pixelColor);
 		} else if(mode == 2){
 			pixelColor = denoiseCalc(pixelColor);
+		} else if(mode == 3){
+			gl_FragColor = swirlCalc();
+			return;
 		}
 
 		//Set Color of pixel
