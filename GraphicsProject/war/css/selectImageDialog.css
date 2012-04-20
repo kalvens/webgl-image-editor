@@ -1,77 +1,83 @@
-.selectImageDialog{
-  text-align:center;
+.selectImageDialog {
+	text-align: center;
+}
+
+.dialog_image_wrapper {
+	overflow: auto;
+	width: 100%;
+	height: 250px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .dialog_images {
-  overflow: hidden;
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
+	overflow: hidden;
+	width: 100%;
 }
 
 .dialog_images img {
-  width: 169px;
-  height: auto;
-  float: left;
-  margin: 10px 10px 0 0;
+	width: 169px;
+	height: auto;
+	float: left;
+	margin: 10px 10px 0 0;
 }
 
 .upload {
-  overflow: hidden;
-  position: relative;
-  text-align: center;
-  border: 0.25em solid #FFFFFF;
-  margin: 10px;
+	overflow: hidden;
+	position: relative;
+	text-align: center;
+	border: 0.25em solid #FFFFFF;
+	margin: 10px;
 }
 
 .upload,.upload_file {
-  width: 350px;
-  height: 50px;
-  cursor: pointer;
+	width: 350px;
+	height: 50px;
+	cursor: pointer;
 }
 
 .upload_file {
-  opacity: 0;
-  filter: alpha(opacity = 0);
-  position: absolute;
-  right: 0px;
-  top: 0;
-  font-size: 40px;
+	opacity: 0;
+	filter: alpha(opacity =   0);
+	position: absolute;
+	right: 0px;
+	top: 0;
+	font-size: 40px;
 }
 
 .upload span {
-  color: white;
-  line-height: 3em;
+	color: white;
+	line-height: 3em;
 }
 
-.or_text{
-  margin:10px;
+.or_text {
+	margin: 10px;
 }
 
 .dndZone {
-  border-style: dashed;
-  border-width: 0.25em;
-  border-color: #FFFFFF;
-  width: 100%;
-  height: 5em;
-  text-align: center;
-  display: table;
+	border-style: dashed;
+	border-width: 0.25em;
+	border-color: #FFFFFF;
+	width: 100%;
+	height: 5em;
+	text-align: center;
+	display: table;
 }
 
 .dragEvent {
-  background-color: red;
+	background-color: red;
 }
 
 .cell {
-  display: table-cell;
-  vertical-align: middle;
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .dndZone p {
-  text-size: 2em;
+	text-size: 2em;
 }
 
 .dndZone.dropping {
-  border-color: red;
-  color: red;
+	border-color: red;
+	color: red;
 }

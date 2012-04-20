@@ -92,27 +92,50 @@ function WebGLView2D(){
     var image = document.createElement('img');
 
     $(image).attr('src', dataurl).load(function(){
-      instance.scene.remove(instance.picture);
+    	instance.onChangeImageLoad(image);
+//      instance.scene.remove(instance.picture);
+//
+//      var texture = new THREE.Texture( image );
+//      texture.needsUpdate = true;
+//
+//      var geometry = new THREE.PlaneGeometry(instance.width,instance.height);
+//
+//      //create the sphere's material
+//      var shaderMaterial = instance.simpleShader(texture);
+//
+//      instance.picture = new THREE.Mesh(geometry, shaderMaterial);
+//      instance.picture.scale.set(1,1,1);
+//      instance.picture.doubleSided = true;
+//      instance.picture.position.x = 0;
+//      instance.picture.position.y = 0;
+//      instance.picture.position.z = 0;
+//
+//      instance.scene.add(instance.picture);
+    });
+
+    image.src = dataurl;
+  }
+  
+  this.onChangeImageLoad = function(image)
+  {
+	  this.scene.remove(this.picture);
 
       var texture = new THREE.Texture( image );
       texture.needsUpdate = true;
 
-      var geometry = new THREE.PlaneGeometry(instance.width,instance.height);
+      var geometry = new THREE.PlaneGeometry(this.width,this.height);
 
       //create the sphere's material
-      var shaderMaterial = instance.simpleShader(texture);
+      var shaderMaterial = this.simpleShader(texture);
 
-      instance.picture = new THREE.Mesh(geometry, shaderMaterial);
-      instance.picture.scale.set(1,1,1);
-      instance.picture.doubleSided = true;
-      instance.picture.position.x = 0;
-      instance.picture.position.y = 0;
-      instance.picture.position.z = 0;
+      this.picture = new THREE.Mesh(geometry, shaderMaterial);
+      this.picture.scale.set(1,1,1);
+      this.picture.doubleSided = true;
+      this.picture.position.x = 0;
+      this.picture.position.y = 0;
+      this.picture.position.z = 0;
 
-      instance.scene.add(instance.picture);
-    });
-
-    image.src = dataurl;
+      this.scene.add(this.picture);
   }
 
   this.resizeView = function(newWidth, newHeight, callback)
