@@ -140,6 +140,19 @@
             <Button class="effectsCancelButton">Cancel</Button>
           </div>
         </div>
+        <h3>
+          <a href="#">Ink Effect</a>
+        </h3>
+        <div>
+          <div class="slideControlGroup">
+            <p>Strength</p>
+            <div class="inkStrengthSlider slider"></div>
+          </div>
+          <div class="applyCancelButtons">
+            <Button class="effectsApplyButton">Apply</Button>
+            <Button class="effectsCancelButton">Cancel</Button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -148,36 +161,36 @@
 <div id="dialogs">
   <div class="selectImageDialog">
     <p>Select an image from below or upload your own.</p>
-	<div class="dialog_image_wrapper">
-	    <div class="dialog_images">
-	      <img
-	        src="images/sample_pic_01.jpg"
-	        alt="Sample Pic 01" /> <img
-	        src="images/sample_pic_02.jpg"
-	        alt="Sample Pic 02" /> <img
-	        src="images/sample_pic_03.jpg"
-	        alt="Sample Pic 03" /> <img
-	        src="images/sample_pic_04.jpg"
-	        alt="Sample Pic 04" /> <img
-	        src="images/sample_pic_01.jpg"
-	        alt="Sample Pic 01" /> <img
-	        src="images/sample_pic_02.jpg"
-	        alt="Sample Pic 02" /> <img
-	        src="images/sample_pic_05.jpg"
-	        alt="Sample Pic 03" /> <img
-	        src="images/sample_pic_06.jpg"
-	        alt="Sample Pic 04" />
-	    </div>
-	</div>
+    <div class="dialog_image_wrapper">
+      <div class="dialog_images">
+        <img
+          src="images/sample_pic_01.jpg"
+          alt="Sample Pic 01" /> <img
+          src="images/sample_pic_02.jpg"
+          alt="Sample Pic 02" /> <img
+          src="images/sample_pic_03.jpg"
+          alt="Sample Pic 03" /> <img
+          src="images/sample_pic_04.jpg"
+          alt="Sample Pic 04" /> <img
+          src="images/sample_pic_01.jpg"
+          alt="Sample Pic 01" /> <img
+          src="images/sample_pic_02.jpg"
+          alt="Sample Pic 02" /> <img
+          src="images/sample_pic_05.jpg"
+          alt="Sample Pic 03" /> <img
+          src="images/sample_pic_06.jpg"
+          alt="Sample Pic 04" />
+      </div>
+    </div>
     <center>
       <div class="upload">
         <input
           type="file"
           class="upload_file"
           name="upload_file"
-          onchange="readURL(this);" 
-          accept="image/png,image/jpeg"/>
-        <span id="upload_text">Upload Image</span>
+          onchange="readURL(this);"
+          accept="image/png,image/jpeg" /> <span id="upload_text">Upload
+          Image</span>
       </div>
     </center>
 
@@ -336,6 +349,25 @@
 
 	vec3 inkCalc(vec3 pixelColor)
 	{
+		vec2 dx = vec2(1.0 / width, 0.0);
+		vec2 dy = vec2(0.0, 1.0 / height);
+		float bigTotal = 0.0;
+		float smallTotal = 0.0;
+		vec3 bigAverage = vec3(0.0);
+		vec3 smallAverage = vec3(0.0);
+		for (float x = -2.0; x <= 2.0; x += 1.0) {
+			for (float y = -2.0; y <= 2.0; y += 1.0) {
+				vec3 sample = texture2D(uSampler, vUv + dx * x + dy * y).rgb;
+				bigAverage += sample;
+				bigTotal += 1.0;
+				if (abs(x) + abs(y) < 2.0) {
+					smallAverage += sample;
+					smallTotal += 1.0;
+				}
+			}
+		}
+		vec3 edge = max(vec3(0.0), bigAverage / bigTotal - smallAverage / smallTotal);
+		pixelColor = pixelColor - dot(edge, edge) * 100000.0 * inkStrength;
 		return pixelColor;
 	}
 
@@ -355,6 +387,8 @@
 		} else if(mode == 3){
 			gl_FragColor = swirlCalc();
 			return;
+		} else if(mode == 4){
+			pixelColor = inkCalc(pixelColor);
 		}
 
 		//Set Color of pixel

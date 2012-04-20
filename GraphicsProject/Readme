@@ -1,2 +1,30 @@
 Live Version
-http://www.webglpic.appspot.com
+http://webgl-image-editor.googlecode.com/git/GraphicsProject/war/index.html
+
+What works:
+Shaders
+	*Brightness Contrast
+	*Hue and Saturation
+	*Denoise
+	*Swirl
+	*Ink Effect
+Features
+	*Save Image
+	*Load and image
+	*Upload image via upload image button
+	*Basic 3D mode
+	*Canvas size adjusts to image size
+
+What needs to be done:
+	*A few more shader effects should be added
+	*Mess around with the viabality of tools fo editing the image
+		*Paint brush
+		*paint can
+		*Crop
+		*Resize
+		*Adjust canvas size
+		*Draw circle
+		*Draw square
+	*Add images and lighting to 3D mode
+	*Add some interesting models to 3D mode
+	*Possibly add some cool image anaysis filters

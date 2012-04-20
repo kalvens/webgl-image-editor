@@ -67,8 +67,8 @@ function UniformManager(){
     uniforms.angleSwirl.value = val;
   }
   
-  this.inkStrength = function(val){
-    uniforms.angleSwirl.value = val;
+  this.changeInkStrength = function(val){
+    uniforms.inkStrength.value = val;
   }
   
   this.getUniforms = function(){

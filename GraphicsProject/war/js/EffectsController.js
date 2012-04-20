@@ -20,6 +20,7 @@ function EffectsController()
     this.denoiseInit();
     this.abstractInit();
     this.swirlInit();
+    this.inkInit();
   }
 
   this.closeAllAccordions = function(){
@@ -119,6 +120,17 @@ function EffectsController()
       max:1000,
       slide: function( event, ui ) {
         appController.um.changeSwirlRadius(ui.value);
+      }
+    });
+  }
+  
+  this.inkInit = function(){
+    $('.inkStrengthSlider').slider({
+      value:100,
+      min:0,
+      max:200,
+      slide: function( event, ui ) {
+        appController.um.changeInkStrength(ui.value/200.0);
       }
     });
   }
