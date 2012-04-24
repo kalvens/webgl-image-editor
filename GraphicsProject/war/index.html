@@ -40,6 +40,10 @@
 <script src="vendor/jquery/jquery-1.7.1.min.js"></script>
 <script src="vendor/jquery/jquery-ui-1.8.18.custom.min.js"></script>
 
+<!-- Setup Color Picker -->
+<link rel="stylesheet" href="vendor/eyecon/css/colorpicker.css" type="text/css" />
+<script type="text/javascript" src="vendor/eyecon/js/colorpicker.js"></script>
+
 <!-- Setup WebGL Libraries -->
 <script src="vendor/three.js/Three.js"></script>
 <script src="vendor/three.js/Detector.js"></script>
@@ -58,6 +62,7 @@
 <script src="js/WebGLView.js"></script>
 <script src="js/UniformManager.js"></script>
 <script src="js/AppController.js"></script>
+<script src="js/WebGL2DTools.js"></script>
 
 <title>WebGL Img Editor</title>
 </head>
@@ -153,6 +158,46 @@
             <Button class="effectsCancelButton">Cancel</Button>
           </div>
         </div>
+        <h3>
+          <a href="#">Tools</a>
+        </h3>
+        <div>
+          <div class="slideControlGroup">
+            <div id="imageTools">
+              <Button title="Bucket Tool">
+                <img src="images/tools/stock-tool-bucket-fill-22.png" alt="move"/>
+              </Button>
+              <Button title="crop tool">
+                <img src="images/tools/stock-tool-crop-22.png" alt="move"/>
+              </Button>
+              <Button title="Ellipse Select Tool">
+                <img src="images/tools/stock-tool-ellipse-select-22.png" alt="move"/>
+              </Button>
+              <Button title="Eraser Tool">
+                <img src="images/tools/stock-tool-eraser-22.png" alt="move"/>
+              </Button>
+              <Button>
+                <img src="images/tools/stock-tool-fuzzy-select-22.png" alt="move"/>
+              </Button>
+              <Button>
+                <img src="images/tools/stock-tool-paintbrush-22.png" alt="move"/>
+              </Button>
+              <Button>
+                <img src="images/tools/stock-tool-pencil-22.png" alt="move"/>
+              </Button>
+              <Button>
+                <img src="images/tools/stock-tool-rect-select-22.png" alt="Rec"/>
+              </Button>
+              <Button>
+                <img src="images/tools/stock-tool-move-22.png" alt="move"/>
+              </Button>
+              <Button>
+                <img src="images/tools/stock-tool-move-2-22.png" alt="move"/>
+              </Button>
+            </div>
+            <div id="colorSelector"><div style="background-color: #0000ff"></div></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -223,7 +268,7 @@
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
     }
     
-  </script>
+</script>
 
 <script
   type="x-shader/x-fragment"
@@ -394,6 +439,30 @@
 		//Set Color of pixel
 		gl_FragColor = vec4(pixelColor,1.0);
     }
+  
+  </script>
+<script
+  type="x-shader/x-fragment"
+  id="toolShader">
+  
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+    
+  //Common
+  uniform float width;
+  uniform float height;
+  uniform int mode;
+  uniform sampler2D uSampler;
+  varying vec2 vUv;
+
+  void main()
+  {
+    vec3 pixelColor = texture2D( uSampler, vUv ).rgb;
+
+    //Set Color of pixel
+    gl_FragColor = vec4(pixelColor,1.0);
+  }
   
   </script>
 </html>
