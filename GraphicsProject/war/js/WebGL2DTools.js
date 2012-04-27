@@ -1,12 +1,20 @@
 function WebGL2DTools(panel){
   this.panel = panel;
-
+  this.current_tool;
+  
   this.init = function(){
     this.startColorPicker();
+    this.setupToolButtons()
+  }
+  
+  this.setupToolButtons = function(){
+    $('.toolButton').click(function(){
+      $('.toolButton').removeClass('tool-selected')
+      $(this).addClass('tool-selected')
+    });
   }
 
   this.startColorPicker = function(){
-    console.debug("here")
     $('#colorSelector').ColorPicker({
       color: '#0000ff',
       onShow: function (colpkr) {
