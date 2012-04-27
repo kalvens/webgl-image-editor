@@ -9,8 +9,9 @@ function WebGL2DTools(panel){
   
   this.setupToolButtons = function(){
     $('.toolButton').click(function(){
-      $('.toolButton').removeClass('tool-selected')
-      $(this).addClass('tool-selected')
+      $('.toolButton').removeClass('tool-selected');
+      $(this).addClass('tool-selected');
+      $('canvas').addClass('cursor_crosshair');
     });
   }
 

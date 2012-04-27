@@ -42,6 +42,10 @@ button .ui-button-text {
   font-size: .75em;
 }
 
+.accordian_wrapper {
+  font-size: .75em;
+}
+
 div.side_bar {
   float: left;
 }

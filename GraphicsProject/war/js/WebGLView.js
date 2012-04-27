@@ -66,7 +66,8 @@ function WebGLView(webGL2D, webGL3D){
     if(appController.mode == 0){
       this.renderer.render( webGL2D.getScene(), webGL2D.getCamera() );
     }else if(appController.mode == 1){
-      webGL3D.getControls().update(webGL3D.getClock().getDelta());
+    	webGL3D.update();
+//      webGL3D.getControls().update(webGL3D.getClock().getDelta());
 //      webGL3D.sun.position.z += .25;
 //      if(webGL3D.sun.position.z > 200)
 //        webGL3D.sun.position.z = -200;
