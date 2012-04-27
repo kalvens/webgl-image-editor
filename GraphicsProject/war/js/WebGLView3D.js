@@ -22,8 +22,6 @@ function WebGLView3D(){
 		this.camera.position.y = 0;
 		this.camera.position.z = -500;
 		this.camera.position.x = 0;
-		
-		this.camera.lookAt(new THREE.Vector3(0,0,0) );
 
 		this.scene = new THREE.Scene();
 
@@ -75,6 +73,7 @@ function WebGLView3D(){
 	}
 	
 	this.update = function(){
+		this.camera.lookAt(new THREE.Vector3(0,0,0));
 		this.particleImage.update(this.camera);
 	}
 

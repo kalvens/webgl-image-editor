@@ -1,0 +1,169 @@
+<script type="x-shader/x-fragment" id="fragmentshader">
+  
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+    
+	//Common
+	uniform float width;
+	uniform float height;
+	uniform int mode;
+    uniform sampler2D uSampler;
+
+    varying vec2 vUv;
+
+	// Brightness and Contrast
+    uniform float brightness;
+    uniform float contrast;
+		
+	// Hue and saturation
+	uniform float hue;
+	uniform float saturation;
+
+	//Denoise
+	uniform float denoiseExp;
+
+	//Swirl
+	uniform float radiusSwirl;
+	uniform float angleSwirl;
+
+	//Ink
+	uniform float inkStrength;
+  
+	//Contrast Calculation
+	vec3 contrastCalc(vec3 pixelColor)
+	{
+		pixelColor -= 0.5;
+		pixelColor *= contrast;
+		pixelColor += 0.5;
+		return pixelColor;
+	}
+
+
+	//Brightness Calculation
+	vec3 brightnessCalc(vec3 pixelColor)
+	{
+		pixelColor += brightness;
+		return pixelColor;
+	}
+
+	//Hue Calculation
+	vec3 hueCalculation(vec3 pixelColor)
+	{
+		float pi = hue * 3.1415926535897932384626;
+		vec3 adjustment = (vec3(2.0 * cos(pi), -sqrt(3.0) * sin(pi) - cos(pi), sqrt(3.0) * sin(pi) - cos(pi)) + 1.0);		
+		adjustment /= 3.0;
+		pixelColor.rgb = vec3(
+			dot(pixelColor, adjustment.xyz),
+			dot(pixelColor, adjustment.zxy),
+			dot(pixelColor, adjustment.yzx)
+        );
+		return pixelColor;
+	}
+
+	//Saturation calculation
+	vec3 saturationCalculation(vec3 pixelColor)
+	{
+		float avg = (pixelColor.r + pixelColor.g + pixelColor.b)/3.0;
+		pixelColor += (avg - pixelColor) * saturation;
+		return pixelColor;
+	}
+
+	//Denoise filter
+	vec3 denoiseCalc(vec3 pixelColor)
+	{
+		float total = 0.0;
+		vec4 color = vec4(0.0);
+		for(float i = -4.0; i <= 4.0 ; i += 1.0)
+		{
+			for(float j=-4.0; j <= 4.0 ; j+= 1.0)
+			{
+				vec4 pixel = texture2D( uSampler, vUv + vec2(i/width, j/height));
+				float temp = 1.0 - abs(dot(pixel.rgb - pixelColor, vec3(0.25)));
+				temp = pow(temp, denoiseExp);
+				color += pixel * temp;
+				total += temp;
+			}
+		}
+		return (color / total).rgb;
+	}
+
+	//Based on http://www.geeks3d.com/20110428/shader-library-swirl-post-processing-filter-in-glsl/
+	vec4 swirlCalc()
+	{
+		vec4 pixelColor;
+
+		vec2 coord = vUv * vec2(width, height);
+		
+		vec2 center = vec2(0.5,0.5) * vec2(width, height);
+		
+		coord = coord - center;
+		float distance = length(coord);
+		if(distance < radiusSwirl){
+			float percent = (radiusSwirl - distance) / radiusSwirl;
+			float theta = percent * percent * angleSwirl;
+			float s = sin(theta);
+			float c = cos(theta);
+			coord = vec2(coord.x * c - coord.y * s, coord.x * s + coord.y * c);
+		}
+		coord += center;
+		
+		pixelColor =  texture2D(uSampler, coord / vec2(width, height));
+
+		//Deal with pixels outside of image
+		vec2 clampedCoord = clamp(coord, vec2(0.0), vec2(width, height));
+		if(coord != clampedCoord){
+			pixelColor.a = max(0.0, 1.0 - length(coord - clampedCoord));
+		}
+		return pixelColor;
+	}
+
+	vec3 inkCalc(vec3 pixelColor)
+	{
+		vec2 dx = vec2(1.0 / width, 0.0);
+		vec2 dy = vec2(0.0, 1.0 / height);
+		float bigTotal = 0.0;
+		float smallTotal = 0.0;
+		vec3 bigAverage = vec3(0.0);
+		vec3 smallAverage = vec3(0.0);
+		for (float x = -2.0; x <= 2.0; x += 1.0) {
+			for (float y = -2.0; y <= 2.0; y += 1.0) {
+				vec3 sample = texture2D(uSampler, vUv + dx * x + dy * y).rgb;
+				bigAverage += sample;
+				bigTotal += 1.0;
+				if (abs(x) + abs(y) < 2.0) {
+					smallAverage += sample;
+					smallTotal += 1.0;
+				}
+			}
+		}
+		vec3 edge = max(vec3(0.0), bigAverage / bigTotal - smallAverage / smallTotal);
+		pixelColor = pixelColor - dot(edge, edge) * 100000.0 * inkStrength;
+		return pixelColor;
+	}
+
+    void main()
+    {
+		//vec2 test = vec2(vTextureCoord, vTextureCoord);
+		vec3 pixelColor = texture2D( uSampler, vUv ).rgb;
+		
+		if(mode == 0){
+			pixelColor = contrastCalc(pixelColor);
+			pixelColor = brightnessCalc(pixelColor);
+		} else if(mode == 1){
+			pixelColor = hueCalculation(pixelColor);
+			pixelColor = saturationCalculation(pixelColor);
+		} else if(mode == 2){
+			pixelColor = denoiseCalc(pixelColor);
+		} else if(mode == 3){
+			gl_FragColor = swirlCalc();
+			return;
+		} else if(mode == 4){
+			pixelColor = inkCalc(pixelColor);
+		}
+
+		//Set Color of pixel
+		gl_FragColor = vec4(pixelColor,1.0);
+    }
+  
+  </script>
