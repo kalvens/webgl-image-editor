@@ -13,12 +13,18 @@ ParticleImage = function(image){
 	this.particleSystem;
 	this.particles = new Array();
 
+	//Shader 
+	this.sphere;
+	this.uniforms;
+	this.attributes;
+	this.vc1;
+
 
 	this.init = function(){
 		// set up the canvas, camera and scene
 		canvas	= document.createElement('canvas');
-		canvas.width	= 600;
-		canvas.height	= 600;
+		canvas.width	= 1280;
+		canvas.height	= 800;
 
 		// the canvas is only used to analyse our pic
 		context	= canvas.getContext('2d');
@@ -26,10 +32,8 @@ ParticleImage = function(image){
 		this.width = $('canvas').width();
 		this.height = $('canvas').height();
 
-		this.camera = new THREE.PerspectiveCamera( 45, this.width / this.height, 1, 20000 );
-		this.camera.position.y = 0;
-		this.camera.position.z = -500;
-		this.camera.position.x = 0;
+		this.camera = new THREE.PerspectiveCamera( 45, this.width / this.height, 1, 10000 );
+		this.camera.position.z = 300;
 
 		this.scene = new THREE.Scene();
 
@@ -66,92 +70,75 @@ ParticleImage = function(image){
 		this.addParticles();
 	}
 
-	/**
-	 * Adds the particles to the scene
-	 * based on the image that has been
-	 * last uploaded
-	 */
-	this.addParticles = function()
+	this.getShaderMaterial = function()
 	{
-		// draw in the image, and make sure it fits the canvas size :)
-		var ratio			= 1 / Math.max(image.width/600, image.height/600);
-		var scaledWidth		= image.width * ratio;
-		var scaledHeight	= image.height * ratio;
-		context.drawImage(image,
-				0,0,image.width,image.height,
-				(600 - scaledWidth) * .5, (600 - scaledHeight) *.5, scaledWidth, scaledHeight);
+		this.attributes = {
 
-		// now set up the particle material
-		var material 	= new THREE.ParticleBasicMaterial({ 
-					blending: THREE.BillboardBlending, 
-					map: THREE.ImageUtils.loadTexture("images/particle.png"), 
-					size: this.density * 1.5, 
-					opacity: 1, 
-					vertexColors:true, 
-					sizeAttenuation:true 
+				size: {	type: 'f', value: [] },
+				ca:   {	type: 'c', value: [] },
+				posxy: {type: 'v2', value: []}
+
+		};
+
+		this.uniforms = {
+
+				time: 	   { type: "f", value: 1.0 },
+				color:     { type: "c", value: new THREE.Color( 0xffffff ) },
+				texture:   { type: "t", value: 0, texture: THREE.ImageUtils.loadTexture( "images/disc.png" ) },
+				img_size:  { type: "v2", value: new THREE.Vector2()},
+
+		};
+
+		this.uniforms.texture.texture.wrapS = this.uniforms.texture.texture.wrapT = THREE.RepeatWrapping;
+
+		var shaderMaterial = new THREE.ShaderMaterial( {
+
+			uniforms: 		this.uniforms,
+			attributes:     this.attributes,
+			vertexShader:   document.getElementById( 'particleVShader' ).textContent,
+			fragmentShader: document.getElementById( 'particleFShader' ).textContent
+
 		});
-		var geometry	= new THREE.Geometry();
-		var pixels		= context.getImageData(0,0,this.width,this.height);
-		var step		= this.density * 4;
-		var x = 0, y = 0;
 
-		// go through the image pixels
-		for(x = 0; x < this.width * 4; x+= step)
+		var geometry = new THREE.PlaneGeometry (256, 160, 127, 79);
+
+		this.vc1 = geometry.vertices.length;
+
+		this.sphere = new THREE.ParticleSystem( geometry, shaderMaterial );
+
+		this.sphere.dynamic = true;
+		this.sphere.sortParticles = true;
+
+		var vertices = this.sphere.geometry.vertices;
+		var values_size = this.attributes.size.value;
+		var values_color = this.attributes.ca.value;
+		var values_posxy = this.attributes.posxy.value;
+
+		context.drawImage(image,
+				0,0,image.width,image.height);
+		var pixels = context.getImageData(0,0,this.width,this.height);
+
+		for(var i = 0; i < 80; ++i)
 		{
-			for(y = this.height; y >= 0 ; y -= this.density)
+			for(var j = 0; j < 128; ++j)
 			{
-				var p = ((y * this.width * 4) + x);
-
-				// grab the actual data from the
-				// pixel, ignoring any transparent ones
-				if(pixels.data[p+3] > 0)
-				{
-					var pixelCol	= (pixels.data[p] << 16) + (pixels.data[p+1] << 8) + pixels.data[p+2];
-					var color 		= new THREE.Color(pixelCol);
-					var vector 		= new THREE.Vector3(-300 + x/4, 240 - y, 0);
-					vector.z += Math.sin(x/(this.width)*Math.PI*2)*50;
-
-					// push on the particle
-					geometry.vertices.push(new THREE.Vertex(vector));
-					geometry.colors.push(color);
-				}
+				
+				var p = i*4*1280*(800/80)+j*4*(1280/128);
+				var pixelCol = (pixels.data[p] << 16) + (pixels.data[p+1] << 8) + pixels.data[p+2];
+				values_color[i*128+j] = new THREE.Color(pixelCol);
+				values_size[i*128+j] = 10;
+				values_posxy[i*128+j] = new THREE.Vector2(i,j);
 			}
 		}
 
-		// now create a new system
-		this.particleSystem = new THREE.ParticleSystem(geometry, material);
-		this.particleSystem.sortParticles = true;
-
-		// grab a couple of cacheable vals
-		this.particles = this.particleSystem.geometry.vertices;
-		colors = this.particleSystem.geometry.colors;
-
-		// add some additional vars to the
-		// particles to ensure we can do physics
-		// and so on
-		var ps = this.particles.length;
-		while(ps--)
-		{
-			var particle 		= this.particles[ps];
-			particle.velocity	= new THREE.Vector3();
-			particle.mass		= 5;
-			particle.origPos	= particle.position.clone();
-		}
-
-		// gc and add
-		pixels = null;
-		this.scene.add(this.particleSystem);
+		this.scene.add( this.sphere );
 	}
 
 	this.update = function(){
-		for(var i=0;i< this.particles.length; ++i){
-//			this.particles[i].position.z += Math.sin(this.orbitValue)*i;
-		}
-		this.camera.lookAt(new THREE.Vector3(0,0,0));
-		this.camera.position.x = Math.sin(this.orbitValue) * this.depth;
-		this.camera.position.y = Math.sin(this.orbitValue) * 300;
-		this.camera.position.z = Math.cos(this.orbitValue) * this.depth;
-		this.orbitValue += this.orbit_rate;
+		var time = Date.now() * 0.005;
+
+		this.uniforms.time.value += 1;
+		this.attributes.size.needsUpdate = true;
 	}
 
 	this.setSize = function(width, height){
