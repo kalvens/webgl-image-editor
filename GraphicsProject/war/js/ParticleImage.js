@@ -1,7 +1,8 @@
-ParticleImage = function(image, scene){
+ParticleImage = function(image){
 	this.canvas;
 	this.context;
-	this.scene = scene;
+	this.scene;
+	this.camera;
 	this.image = image;
 	this.width = $('canvas').width();
 	this.height = $('canvas').height();
@@ -13,12 +14,25 @@ ParticleImage = function(image, scene){
 	
 	this.init = function(){
 		// set up the canvas, camera and scene
-		canvas						= document.createElement('canvas');
-		canvas.width				= 600;
-		canvas.height				= 600;
+		canvas	= document.createElement('canvas');
+		canvas.width	= 600;
+		canvas.height	= 600;
 		
 		// the canvas is only used to analyse our pic
-		context						= canvas.getContext('2d');
+		context	= canvas.getContext('2d');
+		
+		this.width = $('canvas').width();
+		this.height = $('canvas').height();
+
+		this.camera = new THREE.PerspectiveCamera( 45, this.width / this.height, 1, 20000 );
+		this.camera.position.y = 0;
+		this.camera.position.z = -500;
+		this.camera.position.x = 0;
+
+		this.scene = new THREE.Scene();
+
+		this.scene.add( this.camera );
+		
 		this.addLights();
 
 		this.addParticles();
@@ -31,7 +45,6 @@ ParticleImage = function(image, scene){
 		pointLight.position.x = 300;
 		pointLight.position.y = 300;
 		pointLight.position.z = 600;
-		console.debug(scene)
 		this.scene.add( pointLight );
 		
 		// directional
@@ -113,10 +126,11 @@ ParticleImage = function(image, scene){
 		this.scene.add(particleSystem);
 	}
 	
-	this.update = function(camera){
-		camera.position.x = Math.sin(this.orbitValue) * this.depth;
-		camera.position.y = Math.sin(this.orbitValue) * 300;
-		camera.position.z = Math.cos(this.orbitValue) * this.depth;
+	this.update = function(){
+		this.camera.lookAt(new THREE.Vector3(0,0,0));
+		this.camera.position.x = Math.sin(this.orbitValue) * this.depth;
+		this.camera.position.y = Math.sin(this.orbitValue) * 300;
+		this.camera.position.z = Math.cos(this.orbitValue) * this.depth;
 		this.orbitValue += this.ORBIT_RATE;
 	}
 	

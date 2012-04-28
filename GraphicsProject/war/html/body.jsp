@@ -12,6 +12,7 @@
       <button class="3dview">3D Mode</button>
     </div>
     <jsp:include page="sidebar/twoDEffects.html" />
+    <jsp:include page="sidebar/threeDModes.html" />
   </div>
   <div class="main_view"></div>
 </body>

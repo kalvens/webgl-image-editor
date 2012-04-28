@@ -11,6 +11,7 @@ function AppController()
 	this.webGL;
 	this.webGL2DTools;
 	this.mode = 0;
+	this.modes3DView;
 	this.init = function(){
 		this.lsc = new LoadSaveController();
 		this.wc = new WindowController();
@@ -20,6 +21,7 @@ function AppController()
 		this.webGL3D = new WebGLView3D();
 		this.webGL = new WebGLView(this.webGL2D, this.webGL3D);
 		this.webGL2DTools = new WebGL2DTools(null);
+		this.modes3DView = new Modes3DView();
 	}
 
 	this.togleMode = function(){
