@@ -11,6 +11,7 @@ ParticleImage = function(image){
 	this.orbit_rate = 0.01;
 	this.orbitValue = 0;
 	this.particleSystem;
+	this.particles = new Array();
 
 
 	this.init = function(){
@@ -108,6 +109,7 @@ ParticleImage = function(image){
 					var pixelCol	= (pixels.data[p] << 16) + (pixels.data[p+1] << 8) + pixels.data[p+2];
 					var color 		= new THREE.Color(pixelCol);
 					var vector 		= new THREE.Vector3(-300 + x/4, 240 - y, 0);
+					vector.z += Math.sin(x/(this.width)*Math.PI*2)*50;
 
 					// push on the particle
 					geometry.vertices.push(new THREE.Vertex(vector));
@@ -121,16 +123,16 @@ ParticleImage = function(image){
 		this.particleSystem.sortParticles = true;
 
 		// grab a couple of cacheable vals
-		particles = this.particleSystem.geometry.vertices;
+		this.particles = this.particleSystem.geometry.vertices;
 		colors = this.particleSystem.geometry.colors;
 
 		// add some additional vars to the
 		// particles to ensure we can do physics
 		// and so on
-		var ps = particles.length;
+		var ps = this.particles.length;
 		while(ps--)
 		{
-			var particle 		= particles[ps];
+			var particle 		= this.particles[ps];
 			particle.velocity	= new THREE.Vector3();
 			particle.mass		= 5;
 			particle.origPos	= particle.position.clone();
@@ -142,6 +144,9 @@ ParticleImage = function(image){
 	}
 
 	this.update = function(){
+		for(var i=0;i< this.particles.length; ++i){
+//			this.particles[i].position.z += Math.sin(this.orbitValue)*i;
+		}
 		this.camera.lookAt(new THREE.Vector3(0,0,0));
 		this.camera.position.x = Math.sin(this.orbitValue) * this.depth;
 		this.camera.position.y = Math.sin(this.orbitValue) * 300;
