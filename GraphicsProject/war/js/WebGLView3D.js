@@ -40,6 +40,11 @@ function WebGLView3D(){
 		case 1: this.imageCarousel.update(); break;
 		}
 	}
+	
+	this.setSize = function(width, height){
+		this.particleImage.setSize(width, height);
+		this.imageCarousel.setSize(width, height);
+	}
 
 	this.init();
 }

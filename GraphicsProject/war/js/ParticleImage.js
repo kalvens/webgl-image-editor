@@ -8,19 +8,20 @@ ParticleImage = function(image){
 	this.height = $('canvas').height();
 	this.density = 10;
 	this.depth = Math.max(this.width, this.height);
-	this.ORBIT_RATE = 0.01;
+	this.orbit_rate = 0.01;
 	this.orbitValue = 0;
-	
-	
+	this.particleSystem;
+
+
 	this.init = function(){
 		// set up the canvas, camera and scene
 		canvas	= document.createElement('canvas');
 		canvas.width	= 600;
 		canvas.height	= 600;
-		
+
 		// the canvas is only used to analyse our pic
 		context	= canvas.getContext('2d');
-		
+
 		this.width = $('canvas').width();
 		this.height = $('canvas').height();
 
@@ -32,12 +33,12 @@ ParticleImage = function(image){
 		this.scene = new THREE.Scene();
 
 		this.scene.add( this.camera );
-		
+
 		this.addLights();
 
 		this.addParticles();
 	}
-	
+
 	this.addLights = function()
 	{
 		// point
@@ -46,7 +47,7 @@ ParticleImage = function(image){
 		pointLight.position.y = 300;
 		pointLight.position.z = 600;
 		this.scene.add( pointLight );
-		
+
 		// directional
 		directionalLight = new THREE.DirectionalLight( 0xFFFFFF );
 		directionalLight.position.x = -.5;
@@ -56,7 +57,14 @@ ParticleImage = function(image){
 		directionalLight.intensity = .6;
 		this.scene.add( directionalLight );
 	}
-	
+
+	this.updateDensity = function(density)
+	{
+		this.scene.remove(this.particleSystem);
+		this.density = density;
+		this.addParticles();
+	}
+
 	/**
 	 * Adds the particles to the scene
 	 * based on the image that has been
@@ -73,7 +81,14 @@ ParticleImage = function(image){
 				(600 - scaledWidth) * .5, (600 - scaledHeight) *.5, scaledWidth, scaledHeight);
 
 		// now set up the particle material
-		var material 	= new THREE.ParticleBasicMaterial( { blending: THREE.BillboardBlending, map: THREE.ImageUtils.loadTexture("images/particle.png"), size: this.density * 1.5, opacity: 1, vertexColors:true, sizeAttenuation:true } );
+		var material 	= new THREE.ParticleBasicMaterial({ 
+					blending: THREE.BillboardBlending, 
+					map: THREE.ImageUtils.loadTexture("images/particle.png"), 
+					size: this.density * 1.5, 
+					opacity: 1, 
+					vertexColors:true, 
+					sizeAttenuation:true 
+		});
 		var geometry	= new THREE.Geometry();
 		var pixels		= context.getImageData(0,0,this.width,this.height);
 		var step		= this.density * 4;
@@ -102,12 +117,12 @@ ParticleImage = function(image){
 		}
 
 		// now create a new system
-		particleSystem 	= new THREE.ParticleSystem(geometry, material);
-		particleSystem.sortParticles = true;
+		this.particleSystem = new THREE.ParticleSystem(geometry, material);
+		this.particleSystem.sortParticles = true;
 
 		// grab a couple of cacheable vals
-		particles		= particleSystem.geometry.vertices;
-		colors			= particleSystem.geometry.colors;
+		particles = this.particleSystem.geometry.vertices;
+		colors = this.particleSystem.geometry.colors;
 
 		// add some additional vars to the
 		// particles to ensure we can do physics
@@ -123,16 +138,23 @@ ParticleImage = function(image){
 
 		// gc and add
 		pixels = null;
-		this.scene.add(particleSystem);
+		this.scene.add(this.particleSystem);
 	}
-	
+
 	this.update = function(){
 		this.camera.lookAt(new THREE.Vector3(0,0,0));
 		this.camera.position.x = Math.sin(this.orbitValue) * this.depth;
 		this.camera.position.y = Math.sin(this.orbitValue) * 300;
 		this.camera.position.z = Math.cos(this.orbitValue) * this.depth;
-		this.orbitValue += this.ORBIT_RATE;
+		this.orbitValue += this.orbit_rate;
 	}
-	
+
+	this.setSize = function(width, height){
+		this.width = width;
+		this.height = height;
+		this.camera.aspect	= width / height;
+		this.camera.updateProjectionMatrix();
+	}
+
 	this.init();
 }

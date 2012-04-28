@@ -53,14 +53,16 @@ function ImageCarousel(){
 			scene.remove(this.image_planes[i])
 		}
 		this.image_planes[i] = new Array();
+		var index = 0;
 		for(var j=-1*this.rows; j < this.rows; ++j){
 			for(var i=0; i < images.length; ++i){
 				var center = new THREE.Vector3();
 				var rotation = new THREE.Vector3();
 				var size = new THREE.Vector2();
 				this.calcImagePosition(i,center, rotation, size, j);
-				this.image_planes[i] = new CarouselImagePlane(images[i], center, rotation, size)
-				this.scene.add(this.image_planes[i].plane);
+				this.image_planes[index] = new CarouselImagePlane(images[i], center, rotation, size)
+				this.scene.add(this.image_planes[index].plane);
+				index += 1;
 			}
 		}
 	}
@@ -69,10 +71,10 @@ function ImageCarousel(){
 		angle = image_number / this.image_count * Math.PI * 2;
 		center.x = this.radius * Math.cos(angle);
 		center.z = this.radius * Math.sin(angle);
-		center.y = row * 20;
-		rotation.y = Math.PI/2 - angle;
-		size.x = 24;
 		size.y = 15;
+		size.x = 24;
+		center.y = row * 20;
+		rotation.y = 3*Math.PI/2 - angle;
 	}
 
 	this.loadImages = function(){
@@ -109,14 +111,29 @@ function ImageCarousel(){
 	}
 
 	this.update = function(){
-		var lookTo = new THREE.Vector3();
-		lookTo.x = this.radius * Math.cos(this.orbitValue);
-		lookTo.z = this.radius * Math.sin(this.orbitValue);
-		this.camera.lookAt(lookTo);
+		for(var i=0;i< this.image_planes.length; ++i){
+			p = this.image_planes[i].plane;
+			var angle = i / this.image_count * Math.PI * 2+this.orbitValue;
+			p.position.x = this.radius * Math.cos(angle);
+			p.position.z = this.radius * Math.sin(angle);
+			p.rotation.y = 3*Math.PI/2 - angle;
+		}
+//		var lookTo = new THREE.Vector3();
+//		lookTo.x = this.radius * Math.cos(this.orbitValue);
+//		lookTo.z = this.radius * Math.sin(this.orbitValue);
+//		this.camera.lookAt(lookTo);
 //		this.camera.position.x = Math.sin(this.orbitValue) * this.depth;
 //		this.camera.position.y = Math.sin(this.orbitValue) * 300;
 //		this.camera.position.z = Math.cos(this.orbitValue) * this.depth;
 		this.orbitValue += this.ORBIT_RATE;
 	}
+	
+	this.setSize = function(width, height){
+		this.width = width;
+		this.height = height;
+		this.camera.aspect	= width / height;
+		this.camera.updateProjectionMatrix();
+	}
+	
 	this.init();
 }

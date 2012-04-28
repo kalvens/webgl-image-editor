@@ -13,15 +13,16 @@ function AppController()
 	this.mode = 0;
 	this.modes3DView;
 	this.init = function(){
-		this.lsc = new LoadSaveController();
-		this.wc = new WindowController();
 		this.um = new UniformManager();
-		this.ec = new EffectsController(this.um);
 		this.webGL2D = new WebGLView2D();
 		this.webGL3D = new WebGLView3D();
 		this.webGL = new WebGLView(this.webGL2D, this.webGL3D);
 		this.webGL2DTools = new WebGL2DTools(null);
 		this.modes3DView = new Modes3DView();
+		
+		this.lsc = new LoadSaveController();
+		this.wc = new WindowController();
+		this.ec = new EffectsController(this.um);
 	}
 
 	this.togleMode = function(){
@@ -35,6 +36,17 @@ function AppController()
 			this.mode = 0;
 			$('.mode3D').addClass('hide_div');
 			$('.mode2D').removeClass('hide_div');
+		}
+		this.resizeCanvas();
+	}
+	
+	this.resizeCanvas = function(){
+		$('.main_view').removeClass("overflowScroll");
+		if(this.mode == 0){
+			this.webGL.resizeCanvas(0);
+		}
+		else{
+			this.webGL.resizeCanvas(1, $('.main_view').width(),$('.main_view').height());
 		}
 	}
 }

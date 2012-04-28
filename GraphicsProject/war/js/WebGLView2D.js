@@ -93,24 +93,6 @@ function WebGLView2D(){
 
     $(image).attr('src', dataurl).load(function(){
     	instance.onChangeImageLoad(image);
-//      instance.scene.remove(instance.picture);
-//
-//      var texture = new THREE.Texture( image );
-//      texture.needsUpdate = true;
-//
-//      var geometry = new THREE.PlaneGeometry(instance.width,instance.height);
-//
-//      //create the sphere's material
-//      var shaderMaterial = instance.simpleShader(texture);
-//
-//      instance.picture = new THREE.Mesh(geometry, shaderMaterial);
-//      instance.picture.scale.set(1,1,1);
-//      instance.picture.doubleSided = true;
-//      instance.picture.position.x = 0;
-//      instance.picture.position.y = 0;
-//      instance.picture.position.z = 0;
-//
-//      instance.scene.add(instance.picture);
     });
 
     image.src = dataurl;
@@ -176,7 +158,17 @@ function WebGLView2D(){
   {
     var dataurl = this.renderer.domElement.toDataURL('image/png');
     return dataurl;
-  } 
+  }
+  
+  this.addToScene = function(obj)
+  {
+	  this.scene.add(obj);
+  }
 
+  this.removeFromScene = function(obj)
+  {
+	  this.scene.remove(obj);
+  }
+  
   this.init();
 }

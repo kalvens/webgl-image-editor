@@ -12,6 +12,9 @@ function WebGL2DTools(panel){
       $('.toolButton').removeClass('tool-selected');
       $(this).addClass('tool-selected');
       $('canvas').addClass('cursor_crosshair');
+      if($(this).attr('title') == 'Rectangle Select'){
+    	  this.current_tool = new RectangleSelector();
+      }
     });
   }
 

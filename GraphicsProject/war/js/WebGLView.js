@@ -9,8 +9,8 @@ function WebGLView(webGL2D, webGL3D){
 	this.container;
 
 	this.webGLInit = function() {
-		this.width = 1280;//$('.main_view').width();
-		this.height = 800;//$('.main_view').height();
+		this.width = 1280;
+		this.height = 800;
 
 		this.container = $('.main_view')[0];
 
@@ -68,6 +68,20 @@ function WebGLView(webGL2D, webGL3D){
 			this.renderer.render( webGL3D.getScene(), webGL3D.getCamera() );
 		}else
 			Window.alert("Uknown mode for displaying content");
+	}
+	
+	this.resizeCanvas = function(mode, width, height){
+		if(mode == 0){
+			this.renderer.setSize(this.webGL2D.width, this.webGL2D.height);
+			$('canvas').width(this.webGL2D.width);
+			$('canvas').height(this.webGL2D.height);
+		}
+		else{
+			this.renderer.setSize(width, height);
+			webGL3D.setSize(width, height);
+			$('canvas').width(width);
+			$('canvas').height(height);
+		}
 	}
 
 	this.webGLInit()

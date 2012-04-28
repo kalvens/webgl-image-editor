@@ -23,6 +23,7 @@ function WindowController(callback)
     $('.main_view').height(window_h-top_h);
     $('.side_bar').width('300px');
     $('.main_view').width(window_w-300);
+    appController.resizeCanvas();
   }
   
   $(window).resize(function(){
