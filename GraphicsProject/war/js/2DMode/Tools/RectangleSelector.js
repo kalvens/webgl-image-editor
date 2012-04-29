@@ -5,36 +5,46 @@ function RectangleSelector(){
 	this.clicking = false;
 	this.rectangle;
 
+	var downFunction;
+	var moveFunction;
+	var upFunction;
+	
 	this.init = function(){
 		console.debug('rectangle tool created');
-		this.setupMouseEvents();
-	}
-
-	this.removeTool = function(){
-		$('canvas').unbind();
-		return this.rectangle;
-	}
-
-	this.setupMouseEvents = function(){
-		c = $('canvas')
-		c.mousedown(function(event){
+		
+		downFunction = function(event){
 			instance.start.x = event.offsetX;
 			instance.start.y = event.offsetY;
 			instance.clicking = true;
-		});
-		c.mousemove(function(event){
+		};
+		
+		moveFunction = function(event){
 			if(instance.clicking){
 				instance.end.x = event.offsetX;
 				instance.end.y = event.offsetY;
 				instance.drawRectangle();
 			}
-		});
-		c.mouseup(function(event){
+		};
+		
+		upFunction = function(event){
 			instance.clicking = false;
-		})
-		$(document).mouseup(function(event){
-			instance.clicking = false;
-		});
+		}
+		
+		this.setupMouseEvents();
+	}
+
+	this.removeTool = function(){
+		$('canvas').unbind('mousedown', downFunction);
+		$('canvas').unbind('mousemove', moveFunction);
+		$('document').unbind('mouseup', upFunction);
+		return this.rectangle;
+	}
+
+	this.setupMouseEvents = function(){
+		c = $('canvas')
+		c.mousedown(downFunction);
+		c.mousemove(moveFunction);
+		$(document).mouseup(upFunction);
 	}
 	
 	this.drawRectangle = function(){
@@ -46,7 +56,7 @@ function RectangleSelector(){
 		this.rectangle = new THREE.Mesh( geometry, material);
 		this.rectangle.position.x = (this.start.x+this.end.x-appController.webGL2D.width)/2;
 		this.rectangle.position.y = -1*(this.start.y+this.end.y-appController.webGL2D.height)/2;
-		this.rectangle.position.z = 2;
+		this.rectangle.position.z = 5;
 		
 		appController.webGL2D.addToScene(this.rectangle);
 	}

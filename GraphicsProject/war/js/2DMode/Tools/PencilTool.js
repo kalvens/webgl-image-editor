@@ -2,23 +2,19 @@ function PencilTool(){
 	var instance = this;
 	this.clicking = false;
 	this.lastPos = new THREE.Vector2();
+	
+	var downFunction;
+	var moveFunction;
+	var upFunction;
 
 	this.init = function(){
-		this.setupMouseEvents();
-	}
-
-	this.removeTool = function(){
-		$('canvas').unbind();
-	}
-
-	this.setupMouseEvents = function(){
-		c = $('canvas')
-		c.mousedown(function(event){
+		downFunction = function(event){
 			instance.clicking = true;
 			instance.lastPos.x = event.offsetX-appController.webGL2D.width/2;
 			instance.lastPos.y = -1*(event.offsetY-appController.webGL2D.height/2);
-		});
-		c.mousemove(function(event){
+		};
+		
+		moveFunction = function(event){
 			if(instance.clicking){
 				var x = event.offsetX-appController.webGL2D.width/2;
 				var y = -1*(event.offsetY-appController.webGL2D.height/2);
@@ -26,10 +22,27 @@ function PencilTool(){
 				instance.lastPos.x = x;
 				instance.lastPos.y = y;
 			}
-		});
-		$(document).mouseup(function(event){
+		};
+		
+		upFunction = function(event){
 			instance.clicking = false;
-		});
+		};
+		
+		this.setupMouseEvents();
+	}
+
+	this.removeTool = function(){
+		$('canvas').unbind('mousedown', downFunction);
+		$('canvas').unbind('mousemove', moveFunction);
+		$('document').unbind('mouseup', upFunction);
+		return this.rectangle;
+	}
+
+	this.setupMouseEvents = function(){
+		c = $('canvas')
+		c.mousedown(downFunction);
+		c.mousemove(moveFunction);
+		$(document).mouseup(upFunction);
 	}
 
 	this.drawRectangle = function(x, y){

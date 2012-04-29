@@ -31,9 +31,11 @@ function AppController()
 			//Hide 2D Effects and Show 3D Effects
 			$('.mode2D').addClass('hide_div');
 			$('.mode3D').removeClass('hide_div');
+			this.webGL3D.particleImage.controls.enabled = true;
 		}
 		else{
 			this.mode = 0;
+			this.webGL3D.particleImage.controls.enabled = false;
 			$('.mode3D').addClass('hide_div');
 			$('.mode2D').removeClass('hide_div');
 		}

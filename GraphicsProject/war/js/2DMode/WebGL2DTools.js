@@ -42,7 +42,7 @@ function WebGL2DTools(panel){
 
 			onChange: function (hsb, hex, rgb) {
 				$('#colorSelector div').css('backgroundColor', '#' + hex);
-				instance.color = hex;
+				instance.color = parseInt('0x'+hex,16);
 			}
 
 		})
