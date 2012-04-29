@@ -52,7 +52,7 @@ function LoadSaveController ()
 			window.location = url;
 		});
 		$('.selectImageDialog img').click(function(){
-			var img = $(this).attr('src').replace('sampleLD/','');
+			var img = $(this).attr('src').replace('sampleLD/','sampleHD/');
 			appController.webGL2D.changePhoto(img);
 			$('.selectImageDialog').dialog("close");
 		});

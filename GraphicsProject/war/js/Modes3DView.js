@@ -41,9 +41,12 @@ Modes3DView = function(){
 		$('.particleImageSlider').slider({
 			value:1,
 			min:1,
-			max:6,
+			max:22,
 			slide: function( event, ui ) {
-				var src = "images/sample_pic_0"+ui.value+".jpg";
+				if(ui.value < 10)
+					var src = "images/sampleHD/sample_pic_0"+ui.value+".jpg";
+				else
+					var src = "images/sampleHD/sample_pic_"+ui.value+".jpg";
 				var image = new Image();
 				$(image).attr('src', src).load(function(){
 					appController.webGL3D.particleImage.updateImage(image);

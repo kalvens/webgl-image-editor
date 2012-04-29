@@ -29,7 +29,7 @@ function WebGLView3D(){
 
 	this.setup3DParticleImage = function(){
 		var image = new Image();
-		$(image).attr('src', "images/sample_pic_01.jpg").load(function(){
+		$(image).attr('src', "images/sampleHD/sample_pic_01.jpg").load(function(){
 			instance.particleImage = new ParticleImage(image, instance.scene);
 		});
 	}

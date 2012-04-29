@@ -21,7 +21,7 @@ function WebGLView2D(){
     this.scene.add( this.camera );
 
     //Photo
-    var texture = new THREE.ImageUtils.loadTexture('images/sample_pic_01.jpg');
+    var texture = new THREE.ImageUtils.loadTexture('images/sampleHD/sample_pic_01.jpg');
     texture.needsUpdate = true;
     var geometry = new THREE.PlaneGeometry(this.width,this.height);
     var shaderMaterial = instance.simpleShader(texture);
@@ -34,7 +34,7 @@ function WebGLView2D(){
     this.picture.position.z = 0;
     this.scene.add(this.picture);
 
-    this.changePhoto('images/sample_pic_01.jpg');
+    this.changePhoto('images/sampleHD/sample_pic_01.jpg');
   }
 
   this.getCamera = function(){

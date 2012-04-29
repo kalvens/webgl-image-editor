@@ -17,7 +17,7 @@ function WebGLView(webGL2D, webGL3D){
 		if(Detector.webgl)
 		{
 			this.renderer = new THREE.WebGLRenderer({
-				//antialias : true,
+				antialias : true,
 				preserveDrawingBuffer : true,
 			});
 			this.renderer.setClearColorHex(0x222222 ,1);

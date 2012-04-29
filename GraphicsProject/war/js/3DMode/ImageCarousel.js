@@ -55,12 +55,12 @@ function ImageCarousel(){
 		this.image_planes[i] = new Array();
 		var index = 0;
 		for(var j=-1*this.rows; j < this.rows; ++j){
-			for(var i=0; i < images.length; ++i){
+			for(var i=0; i < this.image_count; ++i){
 				var center = new THREE.Vector3();
 				var rotation = new THREE.Vector3();
 				var size = new THREE.Vector2();
 				this.calcImagePosition(i,center, rotation, size, j);
-				this.image_planes[index] = new CarouselImagePlane(images[i], center, rotation, size)
+				this.image_planes[index] = new CarouselImagePlane(images[index % images.length], center, rotation, size)
 				this.scene.add(this.image_planes[index].plane);
 				index += 1;
 			}
@@ -80,15 +80,15 @@ function ImageCarousel(){
 	this.loadImages = function(){
 		images = new Array();
 		materials = new Array();
-		for(var i=0; i< 6; ++i){
-			var texture = new THREE.ImageUtils.loadTexture("images/sampleLD/sample_pic_0"+(i+1)+".jpg");
+		for(var i=0; i< 22; ++i){
+			if( i < 9)
+				var texture = new THREE.ImageUtils.loadTexture("images/sampleLD/sample_pic_0"+(i+1)+".jpg");
+			else
+				var texture = new THREE.ImageUtils.loadTexture("images/sampleLD/sample_pic_"+(i+1)+".jpg");
 			texture.needsUpdate = true;
 			materials[i] = new THREE.MeshBasicMaterial({map : texture});
 		}
-		for(var i=0; i< this.image_count; ++i){
-			images[i] = materials[i % materials.length];
-		}
-		return images;
+		return materials;
 	}
 
 	this.addLights = function()
