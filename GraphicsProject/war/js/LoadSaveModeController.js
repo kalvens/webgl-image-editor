@@ -62,8 +62,8 @@ function LoadSaveController ()
 			if(appController.mode == 0)
 				$('button.3dview span').text('2D Mode')
 				else
-					$('button.3dview span').text('3D Mode')
-					appController.togleMode();
+					$('button.3dview span').text('3D Mode');
+			appController.togleMode();
 			appController.mode
 		});
 		this.dragAndDrop();

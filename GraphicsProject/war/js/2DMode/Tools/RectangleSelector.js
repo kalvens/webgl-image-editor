@@ -28,6 +28,9 @@ function RectangleSelector(){
 				instance.drawRectangle();
 			}
 		});
+		c.mouseup(function(event){
+			instance.clicking = false;
+		})
 		$(document).mouseup(function(event){
 			instance.clicking = false;
 		});
@@ -43,8 +46,6 @@ function RectangleSelector(){
 		this.rectangle.position.x = (this.start.x+this.end.x-appController.webGL2D.width)/2;
 		this.rectangle.position.y = -1*(this.start.y+this.end.y-appController.webGL2D.height)/2;
 		this.rectangle.position.z = 1;
-		
-		console.debug(this.rectangle.position.x+","+this.rectangle.position.y+","+this.start.y);
 		
 		appController.webGL2D.addToScene(this.rectangle);
 	}

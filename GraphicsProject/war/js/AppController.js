@@ -37,15 +37,16 @@ function AppController()
 			$('.mode3D').addClass('hide_div');
 			$('.mode2D').removeClass('hide_div');
 		}
-		this.resizeCanvas();
+		this.wc.resizeSections();
+		this.wc.checkCanvasSize();
 	}
 	
 	this.resizeCanvas = function(){
-		$('.main_view').removeClass("overflowScroll");
 		if(this.mode == 0){
 			this.webGL.resizeCanvas(0);
 		}
 		else{
+			$('.main_view').removeClass("overflowScroll");
 			this.webGL.resizeCanvas(1, $('.main_view').width(),$('.main_view').height());
 		}
 	}

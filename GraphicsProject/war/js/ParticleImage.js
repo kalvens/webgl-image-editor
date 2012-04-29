@@ -43,7 +43,7 @@ ParticleImage = function(image){
 		this.camera = new THREE.PerspectiveCamera( 45, this.width / this.height, 1, 10000 );
 		this.camera.position.z = 300;
 		
-		this.controls = new THREE.TrackballControls( this.camera, $('canvas')[0] );
+		this.controls = new TrackballControls( this.camera, $('.main_view')[0] );
 
 		this.controls.rotateSpeed = 1.0;
 		this.controls.zoomSpeed = 1.2;
