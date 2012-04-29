@@ -25,7 +25,12 @@
 
 		gl_Position = projectionMatrix * mvPosition;
 
-		gl_Position.x += sin(time/360.0*3.14159*2.0)*10.0;
+		gl_Position.y += sin(posxy.x/img_size.x*2.0*3.14159+time/10000.0*2.0*3.14159)*10.0;
+		gl_Position.x += sin(posxy.y/img_size.y*2.0*3.14159+time/10000.0*2.0*3.14159)*10.0;
+		//gl_Position.z += sin(posxy.y/img_size.y*2.0*3.14159+time/10000.0*2.0*3.14159)*10.0;
+
+		//gl_Position.x = cos(time/10000.0*2.0*3.14159)*gl_Position.x;
+		//gl_Position.z = sin(time/10000.0*2.0*3.14159)*gl_Position.z;
 	}
   
   </script>
