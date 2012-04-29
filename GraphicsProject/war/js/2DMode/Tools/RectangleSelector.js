@@ -12,6 +12,7 @@ function RectangleSelector(){
 
 	this.removeTool = function(){
 		$('canvas').unbind();
+		return this.rectangle;
 	}
 
 	this.setupMouseEvents = function(){
@@ -45,7 +46,7 @@ function RectangleSelector(){
 		this.rectangle = new THREE.Mesh( geometry, material);
 		this.rectangle.position.x = (this.start.x+this.end.x-appController.webGL2D.width)/2;
 		this.rectangle.position.y = -1*(this.start.y+this.end.y-appController.webGL2D.height)/2;
-		this.rectangle.position.z = 1;
+		this.rectangle.position.z = 2;
 		
 		appController.webGL2D.addToScene(this.rectangle);
 	}

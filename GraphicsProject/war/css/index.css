@@ -35,7 +35,7 @@ div.top_bar * {
 }
 
 button {
-	margin: .5em;
+	margin: .35em;
 }
 
 button .ui-button-text {
@@ -74,4 +74,7 @@ div.main_view {
 .hide_div {
 	visibility: hidden;
 	height: 0px;
+	width: 0px;
+	margin: 0px;
+	padding: 0px;
 }

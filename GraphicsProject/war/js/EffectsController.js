@@ -22,9 +22,9 @@ function EffectsController()
 		this.brightnessContrastInit();
 		this.hueSaturationInit();
 		this.denoiseInit();
-		this.abstractInit();
 		this.swirlInit();
 		this.inkInit();
+		this.paintingInit();
 	}
 
 	this.closeAllAccordions = function(){
@@ -139,15 +139,15 @@ function EffectsController()
 		});
 	}
 
-	this.abstractInit = function(){
-//		$('.abstractPixilateSlider').slider({
-//		value:0,
-//		min:0,
-//		max:500,
-//		slide: function( event, ui ) {
-//		appController.um.changeAbstractSize((500-ui.value)/10.0);
-//		}
-//		});
+	this.paintingInit = function(){
+		$('.cartoonStrengthSlider').slider({
+			value:3,
+			min:2,
+			max:10,
+			slide: function( event, ui ) {
+				appController.um.changePaintingStrength(ui.value*1.0);
+			}
+		});
 	}
 
 	this.init();

@@ -6,6 +6,10 @@ Modes3DView = function(){
 
 		$('#modes3D .ui-accordion-header').click(function(){
 			var mode = $("#modes3D").accordion( "option", "active" );
+			if(mode == 0)
+				appController.webGL3D.particleImage.controls.enabled = true;
+			else
+				appController.webGL3D.particleImage.controls.enabled = false;
 			appController.webGL3D.mode = mode;
 			console.debug(mode)
 		});

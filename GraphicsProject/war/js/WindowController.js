@@ -9,7 +9,7 @@ function WindowController(callback)
 		//Set the height of the sidebar and main view
 
 		var main_view_h = window_h - top_h;
-		var main_view_w = window_w - 300;
+		var main_view_w = window_w - 260;
 
 		if(main_view_h < $('canvas').height() || main_view_w < $('canvas').width())
 		{
@@ -21,8 +21,8 @@ function WindowController(callback)
 		}
 		$('.side_bar').height(window_h-top_h);
 		$('.main_view').height(window_h-top_h);
-		$('.side_bar').width('300px');
-		$('.main_view').width(window_w-300);
+		$('.side_bar').width('260px');
+		$('.main_view').width(window_w-260);
 	}
 
 	this.resizeSections = function(){
@@ -31,7 +31,6 @@ function WindowController(callback)
 	}
 
 	$(window).resize(function(){
-		console.debug("what the fuck")
 		wc.resizeSections();
 	});
 

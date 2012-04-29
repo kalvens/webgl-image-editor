@@ -29,7 +29,10 @@
 
 	//Ink
 	uniform float inkStrength;
-  
+
+	//Painting
+	uniform float paintingStrength;  
+
 	//Contrast Calculation
 	vec3 contrastCalc(vec3 pixelColor)
 	{
@@ -142,6 +145,26 @@
 		return pixelColor;
 	}
 
+	vec3 paintingShader(vec3 pixelColor){
+		pixelColor.r = float(int(pixelColor.r * paintingStrength))/paintingStrength;
+		pixelColor.g = float(int(pixelColor.g * paintingStrength))/paintingStrength;
+		pixelColor.b = float(int(pixelColor.b * paintingStrength))/paintingStrength;
+		float total = 0.0;
+		vec4 color = vec4(0.0);
+		for(float i = -4.0; i <= 4.0 ; i += 1.0)
+		{
+			for(float j=-4.0; j <= 4.0 ; j+= 1.0)
+			{
+				vec4 pixel = texture2D( uSampler, vUv + vec2(i/width, j/height));
+				float temp = 1.0 - abs(dot(pixel.rgb - pixelColor, vec3(0.25)));
+				temp = pow(temp, 100.0);
+				color += pixel * temp;
+				total += temp;
+			}
+		}
+		return (color / total).rgb;
+	}
+
     void main()
     {
 		//vec2 test = vec2(vTextureCoord, vTextureCoord);
@@ -160,6 +183,8 @@
 			return;
 		} else if(mode == 4){
 			pixelColor = inkCalc(pixelColor);
+		} else if(mode == 5){
+			pixelColor = paintingShader(pixelColor);
 		}
 
 		//Set Color of pixel

@@ -54,6 +54,8 @@ ParticleImage = function(image){
 
 		this.controls.staticMoving = false;
 		this.controls.dynamicDampingFactor = 0.3;
+		
+		this.controls.enabled = false;
 
 		this.scene = new THREE.Scene();
 
