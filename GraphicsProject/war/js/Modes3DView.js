@@ -38,12 +38,16 @@ Modes3DView = function(){
 				appController.webGL3D.particleImage.updateDensity(density);
 			}
 		});
-		$('.particleCameraSpeedSlider').slider({
+		$('.particleImageSlider').slider({
 			value:1,
-			min:-20,
-			max:20,
+			min:1,
+			max:6,
 			slide: function( event, ui ) {
-				appController.webGL3D.particleImage.orbit_rate = ui.value/100.0
+				var src = "images/sample_pic_0"+ui.value+".jpg";
+				var image = new Image();
+				$(image).attr('src', src).load(function(){
+					appController.webGL3D.particleImage.updateImage(image);
+				});
 			}
 		});
 	}
