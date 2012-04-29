@@ -43,6 +43,7 @@ function LoadSaveController ()
 		});
 	}
 	this.init = function(){
+		this.addImagesToDialogBox();
 		$('button').button();
 		$('button.load').click(function(){
 			lsc.loadImageDialog();
@@ -60,50 +61,41 @@ function LoadSaveController ()
 			//If we are in the 2D mode
 			if(appController.mode == 0)
 				$('button.3dview span').text('2D Mode')
-			else
-				$('button.3dview span').text('3D Mode')
-			appController.togleMode();
+				else
+					$('button.3dview span').text('3D Mode')
+					appController.togleMode();
 			appController.mode
 		});
 		this.dragAndDrop();
+	}
 
-		//Setup the input file 
-		$('input[type=file]').change(function(e){
-//			console.debug(e.files);
-//			var input = $(this).val();
-//			if (input.files && input.files[0]) {
-//				var reader = new FileReader();
-//
-//				reader.onload = function (e) {
-//					var image = new Image();
-//					image.src = e.target.result;
-//					$('.dialog_images').append(image);
-//					console.debug(image);
-//					//$('.dialog_images').prepend('<img id="theImg" src="'+e.target.result+'" />')
-//					//$('#blah').attr('src', e.target.result).width(150).height(200);
-//				};
-//
-//				reader.readAsDataURL(input.files[0]);
-//			}
-//			//$('.dialog_images').append(image);
-		});
+	this.addImagesToDialogBox = function(){
+		for(var i=1;i<23;++i)
+		{
+			var img = new Image();
+			if(i < 10)
+				img.src = "images/sampleLD/sample_pic_0"+i+".jpg";
+			else
+				img.src = "images/sampleLD/sample_pic_"+i+".jpg";
+			$('.dialog_images').append(img)
+		}
 	}
 	this.init();
 }
 
 function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-        	var image = new Image();
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			var image = new Image();
 			image.src = e.target.result;
 			$('.dialog_images').append(image);
 			$(image).click(function(){
 				appController.webGL2D.onChangeImageLoad(image);
 				$('.selectImageDialog').dialog("close");
 			});
-        };
+		};
 
-        reader.readAsDataURL(input.files[0]);
-    }
+		reader.readAsDataURL(input.files[0]);
+	}
 }

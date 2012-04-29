@@ -8,6 +8,7 @@
 	height: 250px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+	border: 2px solid white;
 }
 
 .dialog_images {
@@ -16,7 +17,7 @@
 }
 
 .dialog_images img {
-	width: 169px;
+	width: 160px;
 	height: auto;
 	float: left;
 	margin: 10px 10px 0 0;

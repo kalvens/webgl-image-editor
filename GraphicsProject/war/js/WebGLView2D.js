@@ -20,20 +20,6 @@ function WebGLView2D(){
 
     this.scene.add( this.camera );
 
-    //Photo
-    var texture = new THREE.ImageUtils.loadTexture('images/sampleHD/sample_pic_01.jpg');
-    texture.needsUpdate = true;
-    var geometry = new THREE.PlaneGeometry(this.width,this.height);
-    var shaderMaterial = instance.simpleShader(texture);
-
-    this.picture = new THREE.Mesh(geometry, shaderMaterial);
-    this.picture.scale.set(1,1,1);
-    this.picture.doubleSided = true;
-    this.picture.position.x = 0;
-    this.picture.position.y = 0;
-    this.picture.position.z = 0;
-    this.scene.add(this.picture);
-
     this.changePhoto('images/sampleHD/sample_pic_01.jpg');
   }
 
@@ -59,11 +45,6 @@ function WebGLView2D(){
       var shaderMaterial = instance.simpleShader(texture);
 
       instance.picture = new THREE.Mesh(geometry, shaderMaterial);
-      instance.picture.scale.set(1,1,1);
-      instance.picture.doubleSided = true;
-      instance.picture.position.x = 0;
-      instance.picture.position.y = 0;
-      instance.picture.position.z = 0;
       instance.scene.add(instance.picture);
     });
   }
