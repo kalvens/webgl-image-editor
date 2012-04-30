@@ -79,3 +79,7 @@ div.main_view {
 	margin: 0px;
 	padding: 0px;
 }
+.applyCancelButtons{
+	text-align: center;
+	padding-top: 0.75em;
+}

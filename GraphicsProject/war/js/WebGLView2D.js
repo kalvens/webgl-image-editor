@@ -91,7 +91,7 @@ function WebGLView2D(){
 
 		this.picture = new THREE.Mesh(geometry, shaderMaterial);
 		this.picture.rotation.x = Math.PI/2.0;
-		
+
 		this.scene.add(this.picture);
 	}
 
@@ -144,18 +144,59 @@ function WebGLView2D(){
 	{
 		this.scene.remove(obj);
 	}
-	
+
 	this.cropImage = function(start, end)
 	{
 		this.camera.left = this.camera.left + start.x * this.width;
 		this.camera.right = this.camera.right - (1.0-end.x) * this.width;
 		this.camera.top = this.camera.top - start.y * this.height;
 		this.camera.bottom = this.camera.bottom + (1.0-end.y) * this.height;
-		
+
 		this.width = (end.x-start.x) * this.width;
 		this.height = (end.y-start.y) * this.height;
-		
+
 		appController.resizeCanvas();
+
+		this.camera.updateProjectionMatrix();
+	}
+
+	this.scaleImageHorizontal = function(scale)
+	{
+		var w = this.width / this.picture.scale.x;
+
+		this.width = w*scale;
+
+		this.picture.scale.x = scale;
+
+		//reset camera
+		this.camera.left =  this.width / - 2;
+		this.camera.right = this.width / 2;
+		this.camera.top = this.height / 2;
+		this.camera.bottom = this.height / - 2;
+
+		appController.resizeCanvas();
+		appController.wc.checkCanvasSize();
+		
+		this.camera.updateProjectionMatrix();
+		
+	}
+
+	this.scaleImageVertical = function(scale)
+	{
+		var h = this.height / this.picture.scale.z;
+
+		this.height = h*scale;
+		
+		this.picture.scale.z = scale;
+		
+		//reset camera
+		this.camera.left =  this.width / - 2;
+		this.camera.right = this.width / 2;
+		this.camera.top = this.height / 2;
+		this.camera.bottom = this.height / - 2;
+
+		appController.resizeCanvas();
+		appController.wc.checkCanvasSize();
 		
 		this.camera.updateProjectionMatrix();
 	}

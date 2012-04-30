@@ -142,6 +142,8 @@ function CropTool(){
 		appController.webGL2D.addToScene(this.rectangle);
 
 		this.setupMouseEvents();
+		
+		$('.cropTool').show();
 	}
 
 	this.distance = function(v, w){
@@ -210,7 +212,9 @@ function CropTool(){
 		$('canvas').unbind('mousemove', moveFunction);
 		$(document).unbind('mouseup', upFunction);
 		$('.cropApply').unbind('click', applyFunction);
-		return this.rectangle;
+		appController.webGL2D.removeFromScene(instance.rectangle);
+		$('.cropTool').hide();
+		return null;
 	}
 
 	this.setupMouseEvents = function(){
