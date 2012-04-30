@@ -10,7 +10,6 @@ function EffectsController()
 		});
 		$('#effects .ui-accordion-header').click(function(){
 			var mode = $("#effects").accordion( "option", "active" );
-			console.debug(mode);
 			appController.um.changeMode(mode);
 			if(mode != 5)
 				$('canvas').removeClass('cursor_crosshair');
