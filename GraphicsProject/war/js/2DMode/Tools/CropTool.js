@@ -68,8 +68,6 @@ function CropTool(){
 					return;
 				}
 			} else{
-				console.debug(mode)
-				var dif = THREE.Vector2(last.x - event.offsetX, last.y - event.offsetY) 
 				switch(mode){
 				case 1: 
 					cropUniforms.bottomRight.value.x = (event.offsetX / cropUniforms.size.value.x);
@@ -100,6 +98,20 @@ function CropTool(){
 					cropUniforms.bottomRight.value.y = (event.offsetY / cropUniforms.size.value.y);
 					break;
 				case 9:
+					var dif = new THREE.Vector2((last.x - event.offsetX)/ (cropUniforms.size.value.x), 
+							(last.y - event.offsetY) / (cropUniforms.size.value.y));
+					var bx = cropUniforms.bottomRight.value.x - dif.x;
+					var tx = cropUniforms.topLeft.value.x - dif.x;
+					var by = cropUniforms.bottomRight.value.y - dif.y;
+					var ty = cropUniforms.topLeft.value.y - dif.y;
+					if( bx >= 0 && bx <= 1 && tx >= 0 && tx <= 1 && by >= 0 && by <= 1 && ty >= 0 && ty <= 1){
+						cropUniforms.bottomRight.value.x = bx;
+						cropUniforms.bottomRight.value.y = by;
+						cropUniforms.topLeft.value.x = tx;
+						cropUniforms.topLeft.value.y = ty;
+						last.x = event.offsetX;
+						last.y = event.offsetY;
+					}
 				}
 			}
 		};
