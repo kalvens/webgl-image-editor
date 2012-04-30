@@ -212,6 +212,45 @@ function WebGLView2D(){
 		this.picture.rotation.z += Math.PI;
 		this.picture.doubleSided = true;
 	}
+	
+	this.rotateClockwise = function()
+	{
+		var temp = this.width;
+		this.width = this.height;
+		this.height = temp;
+		
+		this.picture.rotation.y += Math.PI/2;
+		
+		//reset camera
+		this.camera.left =  this.width / - 2;
+		this.camera.right = this.width / 2;
+		this.camera.top = this.height / 2;
+		this.camera.bottom = this.height / - 2;
 
+		appController.resizeCanvas();
+		appController.wc.checkCanvasSize();
+		
+		this.camera.updateProjectionMatrix();
+	}
+
+	this.rotateCounterClockwiese = function(){
+		var temp = this.width;
+		this.width = this.height;
+		this.height = temp;
+		
+		this.picture.rotation.y -= Math.PI/2;
+		
+		//reset camera
+		this.camera.left =  this.width / - 2;
+		this.camera.right = this.width / 2;
+		this.camera.top = this.height / 2;
+		this.camera.bottom = this.height / - 2;
+
+		appController.resizeCanvas();
+		appController.wc.checkCanvasSize();
+		
+		this.camera.updateProjectionMatrix();
+	}
+	
 	this.init();
 }

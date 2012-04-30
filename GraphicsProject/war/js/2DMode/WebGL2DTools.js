@@ -88,10 +88,17 @@ function WebGL2DTools(panel){
 			}
 			else if($(this).attr('title') == 'Flip Vertical'){
 				current_tool = new FlipImageVertical();
+				appController.webGL2D.removeFromScene(selected_area);
 				$(this).removeClass('tool-selected');
 			}
-			else if($(this).attr('title') == 'Flip Horizontal'){
-				current_tool = new FlipImageHorizontal();
+			else if($(this).attr('title') == 'Rotate Clockwiese 90 degrees'){
+				current_tool = new RotateClockwise();
+				appController.webGL2D.removeFromScene(selected_area);
+				$(this).removeClass('tool-selected');
+			}
+			else if($(this).attr('title') == 'Rotate Counter Clockwiese 90 degrees'){
+				current_tool = new RotateCounterClockwise();
+				appController.webGL2D.removeFromScene(selected_area);
 				$(this).removeClass('tool-selected');
 			}
 		});
