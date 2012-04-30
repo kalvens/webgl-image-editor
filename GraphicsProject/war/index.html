@@ -76,6 +76,13 @@
 <script src="js/2DMode/Tools/SelectedArea.js"></script>
 <script src="js/2DMode/Tools/MoveTool.js"></script>
 <script src="js/2DMode/Tools/CropTool.js"></script>
+<script src="js/2DMode/Tools/BucketTool.js"></script>
+<script src="js/2DMode/Tools/ScaleHorizontalTool.js"></script>
+<script src="js/2DMode/Tools/ScaleVerticalTool.js"></script>
+<script src="js/2DMode/Tools/FlipImageVertical.js"></script>
+<script src="js/2DMode/Tools/FlipImageHorizontal.js"></script>
+<script src="js/2DMode/Tools/RotateClockwise.js"></script>
+<script src="js/2DMode/Tools/RotateCounterClockwise.js"></script>
 
 <title>WebGL Img Editor</title>
 </head>
@@ -222,22 +229,46 @@
 					<Button class="toolButton" title="Bucket Tool">
 						<img src="images/tools/stock-tool-bucket-fill-22.png" alt="move" />
 					</Button>
-					<Button class="toolButton" title="Ellipse Select Tool">
-						<img src="images/tools/stock-tool-ellipse-select-22.png"
-							alt="move" />
+					<div class="toolControlSection paintBucketTool">
+						<div class="slideControlGroup">
+							<p class="bucketToolText">Tolerance : 50%</p>
+							<div class="bucketToleranceSlider"></div>
+						</div>
+					</div>
+					<div class="toolControlSection cropTool">
+						<Button class="cropApply">Apply</Button>
+					</div>
+					<Button class="toolButton" title="Rotate Clockwiese 90 degrees">
+						<img src="images/tools/stock-tool-rotate-clockwise-22.png"
+							alt="roate" />
 					</Button>
-					<Button class="toolButton" title="Move One Tool">
-						<img src="images/tools/stock-tool-move-22.png" alt="move" />
+					<Button class="toolButton" title="Rotate Counter Clockwiese 90 degrees">
+						<img src="images/tools/stock-tool-rotate-counter-clockwise-22.png" alt="rotate" />
 					</Button>
-					<Button class="toolButton" title="Paintbrush">
-						<img src="images/tools/stock-tool-paintbrush-22.png" alt="move" />
+					<Button class="toolButton" title="Flip Horizontal">
+						<img src="images/tools/stock-tool-flip-hor-22.png" alt="flip hor" />
 					</Button>
-					<Button class="toolButton" title="Wand Select">
-						<img src="images/tools/stock-tool-fuzzy-select-22.png" alt="move" />
+					<Button class="toolButton" title="Flip Vertical">
+						<img src="images/tools/stock-tool-flip-vert-22.png" alt="flip vert" />
 					</Button>
-					<Button class="toolButton" title="Eraser Tool">
-						<img src="images/tools/stock-tool-eraser-22.png" alt="move" />
+					<Button class="toolButton" title="Scale Horizontal">
+						<img src="images/tools/stock-tool-scale-hor-22.png" alt="move" />
 					</Button>
+					<Button class="toolButton" title="Scale Vertical">
+						<img src="images/tools/stock-tool-scale-vert-22.png" alt="move" />
+					</Button>
+					<div class="toolControlSection scaleHorizontal">
+						<div class="slideControlGroup">
+							<p class="scaleHorizontalText">Scale : 100%</p>
+							<div class="scaleHorizontalSlider"></div>
+						</div>
+					</div>
+					<div class="toolControlSection scaleVertical">
+						<div class="slideControlGroup">
+							<p class="scaleVerticalText">Scale : 100%</p>
+							<div class="scaleVerticalSlider"></div>
+						</div>
+					</div>
 				</div>
 				<div id="colorSelector" title="Color Selector">
 					<div style="background-color: #0000ff"></div>
@@ -477,7 +508,7 @@
 		color.r = dot(pixelColor, vec3(.393, .769, .189));
 		color.g = dot(pixelColor, vec3(.349, .686, .168));
 		color.b = dot(pixelColor, vec3(.272, .534, .131));
-		return color;
+		return color*(1.0-distance(vUv,vec2(0.5,0.5))/0.707106781);
 	}
 	
 	vec3 toneMap(vec3 pixelColor){
@@ -590,4 +621,86 @@
 	}
   
   </script>
+<script type="x-shader/x-fragment" id="fragmentCropShader">
+  
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+    
+	//Common
+	uniform vec2 topLeft;
+	uniform vec2 bottomRight;
+	uniform vec2 size;
+	//vec2 topLeft = vec2(0.25,0.25);
+	//vec2 bottomRight = vec2(0.75,0.75);
+	//vec2 size = vec2(1280, 800);
+
+	varying vec2 vUv;
+	
+	float distance(vec2 v, vec2 w){
+		return ((v.x - w.x)*(v.x - w.x) + (v.y - w.y)*(v.y - w.y));
+	}
+
+	int corner(vec2 v){
+		v.x *= size.x;
+		v.y *= size.y;
+		float dis = 6.0;
+		dis *= dis;
+		vec2 c0 = vec2(bottomRight.x * size.x, bottomRight.y * size.y);
+		if(distance(c0, v) <= dis)
+			return 1;
+		vec2 c1 = vec2(bottomRight.x * size.x, topLeft.y * size.y);
+		if(distance(c1, v) <= dis)
+			return 1;
+		vec2 c2 = vec2(topLeft.x * size.x, topLeft.y * size.y);
+		if(distance(c2, v) <= dis)
+			return 1;
+		vec2 c3 = vec2(topLeft.x * size.x, bottomRight.y * size.y);
+		if(distance(c3, v) <= dis)
+			return 1; 
+		return 0;
+	}
+
+	void main() {
+		//Draw Corners
+		if(corner(vUv) == 1)
+			gl_FragColor = vec4(0.0,0.0,0.0,0.5);
+		
+		//Draw Sides
+		else if(vUv.x < bottomRight.x+1.0/size.x && vUv.x > bottomRight.x - 1.0/size.x && vUv.y < bottomRight.y && vUv.y > topLeft.y)
+			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+		else if(vUv.x < topLeft.x+1.0/size.x && vUv.x > topLeft.x - 1.0/size.x && vUv.y < bottomRight.y && vUv.y > topLeft.y)
+			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+		else if(vUv.y < topLeft.y+1.0/size.y && vUv.y > topLeft.y - 1.0/size.x && vUv.x < bottomRight.x && vUv.x > topLeft.x)
+			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+		else if(vUv.y < bottomRight.y+1.0/size.y && vUv.y > bottomRight.y - 1.0/size.x && vUv.x < bottomRight.x && vUv.x > topLeft.x)
+			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+		//Draw outside area
+		else if(vUv.x > bottomRight.x || vUv.y > bottomRight.y || vUv.y < topLeft.y || vUv.x < topLeft.x)
+			gl_FragColor = vec4(0.5,0.5,0.5,0.5);
+		
+		//Draw inside area
+		else
+			gl_FragColor = vec4(0.0,0.0,0.0,0.0);
+	}
+  
+  </script>
+<script
+  type="x-shader/x-vertex"
+  id="vertexCropShader">
+    
+    // switch on high precision floats
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+
+    varying vec2 vUv;
+    
+    void main()
+    {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+    }
+    
+</script>
 </html>
