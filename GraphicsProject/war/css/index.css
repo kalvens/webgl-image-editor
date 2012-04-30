@@ -1,5 +1,5 @@
 body {
-	background: #202020;
+	background: #222222;
 	font-family: 'Droid Sans', sans-serif;
 }
 
@@ -55,8 +55,9 @@ div.side_bar .control_buttons {
 }
 
 div.main_view {
-	background-image: url('../images/background.png');
-	background-repeat: repeat;
+	background-color: #333333;
+/* 	background-image: url('../images/background.png'); */
+/* 	background-repeat: repeat; */
 	float: right;
 	/*   overflow:scroll; */
 }

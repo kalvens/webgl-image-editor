@@ -20,7 +20,7 @@ function WebGLView(webGL2D, webGL3D){
 				antialias : true,
 				preserveDrawingBuffer : true,
 			});
-			this.renderer.setClearColorHex(0x222222 ,1);
+			this.renderer.setClearColorHex(0x333333 ,1);
 		}
 		else{
 			Detector.addGetWebGLMessage();
