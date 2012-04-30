@@ -174,7 +174,7 @@
 		color.r = dot(pixelColor, vec3(.393, .769, .189));
 		color.g = dot(pixelColor, vec3(.349, .686, .168));
 		color.b = dot(pixelColor, vec3(.272, .534, .131));
-		return color;
+		return color*(1.0-distance(vUv,vec2(0.5,0.5))/0.707106781);
 	}
 	
 	vec3 toneMap(vec3 pixelColor){

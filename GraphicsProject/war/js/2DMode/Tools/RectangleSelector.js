@@ -8,6 +8,7 @@ function RectangleSelector(){
 	var downFunction;
 	var moveFunction;
 	var upFunction;
+	var clickFunction;
 	
 	this.init = function(){
 		console.debug('rectangle tool created');
@@ -16,6 +17,7 @@ function RectangleSelector(){
 			instance.start.x = event.offsetX;
 			instance.start.y = event.offsetY;
 			instance.clicking = true;
+			appController.webGL2D.removeFromScene(instance.rectangle);
 		};
 		
 		moveFunction = function(event){
