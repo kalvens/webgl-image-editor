@@ -57,3 +57,13 @@ html canvas.cursor-e-resize {
 	-ms-user-select: none;
 	user-select: none;
 }
+
+.toolControlSection{
+	width: 15em;
+	border: 1px solid #F72628;
+	background-color: #300000;
+	border-radius: 6px;
+	margin: 3px;
+	padding: 5px;
+	text-align: center;
+}
