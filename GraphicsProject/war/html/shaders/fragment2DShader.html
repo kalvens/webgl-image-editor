@@ -31,7 +31,11 @@
 	uniform float inkStrength;
 
 	//Painting
-	uniform float paintingStrength;  
+	uniform float paintingStrength;
+
+	//Tone Filter
+	uniform sampler2D textureMap;
+	uniform int toneMode;
 
 	//Contrast Calculation
 	vec3 contrastCalc(vec3 pixelColor)
@@ -165,6 +169,18 @@
 		return (color / total).rgb;
 	}
 
+	vec3 sepiaFilter(vec3 pixelColor){
+		vec3 color;
+		color.r = dot(pixelColor, vec3(.393, .769, .189));
+		color.g = dot(pixelColor, vec3(.349, .686, .168));
+		color.b = dot(pixelColor, vec3(.272, .534, .131));
+		return color;
+	}
+	
+	vec3 toneMap(vec3 pixelColor){
+		return texture2D( textureMap , vec2(pixelColor.r , 0)).rgb;
+	}
+
     void main()
     {
 		//vec2 test = vec2(vTextureCoord, vTextureCoord);
@@ -185,6 +201,11 @@
 			pixelColor = inkCalc(pixelColor);
 		} else if(mode == 5){
 			pixelColor = paintingShader(pixelColor);
+		} else if(mode == 6){
+			if(toneMode == 0)
+				pixelColor = sepiaFilter(pixelColor);
+			else
+				pixelColor = toneMap(pixelColor);
 		}
 
 		//Set Color of pixel

@@ -25,6 +25,7 @@ function EffectsController()
 		this.swirlInit();
 		this.inkInit();
 		this.paintingInit();
+		this.colorMapInit();
 	}
 
 	this.closeAllAccordions = function(){
@@ -147,6 +148,12 @@ function EffectsController()
 			slide: function( event, ui ) {
 				appController.um.changePaintingStrength(ui.value*1.0);
 			}
+		});
+	}
+	
+	this.colorMapInit = function(){
+		$('.colorMapSelect').change(function(){
+			appController.um.changeToneMode(parseInt($(this).val()));
 		});
 	}
 

@@ -21,6 +21,10 @@ function WebGLView2D(){
 		this.scene.add( this.camera );
 
 		this.changePhoto('images/sampleHD/sample_pic_01.jpg');
+		
+		var texture = new THREE.ImageUtils.loadTexture('images/colormap/thermal_texture.jpg');
+		texture.needsUpdate = true;
+		appController.um.setTextureMap(texture);
 	}
 
 	this.getCamera = function(){
@@ -149,6 +153,30 @@ function WebGLView2D(){
 	this.removeFromScene = function(obj)
 	{
 		this.scene.remove(obj);
+	}
+	
+	this.cropImage = function(x0, y0, x1, y1)
+	{
+		//Resize the renderer
+		
+		//Change the camera to focus on our croped area
+		this.camera.left =  this.width / - 2;
+		this.camera.right = this.width / 2;
+		this.camera.top = this.height / 2;
+		this.camera.bottom = this.height / - 2;
+		this.camera.near = 0;
+		this.camera.far = 1000;
+		this.camera.position.x = 0;
+		this.camera.position.y = 0;
+		this.camera.position.z = 1000;
+
+		this.camera.updateProjectionMatrix();
+		
+		//Get data url
+		
+		//set picture
+		
+		//resize everything
 	}
 
 	this.init();

@@ -24,6 +24,9 @@ function WebGL2DTools(panel){
 			else if($(this).attr('title') == 'Pencil Tool'){
 				current_tool = new PencilTool();
 			}
+			else if($(this).attr('title') == 'Crop Tool'){
+				current_tool = new CropTool();
+			}
 		});
 	}
 

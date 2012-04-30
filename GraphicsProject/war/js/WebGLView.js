@@ -40,7 +40,7 @@ function WebGLView(webGL2D, webGL3D){
 		//transparently support window resize
 		//THREEx.WindowResize.bind(this.renderer, this.camera);
 		//allow 'p' to make screenshot
-		THREEx.Screenshot.bindKey(this.renderer);
+		//THREEx.Screenshot.bindKey(this.renderer);
 		//allow 'f' to go fullscreen where this feature is supported
 		if( THREEx.FullScreen.available() ){
 			THREEx.FullScreen.bindKey();
@@ -68,7 +68,7 @@ function WebGLView(webGL2D, webGL3D){
 		}else
 			Window.alert("Uknown mode for displaying content");
 	}
-	
+
 	this.resizeCanvas = function(mode, width, height){
 		if(mode == 0){
 			this.renderer.setSize(this.webGL2D.width, this.webGL2D.height);

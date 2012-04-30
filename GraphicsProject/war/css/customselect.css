@@ -1,0 +1,10 @@
+select {
+    background: none repeat scroll 0 0 #444444;
+    border: 1px solid #111111;
+    color: #FFFFFF;
+    font-family: helvetica,sans-serif;
+    font-size: 15px;
+    line-height: 1.2em;
+    padding: 0.5em;
+    width: 80%;
+}

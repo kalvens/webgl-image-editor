@@ -13,6 +13,8 @@ function UniformManager(){
 			angleSwirl : {type:"f", value: Math.PI},
 			inkStrength : {type:"f", value: 0.5},
 			paintingStrength : {type:"f", value: 3.0},
+			toneMode : {type:"i", value: 0},
+			textureMap : {type:"t", value:2, texture: null},
 	};
 
 	this.resetUniforms = function(){
@@ -26,6 +28,7 @@ function UniformManager(){
 		uniforms.angleSwirl.value = Math.PI;
 		uniforms.inkStrength.value = 0.5;
 		uniforms.paintingStrength.value = 3.0;
+		uniforms.toneMode.value = 0;
 	}
 
 	this.setTexture = function(texture){
@@ -75,6 +78,25 @@ function UniformManager(){
 
 	this.changePaintingStrength = function(val){
 		uniforms.paintingStrength.value = val;
+	}
+	
+	this.changeToneMode = function(val){
+		uniforms.toneMode.value = val;
+		var src = 'images/colormap/thermal_texture.jpg';
+		switch(val)
+		{
+		case 2: src = 'images/colormap/combustion_texture.jpg'; break;
+		case 3: src = 'images/colormap/satellite_texture.jpg';break;
+		case 4: src = 'images/colormap/infrared_texture.jpg';break;
+		case 5: src =  'images/colormap/autotropic_texture.jpg';break;
+		}
+		var texture = new THREE.ImageUtils.loadTexture(src);
+		texture.needsUpdate = true;
+		this.setTextureMap(texture);
+	}
+	
+	this.setTextureMap = function(texture){
+		uniforms.textureMap.texture = texture;
 	}
 
 	this.getUniforms = function(){
