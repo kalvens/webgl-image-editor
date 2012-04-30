@@ -5,6 +5,7 @@ function WebGLView2D(){
 	this.renderer;
 	this.width;
 	this.height;
+	this.loaded = false;
 
 
 	this.init = function(){
@@ -21,10 +22,6 @@ function WebGLView2D(){
 		this.scene.add( this.camera );
 
 		this.changePhoto('images/sampleHD/sample_pic_01.jpg');
-		
-		var texture = new THREE.ImageUtils.loadTexture('images/colormap/thermal_texture.jpg');
-		texture.needsUpdate = true;
-		appController.um.setTextureMap(texture);
 	}
 
 	this.getCamera = function(){
@@ -49,7 +46,9 @@ function WebGLView2D(){
 			var shaderMaterial = instance.simpleShader(texture);
 
 			instance.picture = new THREE.Mesh(geometry, shaderMaterial);
+			instance.picture.rotation.x = Math.PI/2.0;
 			instance.scene.add(instance.picture);
+			instance.loaded = true;
 		});
 	}
 
@@ -72,8 +71,7 @@ function WebGLView2D(){
 
 	this.caputureCurrentPic = function(){
 
-		var dataurl = this.renderer.domElement.toDataURL('image/png');
-		console.debug(dataurl);
+		var dataurl = this.getDownloadURL();
 		var image = document.createElement('img');
 
 		$(image).attr('src', dataurl).load(function(){
@@ -96,12 +94,8 @@ function WebGLView2D(){
 		var shaderMaterial = this.simpleShader(texture);
 
 		this.picture = new THREE.Mesh(geometry, shaderMaterial);
-		this.picture.scale.set(1,1,1);
-		this.picture.doubleSided = true;
-		this.picture.position.x = 0;
-		this.picture.position.y = 0;
-		this.picture.position.z = 0;
-
+		this.picture.rotation.x = Math.PI/2.0;
+		
 		this.scene.add(this.picture);
 	}
 

@@ -60,7 +60,7 @@ function WebGLView(webGL2D, webGL3D){
 
 	this.render = function  () {
 
-		if(appController.mode == 0){
+		if(appController.mode == 0 ){
 			this.renderer.render( webGL2D.getScene(), webGL2D.getCamera() );
 		}else if(appController.mode == 1){
 			webGL3D.update();

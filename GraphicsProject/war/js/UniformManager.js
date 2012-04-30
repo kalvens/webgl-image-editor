@@ -1,6 +1,6 @@
 function UniformManager(){
 	var uniforms = {
-			uSampler : {type:"t", value:1, texture: null},
+			uSampler : {type:"t", value:0, texture: null},
 			brightness : {type:"f", value: 0.0},
 			contrast : {type:"f", value: 1.0},
 			hue : {type:"f", value: 0.0},
@@ -14,7 +14,7 @@ function UniformManager(){
 			inkStrength : {type:"f", value: 0.5},
 			paintingStrength : {type:"f", value: 3.0},
 			toneMode : {type:"i", value: 0},
-			textureMap : {type:"t", value:2, texture: null},
+			textureMap : {type:"t", value:1, texture: null},
 	};
 
 	this.resetUniforms = function(){

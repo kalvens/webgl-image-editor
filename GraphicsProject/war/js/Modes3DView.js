@@ -11,7 +11,6 @@ Modes3DView = function(){
 			else
 				appController.webGL3D.particleImage.controls.enabled = false;
 			appController.webGL3D.mode = mode;
-			console.debug(mode)
 		});
 
 		this.particleControlsInit();

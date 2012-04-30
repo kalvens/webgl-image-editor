@@ -14,35 +14,9 @@ function ImageCarousel(){
 	this.init = function(){
 		this.scene = new THREE.Scene();
 
-		//
-
 		this.camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
 		this.camera.position.z = 0;
 		this.scene.add( this.camera );
-
-		//
-
-//		geometry = new THREE.CubeGeometry( 200, 200, 200 );
-//		material = new THREE.MeshBasicMaterial( { color: '#ffffff' });
-
-//		mesh = new THREE.Mesh( geometry, material);
-//		this.scene.add( mesh );
-
-
-//		this.width = $('canvas').width();
-//		this.height = $('canvas').height();
-//		this.depth = Math.max(this.width, this.height);
-
-//		this.camera = new THREE.PerspectiveCamera( 70, this.width / this.height, 1, 1000);
-//		this.camera.position.y = 0;
-//		this.camera.position.z = 500;
-//		this.camera.position.x = 0;
-
-//		this.scene = new THREE.Scene();
-
-//		this.scene.add( this.camera );
-
-//		this.addLights();
 
 		this.drawCaroselImages();
 	}
@@ -116,7 +90,7 @@ function ImageCarousel(){
 			var angle = i / this.image_count * Math.PI * 2+this.orbitValue;
 			p.position.x = this.radius * Math.cos(angle);
 			p.position.z = this.radius * Math.sin(angle);
-			p.rotation.y = 3*Math.PI/2 - angle;
+			p.rotation.z = angle+Math.PI/2;
 		}
 //		var lookTo = new THREE.Vector3();
 //		lookTo.x = this.radius * Math.cos(this.orbitValue);

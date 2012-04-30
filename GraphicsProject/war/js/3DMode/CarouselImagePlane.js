@@ -16,7 +16,8 @@ function CarouselImagePlane(material, center, rotation, size){
 		this.plane = new THREE.Mesh( new THREE.PlaneGeometry( this.size.x, this.size.y), this.material);
 		//this.plane.doubleSided = true;
 		this.plane.position = center;
-		this.plane.rotation.y = this.rotation.y;
+//		this.plane.rotation.z = this.rotation.y;
+		this.plane.rotation.x = Math.PI/2.0;
 	}
 	
 	this.init();

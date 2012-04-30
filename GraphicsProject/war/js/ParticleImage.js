@@ -111,6 +111,8 @@ ParticleImage = function(image){
 		var geometry = new THREE.PlaneGeometry (256, 160, this.cw/this.density - 1, this.ch/this.density - 1);
 
 		this.sphere = new THREE.ParticleSystem( geometry, shaderMaterial );
+		
+		this.sphere.rotation.x = Math.PI/2.0;
 
 		this.sphere.dynamic = true;
 		this.sphere.sortParticles = true;
