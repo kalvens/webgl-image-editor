@@ -1,0 +1,64 @@
+<script type="x-shader/x-fragment" id="fragmentCropShader">
+  
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+    
+	//Common
+	uniform vec2 topLeft;
+	uniform vec2 bottomRight;
+	uniform vec2 size;
+	//vec2 topLeft = vec2(0.25,0.25);
+	//vec2 bottomRight = vec2(0.75,0.75);
+	//vec2 size = vec2(1280, 800);
+
+	varying vec2 vUv;
+	
+	float distance(vec2 v, vec2 w){
+		return ((v.x - w.x)*(v.x - w.x) + (v.y - w.y)*(v.y - w.y));
+	}
+
+	int corner(vec2 v){
+		v.x *= size.x;
+		v.y *= size.y;
+		float dis = 6.0;
+		dis *= dis;
+		vec2 c0 = vec2(bottomRight.x * size.x, bottomRight.y * size.y);
+		if(distance(c0, v) <= dis)
+			return 1;
+		vec2 c1 = vec2(bottomRight.x * size.x, topLeft.y * size.y);
+		if(distance(c1, v) <= dis)
+			return 1;
+		vec2 c2 = vec2(topLeft.x * size.x, topLeft.y * size.y);
+		if(distance(c2, v) <= dis)
+			return 1;
+		vec2 c3 = vec2(topLeft.x * size.x, bottomRight.y * size.y);
+		if(distance(c3, v) <= dis)
+			return 1; 
+		return 0;
+	}
+
+	void main() {
+		//Draw Corners
+		if(corner(vUv) == 1)
+			gl_FragColor = vec4(0.0,0.0,0.0,0.5);
+		
+		//Draw Sides
+		else if(vUv.x < bottomRight.x+1.0/size.x && vUv.x > bottomRight.x - 1.0/size.x && vUv.y < bottomRight.y && vUv.y > topLeft.y)
+			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+		else if(vUv.x < topLeft.x+1.0/size.x && vUv.x > topLeft.x - 1.0/size.x && vUv.y < bottomRight.y && vUv.y > topLeft.y)
+			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+		else if(vUv.y < topLeft.y+1.0/size.y && vUv.y > topLeft.y - 1.0/size.x && vUv.x < bottomRight.x && vUv.x > topLeft.x)
+			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+		else if(vUv.y < bottomRight.y+1.0/size.y && vUv.y > bottomRight.y - 1.0/size.x && vUv.x < bottomRight.x && vUv.x > topLeft.x)
+			gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+		//Draw outside area
+		else if(vUv.x > bottomRight.x || vUv.y > bottomRight.y || vUv.y < topLeft.y || vUv.x < topLeft.x)
+			gl_FragColor = vec4(0.5,0.5,0.5,0.5);
+		
+		//Draw inside area
+		else
+			gl_FragColor = vec4(0.0,0.0,0.0,0.0);
+	}
+  
+  </script>

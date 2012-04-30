@@ -11,8 +11,6 @@ function RectangleSelector(){
 	var clickFunction;
 	
 	this.init = function(){
-		console.debug('rectangle tool created');
-		
 		downFunction = function(event){
 			instance.start.x = event.offsetX;
 			instance.start.y = event.offsetY;
@@ -59,6 +57,7 @@ function RectangleSelector(){
 		this.rectangle.position.x = (this.start.x+this.end.x-appController.webGL2D.width)/2;
 		this.rectangle.position.y = -1*(this.start.y+this.end.y-appController.webGL2D.height)/2;
 		this.rectangle.position.z = 5;
+		this.rectangle.rotation.x = Math.PI/2;
 		
 		appController.webGL2D.addToScene(this.rectangle);
 	}

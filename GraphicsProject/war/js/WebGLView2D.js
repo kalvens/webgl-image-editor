@@ -56,15 +56,11 @@ function WebGLView2D(){
 	{ 
 		appController.um.setTexture(texture);
 
-		var attributes = {
-				vTextureCoord : {type:""}
-		}
-
 		var shaderMaterial = new THREE.ShaderMaterial({
 			uniforms : appController.um.getUniforms(),
 			vertexShader : $('#vertexshader').text(),
 			fragmentShader: $('#fragmentshader').text()
-		})
+		});
 
 		return shaderMaterial;
 	}
@@ -149,28 +145,19 @@ function WebGLView2D(){
 		this.scene.remove(obj);
 	}
 	
-	this.cropImage = function(x0, y0, x1, y1)
+	this.cropImage = function(start, end)
 	{
-		//Resize the renderer
+		this.camera.left = this.camera.left + start.x * this.width;
+		this.camera.right = this.camera.right - (1.0-end.x) * this.width;
+		this.camera.top = this.camera.top - start.y * this.height;
+		this.camera.bottom = this.camera.bottom + (1.0-end.y) * this.height;
 		
-		//Change the camera to focus on our croped area
-		this.camera.left =  this.width / - 2;
-		this.camera.right = this.width / 2;
-		this.camera.top = this.height / 2;
-		this.camera.bottom = this.height / - 2;
-		this.camera.near = 0;
-		this.camera.far = 1000;
-		this.camera.position.x = 0;
-		this.camera.position.y = 0;
-		this.camera.position.z = 1000;
-
+		this.width = (end.x-start.x) * this.width;
+		this.height = (end.y-start.y) * this.height;
+		
+		appController.resizeCanvas();
+		
 		this.camera.updateProjectionMatrix();
-		
-		//Get data url
-		
-		//set picture
-		
-		//resize everything
 	}
 
 	this.init();
