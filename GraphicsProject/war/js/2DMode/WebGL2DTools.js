@@ -91,6 +91,11 @@ function WebGL2DTools(panel){
 				appController.webGL2D.removeFromScene(selected_area);
 				$(this).removeClass('tool-selected');
 			}
+			else if($(this).attr('title') == 'Flip Horizontal'){
+				current_tool = new FlipImageHorizontal();
+				appController.webGL2D.removeFromScene(selected_area);
+				$(this).removeClass('tool-selected');
+			}
 			else if($(this).attr('title') == 'Rotate Clockwiese 90 degrees'){
 				current_tool = new RotateClockwise();
 				appController.webGL2D.removeFromScene(selected_area);
