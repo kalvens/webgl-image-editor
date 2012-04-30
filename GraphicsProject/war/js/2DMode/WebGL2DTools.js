@@ -45,6 +45,15 @@ function WebGL2DTools(panel){
 				$('.scaleVerticalText').text('Scale : '+Math.round(scale*100)+'%');
 			}
 		});
+		
+		$('.bucketToleranceSlider').slider({
+			value:50,
+			min:0,
+			max:100,
+			slide: function( event, ui ) {
+				$('.bucketToolText').text('Tolerance : '+ui.value+'%');
+			}
+		});
 	}
 
 	this.setupToolButtons = function(){
@@ -76,6 +85,14 @@ function WebGL2DTools(panel){
 			else if($(this).attr('title') == 'Scale Vertical'){
 				current_tool = new ScaleVerticalTool();
 				appController.webGL2D.removeFromScene(selected_area);
+			}
+			else if($(this).attr('title') == 'Flip Vertical'){
+				current_tool = new FlipImageVertical();
+				$(this).removeClass('tool-selected');
+			}
+			else if($(this).attr('title') == 'Flip Horizontal'){
+				current_tool = new FlipImageHorizontal();
+				$(this).removeClass('tool-selected');
 			}
 		});
 	}

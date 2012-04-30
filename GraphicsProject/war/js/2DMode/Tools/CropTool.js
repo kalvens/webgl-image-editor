@@ -104,12 +104,14 @@ function CropTool(){
 					var tx = cropUniforms.topLeft.value.x - dif.x;
 					var by = cropUniforms.bottomRight.value.y - dif.y;
 					var ty = cropUniforms.topLeft.value.y - dif.y;
-					if( bx >= 0 && bx <= 1 && tx >= 0 && tx <= 1 && by >= 0 && by <= 1 && ty >= 0 && ty <= 1){
+					if( bx >= 0 && bx <= 1 && tx >= 0 && tx <= 1){
 						cropUniforms.bottomRight.value.x = bx;
-						cropUniforms.bottomRight.value.y = by;
 						cropUniforms.topLeft.value.x = tx;
-						cropUniforms.topLeft.value.y = ty;
 						last.x = event.offsetX;
+					}
+					if(by >= 0 && by <= 1 && ty >= 0 && ty <= 1){
+						cropUniforms.bottomRight.value.y = by;
+						cropUniforms.topLeft.value.y = ty;
 						last.y = event.offsetY;
 					}
 				}

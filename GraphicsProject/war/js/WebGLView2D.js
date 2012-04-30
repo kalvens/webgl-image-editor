@@ -200,6 +200,18 @@ function WebGLView2D(){
 		
 		this.camera.updateProjectionMatrix();
 	}
+	
+	this.flipImageVertical = function()
+	{
+		this.picture.rotation.x += Math.PI;
+		this.picture.doubleSided = true;
+	}
+	
+	this.flipImageHorizontal = function()
+	{
+		this.picture.rotation.z += Math.PI;
+		this.picture.doubleSided = true;
+	}
 
 	this.init();
 }
