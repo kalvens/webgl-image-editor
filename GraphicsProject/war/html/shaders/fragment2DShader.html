@@ -185,7 +185,7 @@
 	{
     	vec2 uv;
 
-		float time = 0.0;
+		float time = 0.1;
 
     	vec2 q = vec2( sin(1.1*time+p.x),sin(1.2*time+p.y) );
 
@@ -199,7 +199,7 @@
 	}
 
 	vec3 colorOffset(){
-		vec2 p = -1.0 + 2.0 * gl_FragCoord.xy / vec2(width, height);
+		vec2 p = -1.0 + 2.0 * uVu / vec2(width, height);
 		vec2 s = p;
 
 		vec3 total = vec3(0.0);
@@ -224,9 +224,9 @@
 		vec3 pixelColor = texture2D( uSampler, vUv ).rgb;
 		
 		if(mode == 0){
-			//pixelColor = colorOffset();
-			pixelColor = contrastCalc(pixelColor);
-			pixelColor = brightnessCalc(pixelColor);
+			pixelColor = colorOffset();
+			//pixelColor = contrastCalc(pixelColor);
+			//pixelColor = brightnessCalc(pixelColor);
 		} else if(mode == 1){
 			pixelColor = hueCalculation(pixelColor);
 			pixelColor = saturationCalculation(pixelColor);
