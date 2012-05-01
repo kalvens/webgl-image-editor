@@ -4,22 +4,49 @@ function LoadSaveController ()
 
 	function dragEnter(evt)
 	{
-		$(".dndZone").addClass("dragEvent");
-		console.debug("drag enter");  
+		evt.preventDefault();
+//		$(".dndZone").addClass("dragEvent");
+//		console.debug("drag enter");  
+	}
+	
+	function imagefile(e, f){
+		var image = new Image();
+		image.src = f.result;
+		$('.dialog_images').append(image);
+		console.debug(image);
 	}
 	function dragDrop(evt)
 	{
-		console.debug(evt);
+		evt.preventDefault();
+		
+		var files = evt.target.files || evt.dataTransfer.files;
+		// process all File objects
+		
+		for (var i = 0, f; f = files[i]; i++) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				var image = new Image();
+				image.src = e.target.result;
+				$('.dialog_images').append(image);
+				$(image).click(function(){
+					appController.webGL2D.onChangeImageLoad(image);
+					$('.selectImageDialog').dialog("close");
+				});
+			};
+			reader.readAsDataURL(f);
+		}
 		//appController.newImg(evt.srcElement);
 	}
 	function dragExit(evt)
 	{
-		$(".dndZone").removeClass("dragEvent");
+		evt.preventDefault();
+//		$(".dndZone").removeClass("dragEvent");
 		console.debug("drag exit");
 		//alert("drag exit");
 	}
 	function dragOver(evt)
 	{
+		evt.preventDefault();
 		//alert("drag over");
 	}
 
