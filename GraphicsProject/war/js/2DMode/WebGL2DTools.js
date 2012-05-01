@@ -129,6 +129,13 @@ function WebGL2DTools(panel){
 
 		})
 	}
+	
+	this.clearToolSelected = function(){
+		if(current_tool != null){
+			current_tool.removeTool();
+		}
+		$('.toolButton').removeClass('tool-selected');
+	}
 
 	this.init()
 }

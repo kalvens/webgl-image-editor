@@ -6,6 +6,8 @@ function PencilTool(){
 	var downFunction;
 	var moveFunction;
 	var upFunction;
+	
+	var lines = new Array();
 
 	this.init = function(){
 		downFunction = function(event){
@@ -35,7 +37,11 @@ function PencilTool(){
 		$('canvas').unbind('mousedown', downFunction);
 		$('canvas').unbind('mousemove', moveFunction);
 		$('document').unbind('mouseup', upFunction);
-		return this.rectangle;
+		appController.webGL2D.caputureCurrentPic();
+		for(var i=0;i<lines.length; ++i){
+			appController.webGL2D.removeFromScene(lines[i]);
+		}
+		return null;
 	}
 
 	this.setupMouseEvents = function(){
@@ -52,9 +58,11 @@ function PencilTool(){
 		var geometry = new THREE.Geometry();
 		geometry.vertices.push(new THREE.Vector3(instance.lastPos.x, instance.lastPos.y, 1));
 	    geometry.vertices.push(new THREE.Vector3(x, y, 1));
-		var rectangle = new THREE.Line( geometry, material);
+		var line = new THREE.Line( geometry, material);
 
-		appController.webGL2D.addToScene(rectangle);
+		appController.webGL2D.addToScene(line);
+		
+		lines.push(line);
 	}
 
 	this.init();

@@ -10,6 +10,12 @@ function EffectsController()
 		});
 		$('#effects .ui-accordion-header').click(function(){
 			var mode = $("#effects").accordion( "option", "active" );
+			if(appController.um.getUniforms().mode.value ==  7){
+				console.debug("here")
+				appController.webGL2DTools.clearToolSelected();
+			}
+			else
+				console.debug(appController.um.getUniforms().mode.value);
 			appController.um.changeMode(mode);
 			if(mode != 5)
 				$('canvas').removeClass('cursor_crosshair');
