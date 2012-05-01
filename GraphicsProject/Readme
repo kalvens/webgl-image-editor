@@ -4,3 +4,32 @@ alternative
 webglpic.appspot.com
 
 To launch the application open the index.html file or drop the files in a web server. 
+
+What the application does:
+The goal of this web app is to provide a user a way to view and modify images on the web using an application built on top of webGL. 
+*The application comes with a set of sample images or new images can be uploaded by the user. 
+*After selecting an image or using the default several glsl filters can be applied the the image
+	* Brightness
+	* Contrast
+	*Hue
+	*Saturation
+	*Denoise
+	*Swirl
+	*Ink Effect
+	*Painting
+	*Sepia
+	*Thermal
+	*Combustion
+	*Satellite
+	*Infrared
+	*Autotropic
+*There are also tools available for adjusting the image
+	*Pencil
+	*Crop
+	*Rotate
+	*Flip
+	*Scale
+*The sample images also be viewed in the 3D mode
+	*The particle image view generates a grid of images and then sets the color of the particles based on the color of pixels in the image. The particle grid moves according to a sin wave. 
+	*The image carousel shows the sample images in a rotating 3D carosel. 
+*At any time the user can click the save button to grab the current image on the screen. 
