@@ -125,6 +125,7 @@ function CropTool(){
 		applyFunction = function(event){
 			appController.webGL2D.removeFromScene(instance.rectangle);
 			appController.webGL2D.cropImage(cropUniforms.topLeft.value, cropUniforms.bottomRight.value);
+			instance.removeTool();
 		}
 
 		var shaderMaterial = new THREE.ShaderMaterial({
@@ -216,6 +217,7 @@ function CropTool(){
 		$('.cropApply').unbind('click', applyFunction);
 		appController.webGL2D.removeFromScene(instance.rectangle);
 		$('.cropTool').hide();
+		$('.toolButton').removeClass('tool-selected');
 		return null;
 	}
 
