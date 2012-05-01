@@ -29,7 +29,13 @@ function LoadSaveController ()
 				image.src = e.target.result;
 				$('.dialog_images').append(image);
 				$(image).click(function(){
-					appController.webGL2D.onChangeImageLoad(image);
+					var img = this; // Get my img elem
+					var pic_real_width, pic_real_height;
+					$("<img/>") // Make in memory copy of image to avoid css issues
+					    .attr("src", $(img).attr("src"))
+					    .load(function() {
+					    	appController.webGL2D.onChangeImageLoad(image, this.width, this.height);
+					    });
 					$('.selectImageDialog').dialog("close");
 				});
 			};
@@ -118,7 +124,13 @@ function readURL(input) {
 			image.src = e.target.result;
 			$('.dialog_images').append(image);
 			$(image).click(function(){
-				appController.webGL2D.onChangeImageLoad(image);
+				var img = this; // Get my img elem
+				var pic_real_width, pic_real_height;
+				$("<img/>") // Make in memory copy of image to avoid css issues
+				    .attr("src", $(img).attr("src"))
+				    .load(function() {
+				    	appController.webGL2D.onChangeImageLoad(image, this.width, this.height);
+				    });
 				$('.selectImageDialog').dialog("close");
 			});
 		};

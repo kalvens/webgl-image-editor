@@ -77,8 +77,11 @@ function WebGLView2D(){
 		image.src = dataurl;
 	}
 
-	this.onChangeImageLoad = function(image)
+	this.onChangeImageLoad = function(image, width, height)
 	{
+		if(width != undefined && height != undefined)
+			instance.resizeView(width, height)
+		
 		this.scene.remove(this.picture);
 
 		var texture = new THREE.Texture( image );
